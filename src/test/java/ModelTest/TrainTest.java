@@ -1,7 +1,7 @@
 package ModelTest;
 
-import com.railway.ticket.officewebapp.model.Schedule;
-import com.railway.ticket.officewebapp.model.Train;
+import com.railway.ticket.office.webapp.model.Schedule;
+import com.railway.ticket.office.webapp.model.Train;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,7 +27,7 @@ public class TrainTest {
         Train train = new Train();
         Map<Date, Schedule> scheduleHashMap = new HashMap<>();
         // scheduleHashMap.put(new Train(101,20));
-        assertDoesNotThrow( () ->  train.setId(100));
+        assertDoesNotThrow( () ->  train.setNumber(100));
         assertDoesNotThrow( () ->  train.setSeats(18));
         assertDoesNotThrow(() ->  train.setSchedules(scheduleHashMap));
     }
@@ -36,7 +36,7 @@ public class TrainTest {
     void createBadStation(){
         Train train = new Train();
         Map<Date, Schedule> scheduleHashMap = null;
-        assertThrows( IllegalArgumentException.class,  () ->  train.setId(-1));
+        assertThrows( IllegalArgumentException.class,  () ->  train.setNumber(-1));
         assertThrows( IllegalArgumentException.class,() ->  train.setSeats(-5));
         assertThrows(IllegalArgumentException.class,() ->  train.setSchedules(scheduleHashMap));
     }

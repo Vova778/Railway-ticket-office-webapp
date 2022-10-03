@@ -1,6 +1,6 @@
 package ModelTest;
 
-import com.railway.ticket.officewebapp.model.Station;
+import com.railway.ticket.office.webapp.model.Station;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;

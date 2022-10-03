@@ -1,43 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="messages"/>
+<html lang="${sessionScope.lang}">
 
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Railway ticket office</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
-    <link rel="stylesheet" href="assets/css/Navbar-Centered-Links-icons.css">
+    <title><fmt:message key="text.login"/></title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 
-<body class="text-bg-secondary">
-    <section class="text-bg-secondary position-relative py-4 py-xl-5">
-        <div class="container">
-            <div class="row mb-5">
-                <div class="col-md-8 col-xl-6 text-center mx-auto">
-                    <h2>Log in</h2>
-                </div>
-            </div>
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-6 col-xl-4">
-                    <div class="card mb-5">
-                        <div class="card-body d-flex flex-column align-items-center" style="color: var(--bs-purple);background: #4b6780;">
-                            <div class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-4"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-person">
-                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"></path>
-                                </svg></div>
-                            <form class="text-center" method="post">
-                                <div class="mb-3"><input class="form-control" name="login" placeholder="Login"></div>
-                                <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Password"></div>
-                                <div class="mb-3"><button class="btn btn-primary d-block w-100" type="submit">Login</button></div>
-                                <p class="text-white">Forgot your password?</p>
-                            </form>
-                        </div>
-                    </div>
+<body>
+<nav class="navbar navbar-light navbar-expand-md py-3">
+    <div class="container"><a class="navbar-brand d-flex align-items-center" href="controller?command?=home">
+        <span><fmt:message key="text.brand"/></span></a>
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-2"><span
+                class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div id="nav-col-2" class="collapse navbar-collapse">
+            <div class="btn-group col-md-5 w-auto ms-auto" role="group" aria-label="Button group with nested dropdown">
+                <div class="btn-group btn-group-sm" role="group" style="margin-left: 5px">
+                    <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <fmt:message key="logo.globe"/>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                        <li><a class="dropdown-item" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}">UA</a></li>
+                        <li><a class="dropdown-item" href="controller?command=setLang&locale&pageToProcess=${param.command}">ENG</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </section>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    </div>
+</nav>
+<div class="container">
+    <div class="col-md-8 col-xl-6 text-center mx-auto">
+        <h2><fmt:message key="text.login.form"/></h2>
+    </div>
+    <div class="row">
+        <div class="col">
+            <section class="position-relative py-4 py-xl-5">
+                <div class="container">
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-6 col-xl-4">
+                            <div class="card mb-5">
+                                <div class="card-body d-flex flex-column align-items-center">
+                                    <form class="text-center" action="controller" method="post">
+                                        <input hidden name="command" value="login">
+                                        <div class="mb-3"><input class="form-control" type="email" name="email"
+                                                                 placeholder="Email" minlength="4" maxlength="45"
+                                                                 pattern="([\w-\.]{1,})+@([\w-]+\.)+([\w-]{2,4})$" required="">
+                                        </div>
+                                        <div class="mb-3"><input class="form-control" type="password" name="password"
+                                                                 placeholder="Password" required="" minlength="8" maxlength="64"
+                                                                 pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,65}$">
+                                        </div>
+                                        <div class="mb-3">
+                                            <button class="btn btn-success d-block w-100" type="submit"><fmt:message key="text.login"/></button>
+                                        </div>
+                                        <a href="" class="text-muted"><fmt:message key="text.forgot.password"/></a>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<%@ include file = "include/footer.jsp" %>
+<script src="js/bootstrap.min.js"></script>
 </body>
 
 </html>

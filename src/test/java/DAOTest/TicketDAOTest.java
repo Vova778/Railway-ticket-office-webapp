@@ -1,9 +1,9 @@
 package DAOTest;
 
-import com.railway.ticket.officewebapp.db.DBException;
-import com.railway.ticket.officewebapp.db.dao.TicketDAO;
-import com.railway.ticket.officewebapp.db.dao.factory.DAOFactory;
-import com.railway.ticket.officewebapp.model.Ticket;
+import com.railway.ticket.office.webapp.exceptions.DAOException;
+import com.railway.ticket.office.webapp.db.dao.TicketDAO;
+import com.railway.ticket.office.webapp.db.dao.factory.DAOFactory;
+import com.railway.ticket.office.webapp.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,8 +27,8 @@ public class TicketDAOTest {
     }
 
     @Test
-    void findTicketByIdTest() throws DBException {
-        Ticket actual = ticketDAO.getTicketById(1);
+    void findTicketByIdTest() throws DAOException {
+        Ticket actual = ticketDAO.findTicketById(1);
         assertNotNull(actual);
         Ticket expected = Ticket.newBuilder()
                 .setId(1)

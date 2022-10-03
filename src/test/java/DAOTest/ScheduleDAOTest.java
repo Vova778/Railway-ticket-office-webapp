@@ -1,9 +1,9 @@
 package DAOTest;
 
-import com.railway.ticket.officewebapp.db.DBException;
-import com.railway.ticket.officewebapp.db.dao.ScheduleDAO;
-import com.railway.ticket.officewebapp.db.dao.factory.DAOFactory;
-import com.railway.ticket.officewebapp.model.Schedule;
+import com.railway.ticket.office.webapp.exceptions.DAOException;
+import com.railway.ticket.office.webapp.db.dao.ScheduleDAO;
+import com.railway.ticket.office.webapp.db.dao.factory.DAOFactory;
+import com.railway.ticket.office.webapp.model.Schedule;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,8 +28,8 @@ public class ScheduleDAOTest {
     }
 
     @Test
-    void findScheduleByIdTest() throws DBException {
-        Schedule actual = scheduleDAO.getScheduleById(1);
+    void findScheduleByIdTest() throws DAOException {
+        Schedule actual = scheduleDAO.findScheduleById(1);
         assertNotNull(actual);
         Schedule expected = new Schedule(1, Date.valueOf("2022-09-08"), 201);
         assertEquals(actual, expected);

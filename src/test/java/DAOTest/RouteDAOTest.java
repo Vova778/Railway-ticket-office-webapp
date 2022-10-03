@@ -1,9 +1,9 @@
 package DAOTest;
 
-import com.railway.ticket.officewebapp.db.DBException;
-import com.railway.ticket.officewebapp.db.dao.RouteDAO;
-import com.railway.ticket.officewebapp.db.dao.factory.DAOFactory;
-import com.railway.ticket.officewebapp.model.Route;
+import com.railway.ticket.office.webapp.exceptions.DAOException;
+import com.railway.ticket.office.webapp.db.dao.RouteDAO;
+import com.railway.ticket.office.webapp.db.dao.factory.DAOFactory;
+import com.railway.ticket.office.webapp.model.Route;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,8 +28,8 @@ public class RouteDAOTest {
     }
 
     @Test
-    void findRouteByIdTest() throws DBException {
-        Route actual = routeDAO.getRouteById(1);
+    void findRouteByIdTest() throws DAOException {
+        Route actual = routeDAO.findRouteById(1);
         assertNotNull(actual);
         Route expected = Route.newBuilder()
                 .setId(1)

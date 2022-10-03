@@ -1,0 +1,226 @@
+package com.railway.ticket.office.webapp.db.dao.impl;
+
+import com.railway.ticket.office.webapp.db.Constants;
+import com.railway.ticket.office.webapp.db.dao.mapper.impl.UserMapper;
+import com.railway.ticket.office.webapp.exceptions.DAOException;
+import com.railway.ticket.office.webapp.model.User;
+import com.railway.ticket.office.webapp.utils.security.PasswordEncryption;
+import com.railway.ticket.office.webapp.db.dao.UserDAO;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+public class UserDAOImpl implements UserDAO {
+
+    private final Connection con;
+    private static final Logger LOGGER = LogManager.getLogger(UserDAOImpl.class);
+    private final UserMapper userMapper = new UserMapper();
+
+
+    public UserDAOImpl(Connection con) {
+        this.con = con;
+    }
+
+    @Override
+    public Connection getConnection() {
+        return con;
+    }
+
+    @Override
+    public void insertUser(final User user) throws DAOException {
+        try(PreparedStatement preparedStatement =
+                    con.prepareStatement(Constants.USERS_INSERT_USER,
+                            Statement.RETURN_GENERATED_KEYS)) {
+
+            setUserParameters(user, preparedStatement);
+
+            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            if (resultSet.next()) {
+                user.setId(resultSet.getInt(1));
+                LOGGER.info("User : {} was saved successfully", user);
+            }
+
+            LOGGER.info("User : {} was inserted successfully", user);
+        } catch (SQLException e) {
+            LOGGER.error("User : [{}] was not inserted. An exception occurs : {}",
+                    user, e.getMessage());
+            throw new DAOException("[UserDAO] exception while creating User" + e.getMessage(), e);
+        }
+    }
+
+
+
+    @Override
+    public void deleteUser(int userId) throws DAOException {
+        try(PreparedStatement preparedStatement =
+                    con.prepareStatement(Constants.USERS_DELETE_USER)) {
+
+            preparedStatement.setInt(1, userId);
+
+            int removedRow = preparedStatement.executeUpdate();
+
+            if(removedRow>0){
+                LOGGER.info("User with ID : {} was removed successfully", userId);
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("User with ID : [{}] was not removed. An exception occurs : {}",
+                    userId, e.getMessage());
+            throw new DAOException("[UserDAO] exception while removing User" + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public void updateUser(int userId, User user) throws DAOException {
+        try(PreparedStatement preparedStatement =
+                    con.prepareStatement(Constants.USERS_UPDATE_USER)) {
+
+            setUserParameters(user, preparedStatement);
+
+            preparedStatement.setInt(7,userId);
+
+
+            int updatedRow = preparedStatement.executeUpdate();
+            if(updatedRow>0){
+                LOGGER.info("User with ID : {} was updated successfully", userId);
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("User with ID : [{}] was not updated. An exception occurs : {}",
+                    userId, e.getMessage());
+            throw new DAOException("[UserDAO] exception while updating User" + e.getMessage(), e);
+        }
+    }
+
+    private void setUserParameters(User user, PreparedStatement preparedStatement) throws SQLException {
+        int k = 1;
+        preparedStatement.setString(k++, user.getLogin());
+        preparedStatement.setString(k++, PasswordEncryption.getEncrypted(user.getPassword()));
+        preparedStatement.setString(k++, user.getFirstName());
+        preparedStatement.setString(k++, user.getLastName());
+        preparedStatement.setString(k++, user.getPhone());
+        int roleId = getRoleIdByName(user);
+        preparedStatement.setInt(k,roleId);
+    }
+
+
+    private String getRoleNameById(User user, long roleId) throws SQLException, DAOException {
+        String roleName = null;
+        try (PreparedStatement preparedStatement = con.prepareStatement(Constants.GET_ROLE_NAME_BY_ID)) {
+            preparedStatement.setInt(1, user.getId());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                roleName = resultSet.getString("name");
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("Role : [{}] was not found. An exception occurs." +
+                            " Transaction rolled back!!! : {}",
+                    roleId, e.getMessage());
+            con.rollback();
+            throw new DAOException("[UserDAO] exception while reading Role" + e.getMessage(), e);
+        }
+        return roleName;
+    }
+
+    private int getRoleIdByName(User user) throws SQLException, DAOException {
+        int roleId =0;
+        try (PreparedStatement preparedStatement = con.prepareStatement(Constants.GET_ROLE_ID_BY_NAME)) {
+            preparedStatement.setString(1, user.getRole().getRoleName());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                roleId = resultSet.getInt("id");
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("Role : [{}] was not found. An exception occurs." +
+                            " Transaction rolled back!!! : {}",
+                    user.getRole().getRoleName(), e.getMessage());
+            con.rollback();
+            throw new DAOException("[UserDAO] exception while reading Role" + e.getMessage(), e);
+        }
+        return roleId;
+    }
+
+
+
+    @Override
+    public User findUserById(int userId) throws DAOException {
+        Optional<User> user = Optional.empty();
+
+        try(PreparedStatement preparedStatement
+                    = con.prepareStatement(Constants.USERS_GET_USER_BY_ID)) {
+
+            preparedStatement.setInt(1,userId);
+
+            try(ResultSet resultSet = preparedStatement.executeQuery();){
+                while (resultSet.next()){
+                    user = Optional.ofNullable(userMapper
+                            .extractFromResultSet(resultSet));
+                }
+            }
+
+        }
+        catch (SQLException e) {
+            LOGGER.error("User with ID : [{}] was not found. An exception occurs : {}",
+                    userId, e.getMessage());
+            throw new DAOException("[UserDAO] exception while loading User by ID" + e.getMessage(), e);
+        }
+        return user.get();
+    }
+
+    @Override
+    public User findUserByLogin(String login) throws DAOException {
+        Optional<User> user = Optional.empty();
+
+        try(PreparedStatement preparedStatement
+                    = con.prepareStatement(Constants.USERS_GET_USER_BY_LOGIN)) {
+
+            preparedStatement.setString(1,login);
+
+            try(ResultSet resultSet = preparedStatement.executeQuery();){
+                while (resultSet.next()){
+                    user = Optional.ofNullable(userMapper
+                            .extractFromResultSet(resultSet));
+                }
+            }
+
+        }
+        catch (SQLException e) {
+            LOGGER.error("User with login : [{}] was not found. An exception occurs : {}",
+                    login, e.getMessage());
+            throw new DAOException("[UserDAO] exception while loading User by login" + e.getMessage(), e);
+        }
+        return user.get();
+    }
+
+    @Override
+    public List<User> findAllUsers() throws DAOException {
+        List<User> users = new ArrayList<>();
+
+
+        try(Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery(Constants.USERS_GET_ALL_USERS)
+        ) {
+
+            while (resultSet.next()){
+                users.add(userMapper.extractFromResultSet(resultSet));
+            }
+        }
+        catch (SQLException e) {
+            LOGGER.error("Users were not found. An exception occurs : {}", e.getMessage());
+            throw new DAOException("[UserDAO] exception while reading all users" + e.getMessage(), e);
+        }
+
+        return users;
+    }
+}

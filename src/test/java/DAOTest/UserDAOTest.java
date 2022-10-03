@@ -1,9 +1,9 @@
 package DAOTest;
 
-import com.railway.ticket.officewebapp.db.DBException;
-import com.railway.ticket.officewebapp.db.dao.UserDAO;
-import com.railway.ticket.officewebapp.db.dao.factory.DAOFactory;
-import com.railway.ticket.officewebapp.model.User;
+import com.railway.ticket.office.webapp.exceptions.DAOException;
+import com.railway.ticket.office.webapp.db.dao.UserDAO;
+import com.railway.ticket.office.webapp.db.dao.factory.DAOFactory;
+import com.railway.ticket.office.webapp.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,8 +27,8 @@ public class UserDAOTest {
     }
 
     @Test
-    void findUserByIdTest() throws DBException {
-        User actual = userDAO.getUserById(1);
+    void findUserByIdTest() throws DAOException {
+        User actual = userDAO.findUserById(1);
         assertNotNull(actual);
         User expected = User.newBuilder()
                 .setId(1)
