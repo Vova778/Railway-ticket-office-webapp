@@ -15,6 +15,7 @@ public interface UserService {
 
     List<User> findAll() throws ServiceException;
 
+    boolean isUserExists(User user) throws ServiceException;
 
     User findById(int id) throws ServiceException;
 

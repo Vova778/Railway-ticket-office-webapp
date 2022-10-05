@@ -18,10 +18,18 @@ public class UserMapper implements ObjectMapper<User> {
                 .setFirstName(resultSet.getString(Fields.USER_FIRST_NAME))
                 .setLastName(resultSet.getString(Fields.USER_LAST_NAME))
                 .setPhone(resultSet.getString(Fields.USER_PHONE))
-                .setRole(User.Role.values()[resultSet.getInt(Fields.USER_ROLE_ID)-1])
+                .setRole(getById(resultSet.getInt(Fields.USER_ROLE_ID)))
                 .build();
         return user;
     }
+
+    private User.Role getById(int id) {
+        for(User.Role r : User.Role.values()) {
+            if(r.getId() == (id)) return r;
+        }
+        return null;
+    }
+
 
     @Override
     public User toUnique(Map<String, User> cache, User object) {

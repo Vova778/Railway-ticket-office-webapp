@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Railway ticket office</title>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fonts/fontawesome-all.min.css">
     <link rel="stylesheet" href="assets/css/Navbar-Centered-Links-icons.css">
 </head>
@@ -21,7 +21,7 @@
                         <div class="d-md-flex"><a class="active" href="#"></a><a href="#"><img src="assets/img/icons8-ukraine-16.png" style="width: 20px;height: 20px;"></a></div><img class="d-md-flex justify-content-md-end" src="assets/img/icons8-usa-16.png" width="16" height="18" style="width: 20px;height: 20px;">
                     </li>
                     <li class="nav-item"><a class="nav-link" href="login.jsp"><span style="color: var(--bs-navbar-active-color);">Basket</span><br></a></li>
-                    <li class="nav-item"><a class="nav-link" href="register.jsp" style="color: var(--bs-navbar-active-color);">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="registration.jsp" style="color: var(--bs-navbar-active-color);">Register</a></li>
                     <li class="nav-item"><a class="nav-link active" href="home.jsp">Home</a></li>
                 </ul><a class="btn btn-primary ms-md-2" role="button" href="login.jsp">Sing in</a>
             </div>
@@ -38,7 +38,7 @@
         </div>
     </section>
     <%@ include file="include/footer.jsp" %>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 
 </body>
 

@@ -29,7 +29,7 @@
                 </li>
                 <li class="nav-item"><a class="nav-link" href="login.jsp"><span
                         style="color: var(--bs-navbar-active-color);">Basket</span><br></a></li>
-                <li class="nav-item"><a class="nav-link" href="register.jsp"
+                <li class="nav-item"><a class="nav-link" href="registration.jsp"
                                         style="color: var(--bs-navbar-active-color);">Register</a></li>
                 <li class="nav-item"><a class="nav-link active" href="home.jsp">Home</a></li>
             </ul>

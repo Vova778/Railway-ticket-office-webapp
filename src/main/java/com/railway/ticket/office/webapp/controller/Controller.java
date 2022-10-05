@@ -28,31 +28,29 @@ public class Controller extends HttpServlet {
 
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = null;
         try {
-            url = getUrl(req, resp);
+            url = getUrl(request, response);
             LOGGER.info("[AppController-doGet] URL processed");
         } catch (CommandException | FatalApplicationException e) {
-            LOGGER.error("An exception occurs: {}," +
-                    " req encoding: {}", e.getMessage(), req.getCharacterEncoding());
-            resp.sendError(500, "Can't process command");
+            LOGGER.error("An exception occurs: {}, req encoding: {}", e.getMessage(), request.getCharacterEncoding());
+            response.sendError(500, "Can't process command");
         }
-        req.getRequestDispatcher(url).forward(req, resp);
+        request.getRequestDispatcher(url).forward(request, response);
     }
-
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String url = null;
         try {
-            url = getUrl(req, resp);
+            url = getUrl(request, response);
             LOGGER.info("[AppController-doPost] URL processed [{}], resp encoding: {}", url,
-                    resp.getCharacterEncoding());
+                    response.getCharacterEncoding());
         } catch (CommandException | FatalApplicationException e) {
             LOGGER.error("An exception occurs: {}", e.getMessage());
-            resp.sendError(500, "Can't process the command");
+            response.sendError(500, "Can't process the command");
         }
-        resp.sendRedirect(url);
+        response.sendRedirect(url);
     }
 
     public String getUrl(HttpServletRequest req, HttpServletResponse resp)

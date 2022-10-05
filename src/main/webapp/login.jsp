@@ -6,7 +6,7 @@
 <html lang="${sessionScope.lang}">
 
 <head>
-    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'  />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title><fmt:message key="text.login"/></title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -47,13 +47,13 @@
                                 <div class="card-body d-flex flex-column align-items-center">
                                     <form class="text-center" action="controller" method="post">
                                         <input hidden name="command" value="login">
-                                        <div class="mb-3"><input class="form-control" type="email" name="email"
-                                                                 placeholder="Email" minlength="4" maxlength="45"
-                                                                 pattern="([\w-\.]{1,})+@([\w-]+\.)+([\w-]{2,4})$" required="">
+                                        <div class="mb-3"><input class="form-control" type="text" name="login"
+                                                                 placeholder="Login" minlength="4" maxlength="16"
+                                                                 pattern="" required="">
                                         </div>
                                         <div class="mb-3"><input class="form-control" type="password" name="password"
-                                                                 placeholder="Password" required="" minlength="8" maxlength="64"
-                                                                 pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,65}$">
+                                                                 placeholder="Password" required="" minlength="6" maxlength="64"
+                                                                 pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,65}$">
                                         </div>
                                         <div class="mb-3">
                                             <button class="btn btn-success d-block w-100" type="submit"><fmt:message key="text.login"/></button>

@@ -1,18 +1,8 @@
 package DAOTest;
 
-import com.railway.ticket.office.webapp.exceptions.DAOException;
 import com.railway.ticket.office.webapp.db.dao.UserDAO;
-import com.railway.ticket.office.webapp.db.dao.factory.DAOFactory;
-import com.railway.ticket.office.webapp.model.User;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import java.sql.SQLException;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class UserDAOTest {
 
@@ -20,7 +10,7 @@ public class UserDAOTest {
 
     private static UserDAO userDAO;
 
-    @BeforeAll
+   /* @BeforeAll
     static void globalSetUp() throws SQLException {
         LOGGER.info("Starting UserDAO tests");
         userDAO = DAOFactory.getInstance().getUserDAO();
@@ -41,5 +31,5 @@ public class UserDAOTest {
                 .build();
         assertEquals(actual, expected);
 
-    }
+    }*/
 }

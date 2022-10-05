@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <fmt:setLocale value="${sessionScope.lang}"/>
@@ -9,13 +9,14 @@
           content="text/html, width=device-width, initial-scale=1.0, shrink-to-fit=no" />
     <title><fmt:message key="text.register"/></title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
+
 </head>
 
 <body>
 <nav class="navbar navbar-light navbar-expand-md py-3">
     <div class="container"><a class="navbar-brand d-flex align-items-center" href="controller?command=home">
         <span><fmt:message key="text.brand"/></span></a>
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-2"><span
+        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#nav-col-2"><span
                 class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div id="nav-col-2" class="collapse navbar-collapse">
             <div class="btn-group col-md-5 w-auto ms-auto" role="group" aria-label="Button group with nested dropdown">
@@ -46,9 +47,9 @@
                                 <div class="card-body d-flex flex-column align-items-center">
                                     <form class="text-center" action="controller" method="post">
                                         <input hidden name="command" value="registration"/>
-                                        <div class="d-lg-flex justify-content-lg-end align-items-lg-start mb-3">
-                                            <input class="form-control" type="text" name="login" placeholder="Login"
-                                                minlength="3" maxlength="32"
+                                        <div class="d-lg-flex justify-content-lg-end align-items-lg-start mb-3"><input
+                                                class="form-control" type="text" name="login" placeholder="Login"
+                                                minlength="4" maxlength="44"
                                                 pattern="^(?=.{4,45}$)([\w-\.]{1,})+@([\w-]+\.)+([\w-]{2,4})$"
                                                 required=""/></div>
                                         <div style="margin-bottom: 16px;"><input class="form-control" type="text"
@@ -63,18 +64,18 @@
                                                                                  pattern="^\p{L}{2,45}$"
                                                                                  required="" maxlength="44"/></div>
                                         <div style="margin-bottom: 16px;"><input class="form-control" type="text"
-                                                                                 name="phoneNumber"
+                                                                                 name="phone"
                                                                                  placeholder="Phone number"
-                                                                                 maxlength="44" required=""
-                                                                                 minlength="3"
+                                                                                 maxlength="10" required=""
+                                                                                 minlength="10"
                                                                                  pattern="^(?=.{3,45}$)[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$"/>
                                         </div>
                                         <div class="mb-3"><input class="form-control" type="password" name="password"
-                                                                 placeholder="Password" required="" minlength="8"
-                                                                 pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,65}$"/>
+                                                                 placeholder="Password" required="" minlength="6"
+                                                                 pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,65}$"/>
                                         </div>
                                         <div class="mb-3">
-                                            <button class="btn btn-success d-block w-100" type="submit"
+                                            <button class="btn btn-secondary d-block w-110" type="submit"
                                                     value=""><fmt:message key="text.sign.up"/>
                                             </button>
                                         </div>
@@ -94,4 +95,3 @@
 </body>
 
 </html>
-

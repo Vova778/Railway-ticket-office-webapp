@@ -1,30 +1,15 @@
 package DAOTest;
 
-import com.railway.ticket.office.webapp.exceptions.DAOException;
-import com.railway.ticket.office.webapp.db.dao.RouteDAO;
-import com.railway.ticket.office.webapp.db.dao.factory.DAOFactory;
-import com.railway.ticket.office.webapp.model.Route;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import java.sql.SQLException;
-import java.sql.Time;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 public class RouteDAOTest {
 
-    private static final Logger LOGGER = LogManager.getLogger(RouteDAOTest.class);
+   /* private static final Logger LOGGER = LogManager.getLogger(RouteDAOTest.class);
 
     private static RouteDAO routeDAO;
 
     @BeforeAll
     static void globalSetUp() throws SQLException {
         LOGGER.info("Starting RouteDAO tests");
-        routeDAO = DAOFactory.getInstance().getRouteDAO();
+        routeDAO = new RouteDAOImpl();
     }
 
     @Test
@@ -47,7 +32,7 @@ public class RouteDAOTest {
         assertEquals(actual, expected);
     }
 
-
+*/
 
 
 }

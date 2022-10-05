@@ -100,11 +100,12 @@ public class UserDAOImpl implements UserDAO {
     private void setUserParameters(User user, PreparedStatement preparedStatement) throws SQLException {
         int k = 1;
         preparedStatement.setString(k++, user.getLogin());
-        preparedStatement.setString(k++, PasswordEncryption.getEncrypted(user.getPassword()));
+        String s =  PasswordEncryption.getEncrypted(user.getPassword());
+        preparedStatement.setString(k++,s);
         preparedStatement.setString(k++, user.getFirstName());
         preparedStatement.setString(k++, user.getLastName());
         preparedStatement.setString(k++, user.getPhone());
-        int roleId = getRoleIdByName(user);
+        int roleId = user.getRole().getId();
         preparedStatement.setInt(k,roleId);
     }
 
@@ -162,20 +163,23 @@ public class UserDAOImpl implements UserDAO {
 
             preparedStatement.setInt(1,userId);
 
-            try(ResultSet resultSet = preparedStatement.executeQuery();){
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()){
                     user = Optional.ofNullable(userMapper
                             .extractFromResultSet(resultSet));
                 }
             }
+            user.ifPresent(u -> LOGGER.info("User received : [{}], [{}]",
+                    u.getId(), u.getLogin()));
 
+            return user.orElse(new User());
         }
         catch (SQLException e) {
             LOGGER.error("User with ID : [{}] was not found. An exception occurs : {}",
                     userId, e.getMessage());
             throw new DAOException("[UserDAO] exception while loading User by ID" + e.getMessage(), e);
         }
-        return user.get();
+
     }
 
     @Override
@@ -193,14 +197,16 @@ public class UserDAOImpl implements UserDAO {
                             .extractFromResultSet(resultSet));
                 }
             }
+            user.ifPresent(u -> LOGGER.info("User received : [{}], [{}]",
+                    u.getId(), u.getLogin()));
 
+            return user.orElse(new User());
         }
         catch (SQLException e) {
             LOGGER.error("User with login : [{}] was not found. An exception occurs : {}",
                     login, e.getMessage());
             throw new DAOException("[UserDAO] exception while loading User by login" + e.getMessage(), e);
         }
-        return user.get();
     }
 
     @Override

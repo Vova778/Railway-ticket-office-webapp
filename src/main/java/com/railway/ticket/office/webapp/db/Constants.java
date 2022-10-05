@@ -43,7 +43,7 @@ public class Constants {
   // public static final String TRAINS_GET_TRAIN_BETWEEN_STATIONS="select * from routes where";
     public static final String TRAINS_GET_ALL_TRAINS = "select * from train";
 
-    public static final String USERS_INSERT_USER = "insert into user values (default, ?,?,?,?,?,?,?)";
+    public static final String USERS_INSERT_USER = "insert into user values (default, ?,?,?,?,?,?)";
     public static final String USERS_DELETE_USER = "delete from user where id=?";
     public static final String USERS_UPDATE_USER = "update user set login=?, password_id=?, first_name=?, last_name=?, phone=?, role_id=? where id=?";
     public static final String USERS_GET_USER_BY_ID = "select * from user where id=?";

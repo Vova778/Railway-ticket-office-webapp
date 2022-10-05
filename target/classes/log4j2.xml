@@ -54,7 +54,7 @@
 
     <Loggers>
 
-        <Logger name="com.railway.ticket.officewebapp" additivity="false" level="debug">
+        <Logger name="com.railway.ticket.office.webapp" additivity="false" level="debug">
             <AppenderRef ref="debugLog" />
             <AppenderRef ref="infoLog"  />
             <AppenderRef ref="errorLog" />

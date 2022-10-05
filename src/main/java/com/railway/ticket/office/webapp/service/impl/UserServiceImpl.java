@@ -6,11 +6,9 @@ import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.User;
 import com.railway.ticket.office.webapp.service.UserService;
-import com.railway.ticket.office.webapp.utils.db.DBUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -20,7 +18,7 @@ public class UserServiceImpl implements UserService {
             "[UserService] Can't create UserService with null input UserDAO";
     private static final String NULL_USER_INPUT_EXC =
             "[UserService] Can't operate null input!";
-    private static final String REGISTERED_EMAIL_EXC =
+    private static final String REGISTERED_LOGIN_EXC =
             "[UserService] User with given login: [{}] is already registered!";
     private final UserDAO userDAO;
 
@@ -39,9 +37,11 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException(NULL_USER_INPUT_EXC);
         }
         try {
-             checkAndSave(user);
-        } catch (SQLException e) {
-            LOGGER.error("[UserService] SQLException while saving User (email: {}). Exc: {}"
+            userDAO.insertUser(user);
+            LOGGER.info("[UserService] User saved. (login: {})", user.getLogin());
+
+        } catch (DAOException e) {
+            LOGGER.error("[UserService] SQLException while saving User (login: {}). Exc: {}"
                     , user.getLogin(), e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
@@ -77,22 +77,17 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private void checkAndSave(User user) throws ServiceException, SQLException {
-        userDAO.getConnection().setAutoCommit(false);
+
+    public boolean isUserExists(User user) throws ServiceException {
         try {
             if (userDAO.findUserByLogin(user.getLogin()).getId() != 0) {
-                DBUtils.rollback(userDAO.getConnection());
-                LOGGER.error(REGISTERED_EMAIL_EXC
+                LOGGER.info(REGISTERED_LOGIN_EXC
                         , user.getLogin());
-                throw new ServiceException(REGISTERED_EMAIL_EXC);
+                return true;
             }
-            userDAO.insertUser(user);
-            userDAO.getConnection().commit();
-            userDAO.getConnection().setAutoCommit(true);
-            LOGGER.info("[UserService] User saved. (email: {})", user.getLogin());
+            return false;
         } catch (DAOException e) {
-            userDAO.getConnection().rollback();
-            LOGGER.error("[UserService] Connection rolled back while saving User. (email: {}). Exc: {}"
+            LOGGER.error("[UserService] Connection rolled back while saving User. (login: {}). Exc: {}"
                     , user.getLogin(), e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
