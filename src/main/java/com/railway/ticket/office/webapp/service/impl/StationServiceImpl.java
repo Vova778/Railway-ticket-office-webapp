@@ -112,9 +112,9 @@ public class StationServiceImpl implements StationService {
         }
     }
     @Override
-    public List<Station> findAll() throws ServiceException {
+    public List<Station> findAll(int offset) throws ServiceException {
         try {
-            return stationDAO.findAllStations();
+            return stationDAO.findAllStations(offset);
         } catch (DAOException e) {
             LOGGER.error("[StationService] An exception occurs while receiving Stations. Exc: {}",
                     e.getMessage());
@@ -138,6 +138,15 @@ public class StationServiceImpl implements StationService {
         }
     }
 
-
+    @Override
+    public int countRecords() throws ServiceException {
+        try {
+            return stationDAO.countRecords();
+        } catch (DAOException e) {
+            LOGGER.error("[StationService] An exception occurs while counting stations. Exc: {}",
+                    e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 
 }

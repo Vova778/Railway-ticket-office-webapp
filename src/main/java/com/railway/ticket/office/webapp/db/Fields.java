@@ -13,8 +13,8 @@ public class Fields {
    // public static final String ROUTE_SCHEDULE_DATE = "schedule_date";
     public static final String ROUTE_TRAIN_ID = "train_id";
     public static final String ROUTE_PRICE = "price";
-    //public static final String ROUTE_STARTING_STATION_NAME = "starting_station_name";
-    //public static final String ROUTE_FINAL_STATION_NAME = "final_station_id";
+    public static final String ROUTE_STARTING_STATION_NAME = "starting_station_name";
+    public static final String ROUTE_FINAL_STATION_NAME = "final_station_name";
 
     public static final String SCHEDULE_ID="id";
     public static final String SCHEDULE_DATE="date";

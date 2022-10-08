@@ -1,11 +1,10 @@
 package com.railway.ticket.office.webapp.db.dao.impl;
 
 import com.railway.ticket.office.webapp.db.Constants;
+import com.railway.ticket.office.webapp.db.dao.UserDAO;
 import com.railway.ticket.office.webapp.db.dao.mapper.impl.UserMapper;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
 import com.railway.ticket.office.webapp.model.User;
-import com.railway.ticket.office.webapp.utils.security.PasswordEncryption;
-import com.railway.ticket.office.webapp.db.dao.UserDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -100,8 +99,7 @@ public class UserDAOImpl implements UserDAO {
     private void setUserParameters(User user, PreparedStatement preparedStatement) throws SQLException {
         int k = 1;
         preparedStatement.setString(k++, user.getLogin());
-        String s =  PasswordEncryption.getEncrypted(user.getPassword());
-        preparedStatement.setString(k++,s);
+        preparedStatement.setString(k++,user.getPassword());
         preparedStatement.setString(k++, user.getFirstName());
         preparedStatement.setString(k++, user.getLastName());
         preparedStatement.setString(k++, user.getPhone());

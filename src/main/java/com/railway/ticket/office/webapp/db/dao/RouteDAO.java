@@ -20,4 +20,6 @@ public interface RouteDAO {
     List<Route> findRoutesByScheduleId(int scheduleId) throws DAOException;
 
     List<Route> findAllRoutes() throws DAOException;
+    List<Route> findAllRoutesWithOffset(int offset) throws DAOException;
+    int countRecords() throws DAOException;
 }

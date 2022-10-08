@@ -7,16 +7,30 @@ public class Constants {
     public static final String ROUTES_INSERT_ROUTE = "insert into route values (default,?,?,?,?,?,?,?,?,?,?)";
     public static final String ROUTES_DELETE_ROUTE = "delete from route where id=?";
     public static final String ROUTES_UPDATE_ROUTE = "update route set stoppage_number=?, starting_station_id=?, final_station_id=?, departure_time=?, arrival_time=?, available_seats=?, day=?, schedule_id=? train_id=? where id=?";
-    public static final String ROUTES_GET_ROUTE_BY_ID = "select * from route where id=?";
-    public static final String ROUTES_GET_ROUTE_BY_SCHEDULE_ID = "select * from route where schedule_id=?";
-    public static final String ROUTES_GET_ALL_ROUTES = "SELECT * from route";
+    public static final String ROUTES_GET_ROUTE_BY_ID = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name\n" +
+            " from route\n" +
+            "right join station starting_station on starting_station_id=starting_station.id right join station final_station\n" +
+            "on final_station_id=final_station.id where id=?";
+    public static final String ROUTES_GET_ROUTE_BY_SCHEDULE_ID = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name\n" +
+            " from route right join station starting_station on starting_station_id=starting_station.id right join station final_station\n" +
+            "on final_station_id=final_station.id where schedule_id=?";
+    public static final String ROUTES_GET_ALL_ROUTES = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name\n" +
+            " from route right join station starting_station\n" +
+            "on starting_station_id=starting_station.id right join station final_station on  final_station_id=final_station.id";
+    public static final String ROUTES_GET_ALL_ROUTES_WITH_OFFSET = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name\n" +
+            " from route right join station starting_station\n" +
+            "on starting_station_id=starting_station.id right join station final_station on  final_station_id=final_station.id order by route.id LIMIT 10 OFFSET ?";
+    public static final String ROUTES_GET_COUNT = "SELECT COUNT(*) FROM route";
 
     public static final String STATIONS_INSERT_STATION = "insert into station values (default, ?)";
     public static final String STATIONS_DELETE_STATION = "delete from station where id=?";
     public static final String STATIONS_UPDATE_STATION = "update station set name=? where id=?";
     public static final String STATIONS_GET_STATION_BY_ID = "select * from station where id=?";
     public static final String STATIONS_GET_STATION_BY_NAME = "select * from station where name=?";
-    public static final String STATIONS_GET_ALL_STATIONS = "select * from station";
+    public static final String STATIONS_GET_ALL_STATIONS = "select * from station order by id LIMIT 10 OFFSET ?";
+    public static final String STATIONS_GET_COUNT = "SELECT COUNT(*) FROM station";
+
+
 
     public static final String SCHEDULE_INSERT_SCHEDULE = "insert into schedule values (default, ?,?)";
     public static final String SCHEDULE_DELETE_SCHEDULE = "delete from schedule where id=?";
@@ -42,6 +56,7 @@ public class Constants {
     public static final String TRAINS_GET_TRAIN_BY_NUMBER = "select * from train where number=?";
   // public static final String TRAINS_GET_TRAIN_BETWEEN_STATIONS="select * from routes where";
     public static final String TRAINS_GET_ALL_TRAINS = "select * from train";
+    public static final String TRAINS_GET_COUNT = "SELECT COUNT(*) FROM train";
 
     public static final String USERS_INSERT_USER = "insert into user values (default, ?,?,?,?,?,?)";
     public static final String USERS_DELETE_USER = "delete from user where id=?";

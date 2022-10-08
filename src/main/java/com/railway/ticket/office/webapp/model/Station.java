@@ -1,12 +1,11 @@
 package com.railway.ticket.office.webapp.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 public class Station implements Serializable {
     private int id;
     private String name;
-    private List<Station> connectingStations;
+    //private List<Station> connectingStations;
 
     public Station(int id, String name) {
         this.id = id;
@@ -44,7 +43,7 @@ public class Station implements Serializable {
         this.id = id;
     }
 
-    public List<Station> getConnectingStations() {
+ /*   public List<Station> getConnectingStations() {
         return connectingStations;
     }
 
@@ -53,7 +52,7 @@ public class Station implements Serializable {
             throw new IllegalArgumentException("Connecting stations cannot be null");
         }
         this.connectingStations = connectingStations;
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -71,15 +70,13 @@ public class Station implements Serializable {
         Station station = (Station) o;
 
         if (id != station.id) return false;
-        if (name != null ? !name.equals(station.name) : station.name != null) return false;
-        return connectingStations != null ? connectingStations.equals(station.connectingStations) : station.connectingStations == null;
+        return name != null ? name.equals(station.name) : station.name == null;
     }
 
     @Override
     public int hashCode() {
         int result = id;
         result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (connectingStations != null ? connectingStations.hashCode() : 0);
         return result;
     }
 }

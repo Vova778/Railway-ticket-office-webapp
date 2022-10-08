@@ -17,6 +17,7 @@ public class StationDAOImpl implements StationDAO {
 
     private final Connection con;
     private static final Logger LOGGER = LogManager.getLogger(StationDAOImpl.class);
+    private final StationMapper stationMapper = new StationMapper();
 
     public StationDAOImpl(Connection con) {
         this.con = con;
@@ -102,7 +103,7 @@ public class StationDAOImpl implements StationDAO {
 
             try(ResultSet resultSet = preparedStatement.executeQuery();){
                 while (resultSet.next()){
-                    station = Optional.ofNullable(new StationMapper()
+                    station = Optional.ofNullable(stationMapper
                             .extractFromResultSet(resultSet));
                 }
             }
@@ -142,24 +143,42 @@ public class StationDAOImpl implements StationDAO {
     }
 
     @Override
-    public List<Station> findAllStations() throws DAOException {
+    public List<Station> findAllStations(int offset) throws DAOException {
         List<Station> stations = new ArrayList<>();
 
+        try(PreparedStatement preparedStatement
+                    = con.prepareStatement(Constants.STATIONS_GET_ALL_STATIONS)) {
 
-        try(Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery(Constants.STATIONS_GET_ALL_STATIONS)
-        ) {
+            preparedStatement.setInt(1, offset);
 
-            StationMapper stationMapper = new StationMapper();
-            while (resultSet.next()){
-                stations.add(stationMapper.extractFromResultSet(resultSet));
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    stations.add(stationMapper
+                            .extractFromResultSet(resultSet));
+                }
             }
+            return stations;
         }
         catch (SQLException e) {
             LOGGER.error("Stations were not found. An exception occurs : {}", e.getMessage());
             throw new DAOException("[StationDAO] exception while reading all stations" + e.getMessage(), e);
         }
-
-        return stations;
     }
+
+    @Override
+    public int countRecords() {
+        int recordsCount = 0;
+        try (PreparedStatement preparedStatement =
+                     con.prepareStatement(Constants.STATIONS_GET_COUNT);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            resultSet.next();
+            recordsCount = resultSet.getInt(1);
+            return recordsCount;
+        } catch (SQLException e) {
+            LOGGER.error("[StationDAO] Failed to count stations! An exception occurs :[{}]",
+                    e.getMessage());
+        }
+        return recordsCount;
+    }
+
 }

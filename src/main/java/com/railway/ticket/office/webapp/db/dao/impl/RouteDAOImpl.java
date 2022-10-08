@@ -99,14 +99,14 @@ public class RouteDAOImpl implements RouteDAO {
         int k = 1;
 
         preparedStatement.setInt(k++, route.getStoppageNumber());
-        preparedStatement.setInt(k++,route.getStartingStationId());
-        preparedStatement.setInt(k++,route.getFinalStationId());
+        preparedStatement.setInt(k++,route.getStartingStation().getId());
+        preparedStatement.setInt(k++,route.getFinalStation().getId());
         preparedStatement.setTime(k++,route.getDepartureTime());
         preparedStatement.setTime(k++,route.getArrivalTime());
         preparedStatement.setInt(k++,route.getAvailableSeats());
         preparedStatement.setInt(k++,route.getDay());
         preparedStatement.setInt(k++,route.getScheduleId());
-        preparedStatement.setInt(k++,route.getTrainId());
+        preparedStatement.setInt(k++,route.getTrainNumber());
         preparedStatement.setDouble(k,route.getPrice());
     }
 
@@ -180,5 +180,43 @@ public class RouteDAOImpl implements RouteDAO {
         }
 
         return routes;
+    }
+
+    @Override
+    public List<Route> findAllRoutesWithOffset(int offset) throws DAOException {
+        List<Route> routes = new ArrayList<>();
+
+        try(PreparedStatement preparedStatement
+                    = con.prepareStatement(Constants.ROUTES_GET_ALL_ROUTES_WITH_OFFSET)) {
+
+            preparedStatement.setInt(1, offset);
+
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    routes.add(routeMapper
+                            .extractFromResultSet(resultSet));
+                }
+            }
+            return routes;
+        }
+        catch (SQLException e) {
+            LOGGER.error("Routes were not found. An exception occurs : {}", e.getMessage());
+            throw new DAOException("[RouteDAO] exception while reading all routes" + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public int countRecords() {
+        int recordsCount = 0;
+        try (PreparedStatement preparedStatement = con.prepareStatement(Constants.ROUTES_GET_COUNT);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            resultSet.next();
+            recordsCount = resultSet.getInt(1);
+            return recordsCount;
+        } catch (SQLException e) {
+            LOGGER.error("[RouteDAO] Failed to count routes! An exception occurs :[{}]",
+                    e.getMessage());
+        }
+        return recordsCount;
     }
 }

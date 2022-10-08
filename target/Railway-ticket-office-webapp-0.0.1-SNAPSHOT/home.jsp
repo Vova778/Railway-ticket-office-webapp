@@ -12,13 +12,14 @@
     <link rel="stylesheet" href="assets/css/Navbar-Centered-Links-icons.css">
 </head>
 
-<body>
-    <nav class="navbar navbar-light navbar-expand-md bg-secondary py-3" style="height: 120px;background: var(--bs-indigo);">
-        <div class="container"><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button><img style="margin: 10px;margin-right: 0px;width: 120px;height: 120px;" src="assets/img/est.2012%20(1).png" width="157" height="172">
-            <div class="collapse navbar-collapse" id="navcol-2">
+<body class="text-info text-bg-light">
+    <nav class="navbar navbar-light navbar-expand-md bg-info py-3" style="height: 130px;">
+        <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><img style="margin: 0px;margin-right: 0px;width: 110px;height: 110px;" src="img/est.2012%20(1).png" width="120" height="120"></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-2"><span class="fs-3 text-dark navbar-text">Railway ticket office</span>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item text-end">
-                        <div class="d-md-flex"><a class="active" href="#"></a><a href="#"><img src="assets/img/icons8-ukraine-16.png" style="width: 20px;height: 20px;"></a></div><img class="d-md-flex justify-content-md-end" src="assets/img/icons8-usa-16.png" width="16" height="18" style="width: 20px;height: 20px;">
+                        <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22" height="22"></a>
+                            <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22" height="22" style="width: 26px;height: 26px;"></a></div>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="login.jsp"><span style="color: var(--bs-navbar-active-color);">Basket</span><br></a></li>
                     <li class="nav-item"><a class="nav-link" href="registration.jsp" style="color: var(--bs-navbar-active-color);">Register</a></li>
@@ -27,7 +28,8 @@
             </div>
         </div>
     </nav>
-    <section style="background: var(--bs-gray-700);padding: 30px;padding-right: 22px;padding-left: 22px;padding-top: 45px;padding-bottom: 45px;">
+    <hr style="color: var(--bs-blue);height: 3px;background: var(--bs-blue);margin-top: 0px;">
+    <section class="text-bg-light" style="background: var(--bs-gray-700);padding: 30px;padding-right: 22px;padding-left: 22px;padding-top: 55px;padding-bottom: 55px;">
         <div class="container text-bg-secondary">
             <div class="row">
                 <div class="col"><strong>From</strong><input type="text"><strong>To</strong><input type="text"></div>
@@ -39,7 +41,6 @@
     </section>
     <%@ include file="include/footer.jsp" %>
     <script src="js/bootstrap.min.js"></script>
-
 </body>
 
 </html>

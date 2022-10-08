@@ -6,21 +6,20 @@ import java.sql.Time;
 public class Route implements Serializable {
     private int id;
     private int stoppageNumber;
-    private int startingStationId;
-    private int finalStationId;
+    private Station startingStation;
+    private Station finalStation;
     private int scheduleId;
-    private int trainId;
+    private int trainNumber;
     private Time departureTime;
     private Time arrivalTime;
     private int availableSeats;
     private int day;
-
-    /*private Station startingStation;
-    private Station finalStation;
+    private double price;
+    /*
     private Schedule schedule;
     private Train train;*/
 
-    private double price;
+
 
 
     public static Builder newBuilder() {
@@ -44,21 +43,19 @@ public class Route implements Serializable {
         this.id = id;
     }
 
-    public int getStartingStationId() {
-        return startingStationId;
-    }
-
-    public int getFinalStationId() {
-        return finalStationId;
-    }
 
     public int getScheduleId() {
         return scheduleId;
     }
 
-    public int getTrainId() {
-        return trainId;
+    public Station getStartingStation() {
+        return startingStation;
     }
+
+    public Station getFinalStation() {
+        return finalStation;
+    }
+
 
     public Time getArrivalTime() {
         return arrivalTime;
@@ -90,11 +87,11 @@ public class Route implements Serializable {
     public String toString() {
         return "Route{" +
                 "id=" + id +
-                ", startStation=" + startingStationId +
-                ", finalStation=" + finalStationId +
+                ", startStation=" + startingStation +
+                ", finalStation=" + finalStation +
                 ", departureTime=" + departureTime +
                 ", arrivalTime=" + arrivalTime +
-                ", train=" + trainId +
+                ", train=" + trainNumber +
                 '}';
     }
 
@@ -107,13 +104,14 @@ public class Route implements Serializable {
 
         if (id != route.id) return false;
         if (stoppageNumber != route.stoppageNumber) return false;
-        if (startingStationId != route.startingStationId) return false;
-        if (finalStationId != route.finalStationId) return false;
         if (scheduleId != route.scheduleId) return false;
-        if (trainId != route.trainId) return false;
+        if (trainNumber != route.trainNumber) return false;
         if (availableSeats != route.availableSeats) return false;
         if (day != route.day) return false;
         if (Double.compare(route.price, price) != 0) return false;
+        if (startingStation != null ? !startingStation.equals(route.startingStation) : route.startingStation != null)
+            return false;
+        if (finalStation != null ? !finalStation.equals(route.finalStation) : route.finalStation != null) return false;
         if (departureTime != null ? !departureTime.equals(route.departureTime) : route.departureTime != null)
             return false;
         return arrivalTime != null ? arrivalTime.equals(route.arrivalTime) : route.arrivalTime == null;
@@ -125,10 +123,10 @@ public class Route implements Serializable {
         long temp;
         result = id;
         result = 31 * result + stoppageNumber;
-        result = 31 * result + startingStationId;
-        result = 31 * result + finalStationId;
+        result = 31 * result + (startingStation != null ? startingStation.hashCode() : 0);
+        result = 31 * result + (finalStation != null ? finalStation.hashCode() : 0);
         result = 31 * result + scheduleId;
-        result = 31 * result + trainId;
+        result = 31 * result + trainNumber;
         result = 31 * result + (departureTime != null ? departureTime.hashCode() : 0);
         result = 31 * result + (arrivalTime != null ? arrivalTime.hashCode() : 0);
         result = 31 * result + availableSeats;
@@ -136,6 +134,10 @@ public class Route implements Serializable {
         temp = Double.doubleToLongBits(price);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
+    }
+
+    public int getTrainNumber() {
+        return trainNumber;
     }
 
     public class Builder {
@@ -186,23 +188,23 @@ public class Route implements Serializable {
             return this;
         }
 
-        public Builder setTrainId(int trainId) {
-            if(trainId<0){
-                throw new IllegalArgumentException("Train id cannot be < 0");
+        public Builder setTrainNumber(int trainNumber) {
+            if(Route.this.trainNumber <0){
+                throw new IllegalArgumentException("Train cannot be <0");
             }
-            Route.this.trainId = trainId;
+            Route.this.trainNumber = trainNumber;
             return this;
         }
 
-        public Builder setFinalStationId(int finalStationId) {
-            if (finalStationId < 0) {
+        public Builder setFinalStation(Station finalStation) {
+            if (finalStation == null) {
                 throw new IllegalArgumentException("Final station id cannot be < 0");
             }
-            if (finalStationId == startingStationId) {
-                throw new IllegalArgumentException("Final station id cannot be the same as the starting station");
+            if (finalStation.getName().equals(startingStation.getName())) {
+                throw new IllegalArgumentException("Final station cannot be the same as the starting station");
             }
 
-            Route.this.finalStationId = finalStationId;
+            Route.this.finalStation = finalStation;
             return this;
         }
 
@@ -210,18 +212,15 @@ public class Route implements Serializable {
             if (arrivalTime == null) {
                 throw new IllegalArgumentException("Arrival time cannot be null");
             }
-            if(arrivalTime.before(departureTime)){
-                throw new IllegalArgumentException("Arrival time cannot be set in the past");
-            }
             Route.this.arrivalTime = arrivalTime;
             return this;
         }
 
-        public Builder setStartingStationId(int startingStationId) {
-            if (startingStationId < 0) {
-                throw new IllegalArgumentException("Starting station cannot be < 0");
+        public Builder setStartingStation(Station startingStation) {
+            if (startingStation== null) {
+                throw new IllegalArgumentException("Starting station cannot be null");
             }
-            Route.this.startingStationId = startingStationId;
+            Route.this.startingStation = startingStation;
             return this;
         }
 

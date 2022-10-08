@@ -26,7 +26,7 @@ public class StationTest {
         stationList.add(new Station(101, "Тест Станція 2"));
         assertDoesNotThrow( () ->  station.setId(100));
         assertDoesNotThrow( () ->  station.setName("Тест Станція"));
-        assertDoesNotThrow(() ->station.setConnectingStations(stationList));
+
     }
 
     @Test
@@ -41,8 +41,6 @@ public class StationTest {
         assertThrows(IllegalArgumentException.class,
                 () ->  station.setName("Т"));
 
-        assertThrows(IllegalArgumentException.class,
-                () ->station.setConnectingStations(stationList));
     }
 
 

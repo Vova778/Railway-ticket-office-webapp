@@ -123,11 +123,34 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
+    public List<Route> findAllRoutesWithOffset(int offset) throws ServiceException {
+        try {
+            return routeDAO.findAllRoutesWithOffset(offset);
+        } catch (DAOException e) {
+            LOGGER.error("[RouteService] An exception occurs while receiving Routes. Exc: {}",
+                    e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+
+    @Override
     public List<Route> findRoutesByScheduleId(int scheduleId) throws ServiceException {
         try {
             return routeDAO.findRoutesByScheduleId(scheduleId);
         } catch (DAOException e) {
             LOGGER.error("[RouteService] An exception occurs while receiving Routes by schedule id. Exc: {}",
+                    e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public int countRecords() throws ServiceException {
+        try {
+            return routeDAO.countRecords();
+        } catch (DAOException e) {
+            LOGGER.error("[RouteService] An exception occurs while counting routes. Exc: {}",
                     e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }

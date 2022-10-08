@@ -42,7 +42,7 @@
     <div class="container text-bg-secondary"></div>
 </section>
 <%@ include file="include/footer.jsp" %>
-<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </body>
 
 </html>

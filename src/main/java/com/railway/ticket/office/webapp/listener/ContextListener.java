@@ -1,6 +1,8 @@
 package com.railway.ticket.office.webapp.listener;
 
 import com.railway.ticket.office.webapp.command.*;
+import com.railway.ticket.office.webapp.command.route.AllRoutesCommand;
+import com.railway.ticket.office.webapp.command.station.AllStationsCommand;
 import com.railway.ticket.office.webapp.command.user.*;
 import com.railway.ticket.office.webapp.db.dao.*;
 import com.railway.ticket.office.webapp.db.dao.connections.ConnectionPoolHolder;
@@ -136,6 +138,13 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         commandContainer.addCommand("logout", appCommand);
         LOGGER.info("{} LogoutCommand created.", CONTEXT_LISTENER_MSG);
 
+        appCommand = new AllRoutesCommand(routeService);
+        commandContainer.addCommand("routes", appCommand);
+        LOGGER.info("{} AllRoutesCommand created.", CONTEXT_LISTENER_MSG);
+
+        appCommand = new AllStationsCommand(stationService);
+        commandContainer.addCommand("stations", appCommand);
+        LOGGER.info("{} AllStationsCommand created.", CONTEXT_LISTENER_MSG);
 
 
         context.setAttribute("commandContainer", commandContainer);

@@ -170,16 +170,15 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 
 INSERT INTO role
-values (default, 'Unauthorized_user'),
-       (default, 'User'),
+values (default, 'User'),
        (default, 'Manager');
 
 
 
 INSERT INTO user
-values (default, 'Vova778', '1111', 'Vova1', 'Muradin1', '1111111111', 3),
-       (default, 'Vova779', '1111', 'Vova2', 'Muradin2', '1111111111', 1),
-       (default, 'Vova780', '1111', 'Vova3', 'Muradin3', '1111111111', 2);
+values (default, 'Vova123', 'e6dac66f9c7513b27ff95899ad70807b5657b2407e8f6938b63c90dea01976bd', 'Vova1', 'Muradin1', '1111111111', 2),
+       (default, 'Vova234', '1111', 'Vova2', 'Muradin2', '1111111111', 1),
+       (default, 'Vova345', '1111', 'Vova3', 'Muradin3', '1111111111', 1);
 
 
 

@@ -44,6 +44,7 @@ public class PasswordEncryption {
     }
 
     public static boolean validate(String password, String userPassword) {
+
         if (password == null || userPassword == null) {
             throw new IllegalArgumentException("Can't validate null!");
         }

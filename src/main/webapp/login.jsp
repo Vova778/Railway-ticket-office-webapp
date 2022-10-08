@@ -13,28 +13,20 @@
 </head>
 
 <body>
-<nav class="navbar navbar-light navbar-expand-md py-3">
-    <div class="container"><a class="navbar-brand d-flex align-items-center" href="controller?command?=home">
-        <span><fmt:message key="text.brand"/></span></a>
-        <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navcol-2"><span
-                class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-        <div id="nav-col-2" class="collapse navbar-collapse">
-            <div class="btn-group col-md-5 w-auto ms-auto" role="group" aria-label="Button group with nested dropdown">
-                <div class="btn-group btn-group-sm" role="group" style="margin-left: 5px">
-                    <button id="btnGroupDrop1" type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <fmt:message key="logo.globe"/>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                        <li><a class="dropdown-item" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}">UA</a></li>
-                        <li><a class="dropdown-item" href="controller?command=setLang&locale&pageToProcess=${param.command}">ENG</a></li>
-                    </ul>
-                </div>
-            </div>
+<nav class="navbar navbar-light navbar-expand-md bg-info py-3" style="height: 130px;">
+    <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><img style="margin: 0px;margin-right: 0px;width: 110px;height: 110px;" src="img/est.2012%20(1).png" width="120" height="120"></a><span class="fs-3">Railway ticket office webapp</span><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navcol-2">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item text-end">
+                    <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22" height="22"></a>
+                        <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22" height="22" style="width: 26px;height: 26px;"></a></div>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
 <div class="container">
-    <div class="col-md-8 col-xl-6 text-center mx-auto">
+    <div class="col-md-8 col-xl-6 text-center mx-auto" style="margin-top: 50px" >
         <h2><fmt:message key="text.login.form"/></h2>
     </div>
     <div class="row">
@@ -49,14 +41,14 @@
                                         <input hidden name="command" value="login">
                                         <div class="mb-3"><input class="form-control" type="text" name="login"
                                                                  placeholder="Login" minlength="4" maxlength="16"
-                                                                 pattern="" required="">
+                                                                 pattern=".{4,16}" required="">
                                         </div>
                                         <div class="mb-3"><input class="form-control" type="password" name="password"
-                                                                 placeholder="Password" required="" minlength="6" maxlength="64"
+                                                                 placeholder="Password" required="" minlength="6"
                                                                  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,65}$">
                                         </div>
                                         <div class="mb-3">
-                                            <button class="btn btn-success d-block w-100" type="submit"><fmt:message key="text.login"/></button>
+                                            <button class="btn btn-secondary d-block w-100" type="submit" ><fmt:message key="text.login"/></button>
                                         </div>
                                         <a href="" class="text-muted"><fmt:message key="text.forgot.password"/></a>
                                     </form>

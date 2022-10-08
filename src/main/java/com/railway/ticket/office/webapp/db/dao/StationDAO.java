@@ -19,5 +19,7 @@ public interface StationDAO {
 
     Station findStationByName(String stationName) throws DAOException;
 
-    List<Station> findAllStations() throws DAOException;
+    List<Station> findAllStations(int offset) throws DAOException;
+
+    int countRecords() throws DAOException;
 }

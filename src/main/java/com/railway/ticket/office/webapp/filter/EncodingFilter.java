@@ -24,7 +24,7 @@ public class EncodingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest,
                          ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        LOGGER.info("[JspEncodingFilter] Filter started {},  {}",
+        LOGGER.info("[EncodingFilter] Filter started {},  {}",
                 servletRequest.getParameterMap(), servletResponse);
         if (servletRequest.getCharacterEncoding() == null) {
             servletRequest.setCharacterEncoding(encoding);

@@ -105,7 +105,7 @@ public class User implements Serializable {
 
     public enum Role {
         USER(1,"User"),
-        MANAGER(2, "Manager");
+        ADMIN(2, "Admin");
         private final int id;
         private final String roleName;
 
