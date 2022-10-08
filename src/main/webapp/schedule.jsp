@@ -37,74 +37,42 @@
             <a class="nav-link" href="controller?command=routes">Routes</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="controller?command=trains">Trains</a>
+            <a class="nav-link active" aria-current="page" href="controller?command=trains">Trains</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="controller?command=stations">Stations</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="controller?command=users">Users</a>
+            <a class="nav-link" href="controller?command=users">Users</a>
         </li>
     </ul>
     <hr class="bg-secondary border-2 border-top border-secondary">
     <table class="table">
         <thead>
         <tr>
-            <th scope="col">Login</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Phone</th>
-            <th scope="col">Role</th>
+            <th scope="col">Train number</th>
+            <th scope="col">Total Seats</th>
+            <th scope="col">Schedule</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="route" items="${users}">
+        <c:forEach var="route" items="${routes}">
             <tr>
-                <td><c:out value="${route.login}"/>
+                <td><c:out value="${route.number}"/>
                 </td>
-                <td><c:out value="${route.firstName}"/>
+                <td><c:out value="${route.seats}"/>
                 </td>
-                <td><c:out value="${route.lastName}"/>
-                </td>
-                <td><c:out value="${route.phone}"/>
-                </td>
-                <td><c:out value="${route.role}"/>
+                <td>
+                    <c:out value="${route.seats}"/>
                 </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
-    <nav>
-        <ul class="pagination justify-content-center">
-            <c:if test="${param.page-1 >= 1}">
-                <li class="page-item"><a class="page-link"
-                                         href="controller?command=${param.command}&page=${param.page-1}">Previous</a>
-                </li>
-            </c:if>
 
-            <c:forEach var="page" items="${pages}">
-
-                <li class="page-item"><a class="page-link"
-                                         href="controller?command=${param.command}&page=${page}">${page}</a>
-                </li>
-
-            </c:forEach>
-            <c:set var="size" scope="page" value="${requestScope.pages}"/>
-
-            <c:if test="${param.page+1 <= size.size()}">
-                <li class="page-item">
-                    <a class="page-link"
-                       href="controller?command=${param.command}&page=${param.page+1}">Next</a>
-                </li>
-            </c:if>
-        </ul>
-    </nav>
 </div>
 <%@ include file="include/footer.jsp" %>
 <script src="js/bootstrap.min.js"></script>
 </body>
 
 </html>
-
-
-

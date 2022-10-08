@@ -15,5 +15,7 @@ public interface TrainService {
 
     Train findTrainById (int trainId) throws ServiceException;
 
-    List<Train> findAll () throws ServiceException;
+    List<Train> findAll (int offset) throws ServiceException;
+
+    int countRecords() throws ServiceException;
 }

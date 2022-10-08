@@ -37,7 +37,7 @@
             <a class="nav-link" href="controller?command=routes">Routes</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page">Trains</a>
+            <a class="nav-link active" aria-current="page" href="controller?command=trains">Trains</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="controller?command=stations">Stations</a>
@@ -56,13 +56,18 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="station" items="${trains}">
+        <c:forEach var="route" items="${trains}">
             <tr>
-                <td><c:out value="${station.trainNumber}"/>
+                <td><c:out value="${route.number}"/>
                 </td>
-                <td><c:out value="${station.seats}"/>
+                <td><c:out value="${route.seats}"/>
                 </td>
-                <td><c:out value="${station.scheduleId}"/>
+                <td>
+                    <c:forEach items="${route.schedules}" var="schedule" >
+                      <a class="text-primary" class="page-link "
+                           href="controller?command=schedule&scheduleId=${schedule.id}">
+                                <c:out value=" ${schedule.date} "/><br> </a>
+            </c:forEach>
                 </td>
             </tr>
         </c:forEach>
@@ -71,14 +76,16 @@
     <nav>
         <ul class="pagination justify-content-center">
             <c:if test="${param.page-1 >= 1}">
-                <li class="page-item"><a class="page-link"
-                                         href="controller?command=${param.command}&page=${param.page-1}">Previous</a>
+                <li class="page-item">
+                    <a class="page-link"
+                       href="controller?command=${param.command}&page=${param.page-1}">Previous</a>
                 </li>
             </c:if>
 
             <c:forEach var="page" items="${pages}">
 
-                <li class="page-item"><a class="page-link"
+                <li class="page-item">
+                    <a class="page-link"
                                          href="controller?command=${param.command}&page=${page}">${page}</a>
                 </li>
 

@@ -20,5 +20,7 @@ public interface TrainDAO {
 
     List<Train> findTrainBetweenStations(Station startStation, Station endStation) throws DAOException;
 
-    List<Train> findAllTrains() throws DAOException;
+    List<Train> findAllTrains(int offset) throws DAOException;
+    int countRecords() throws DAOException;
+
 }

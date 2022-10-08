@@ -29,7 +29,7 @@ public class TrainTest {
         // scheduleHashMap.put(new Train(101,20));
         assertDoesNotThrow( () ->  train.setNumber(100));
         assertDoesNotThrow( () ->  train.setSeats(18));
-        assertDoesNotThrow(() ->  train.setSchedules(scheduleHashMap));
+
     }
 
     @Test
@@ -38,6 +38,6 @@ public class TrainTest {
         Map<Date, Schedule> scheduleHashMap = null;
         assertThrows( IllegalArgumentException.class,  () ->  train.setNumber(-1));
         assertThrows( IllegalArgumentException.class,() ->  train.setSeats(-5));
-        assertThrows(IllegalArgumentException.class,() ->  train.setSchedules(scheduleHashMap));
+
     }
 }

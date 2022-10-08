@@ -13,7 +13,7 @@ public interface UserService {
 
     void delete(int userId) throws ServiceException;
 
-    List<User> findAll() throws ServiceException;
+    List<User> findAll(int offset) throws ServiceException;
 
     boolean isUserExists(User user) throws ServiceException;
 
@@ -21,7 +21,6 @@ public interface UserService {
 
     User findByLogin(String login) throws ServiceException;
 
-
-
+    int countRecords() throws ServiceException;
 
 }

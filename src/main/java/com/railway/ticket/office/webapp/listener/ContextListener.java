@@ -3,10 +3,10 @@ package com.railway.ticket.office.webapp.listener;
 import com.railway.ticket.office.webapp.command.*;
 import com.railway.ticket.office.webapp.command.route.AllRoutesCommand;
 import com.railway.ticket.office.webapp.command.station.AllStationsCommand;
+import com.railway.ticket.office.webapp.command.train.AllTrainsCommand;
 import com.railway.ticket.office.webapp.command.user.*;
 import com.railway.ticket.office.webapp.db.dao.*;
-import com.railway.ticket.office.webapp.db.dao.connections.ConnectionPoolHolder;
-import com.railway.ticket.office.webapp.db.dao.impl.*;
+import com.railway.ticket.office.webapp.db.dao.factory.DAOFactory;
 import com.railway.ticket.office.webapp.service.*;
 import com.railway.ticket.office.webapp.service.impl.*;
 import org.apache.logging.log4j.LogManager;
@@ -18,7 +18,6 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 @WebListener
@@ -52,26 +51,27 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
     }
 
     private void initServices(ServletContext context) throws SQLException {
-        Connection connection = ConnectionPoolHolder.getConnection();
+      /*  Connection connection = ConnectionPoolHolder.getConnection();
         connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
         LOGGER.info("{} Connection created. {}", CONTEXT_LISTENER_MSG, connection.getMetaData());
+*/      DAOFactory daoFactory =DAOFactory.getInstance();
 
-        UserDAO userDAO = new UserDAOImpl(connection);
+        UserDAO userDAO = daoFactory.getUserDAO();
         LOGGER.info("{} UserDAO created.", CONTEXT_LISTENER_MSG);
 
-        TrainDAO trainDAO = new TrainDAOImpl(connection);
+        TrainDAO trainDAO = daoFactory.getTrainDAO();
         LOGGER.info("{} TrainDAO created.", CONTEXT_LISTENER_MSG);
 
-        StationDAO stationDAO = new StationDAOImpl(connection);
+        StationDAO stationDAO = daoFactory.getStationDAO();
         LOGGER.info("{} StationDAO created.", CONTEXT_LISTENER_MSG);
 
-        ScheduleDAO scheduleDAO = new ScheduleDAOImpl(connection);
+        ScheduleDAO scheduleDAO = daoFactory.getScheduleDAO();
         LOGGER.info("{} ScheduleDAO created.", CONTEXT_LISTENER_MSG);
 
-        RouteDAO routeDAO = new RouteDAOImpl(connection);
+        RouteDAO routeDAO = daoFactory.getRouteDAO();
         LOGGER.info("{} RouteDAO created.", CONTEXT_LISTENER_MSG);
 
-        TicketDAO ticketDAO = new TicketDAOImpl(connection);
+        TicketDAO ticketDAO = daoFactory.getTicketDAO();
         LOGGER.info("{} TicketDAO created.", CONTEXT_LISTENER_MSG);
 
         UserService userService = new UserServiceImpl(userDAO);
@@ -146,6 +146,13 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         commandContainer.addCommand("stations", appCommand);
         LOGGER.info("{} AllStationsCommand created.", CONTEXT_LISTENER_MSG);
 
+        appCommand = new AllUsersCommand(userService);
+        commandContainer.addCommand("users", appCommand);
+        LOGGER.info("{} AllUsersCommand created.", CONTEXT_LISTENER_MSG);
+
+        appCommand = new AllTrainsCommand(trainService);
+        commandContainer.addCommand("trains", appCommand);
+        LOGGER.info("{} AllTrainsCommand created.", CONTEXT_LISTENER_MSG);
 
         context.setAttribute("commandContainer", commandContainer);
 

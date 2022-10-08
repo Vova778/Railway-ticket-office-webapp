@@ -107,7 +107,7 @@ public class UserDAOImpl implements UserDAO {
         preparedStatement.setInt(k,roleId);
     }
 
-
+ /*
     private String getRoleNameById(User user, long roleId) throws SQLException, DAOException {
         String roleName = null;
         try (PreparedStatement preparedStatement = con.prepareStatement(Constants.GET_ROLE_NAME_BY_ID)) {
@@ -129,7 +129,7 @@ public class UserDAOImpl implements UserDAO {
         return roleName;
     }
 
-    private int getRoleIdByName(User user) throws SQLException, DAOException {
+  private int getRoleIdByName(User user) throws SQLException, DAOException {
         int roleId =0;
         try (PreparedStatement preparedStatement = con.prepareStatement(Constants.GET_ROLE_ID_BY_NAME)) {
             preparedStatement.setString(1, user.getRole().getRoleName());
@@ -148,7 +148,7 @@ public class UserDAOImpl implements UserDAO {
             throw new DAOException("[UserDAO] exception while reading Role" + e.getMessage(), e);
         }
         return roleId;
-    }
+    }*/
 
 
 
@@ -208,23 +208,44 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> findAllUsers() throws DAOException {
+    public List<User> findAllUsers(int offset) throws DAOException {
         List<User> users = new ArrayList<>();
 
+        try(PreparedStatement preparedStatement
+                    = con.prepareStatement(Constants.USERS_GET_ALL_USERS)) {
 
-        try(Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery(Constants.USERS_GET_ALL_USERS)
-        ) {
+            preparedStatement.setInt(1, offset);
 
-            while (resultSet.next()){
-                users.add(userMapper.extractFromResultSet(resultSet));
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    users.add(userMapper
+                            .extractFromResultSet(resultSet));
+                }
             }
+            return users;
         }
         catch (SQLException e) {
             LOGGER.error("Users were not found. An exception occurs : {}", e.getMessage());
             throw new DAOException("[UserDAO] exception while reading all users" + e.getMessage(), e);
         }
 
-        return users;
     }
+
+    @Override
+    public int countRecords() {
+        int recordsCount = 0;
+        try (PreparedStatement preparedStatement =
+                     con.prepareStatement(Constants.USERS_GET_COUNT);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            resultSet.next();
+            recordsCount = resultSet.getInt(1);
+            return recordsCount;
+        } catch (SQLException e) {
+            LOGGER.error("[UserDAO] Failed to count users!" +
+                            " An exception occurs :[{}]",
+                    e.getMessage());
+        }
+        return recordsCount;
+    }
+
 }

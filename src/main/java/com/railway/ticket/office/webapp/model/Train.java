@@ -1,13 +1,12 @@
 package com.railway.ticket.office.webapp.model;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Map;
+import java.util.List;
 
 public class Train implements Serializable {
     private int number;
     private int seats;
-    private Map<Date, Schedule> schedules;
+    private List<Schedule> schedules;
 
     public Train(int number, int seats) {
         this.number = number;
@@ -43,11 +42,11 @@ public class Train implements Serializable {
 
 
 
-    public Map<Date, Schedule> getSchedules() {
+    public List<Schedule> getSchedules() {
         return schedules;
     }
 
-    public void setSchedules(Map<Date, Schedule> schedules) {
+    public void setSchedules(List<Schedule> schedules) {
         if (schedules == null) {
         throw new IllegalArgumentException("Schedules can't be null!");
     }

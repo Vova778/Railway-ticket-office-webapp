@@ -1,11 +1,11 @@
 package com.railway.ticket.office.webapp.db.dao.impl;
 
 import com.railway.ticket.office.webapp.db.Constants;
+import com.railway.ticket.office.webapp.db.dao.TrainDAO;
 import com.railway.ticket.office.webapp.db.dao.mapper.impl.TrainMapper;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
 import com.railway.ticket.office.webapp.model.Station;
 import com.railway.ticket.office.webapp.model.Train;
-import com.railway.ticket.office.webapp.db.dao.TrainDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,6 +19,7 @@ public class TrainDAOImpl implements TrainDAO {
 
     private final Connection con;
     private static final Logger LOGGER = LogManager.getLogger(TrainDAOImpl.class);
+    private final TrainMapper trainMapper = new TrainMapper();
 
     public TrainDAOImpl(Connection con) {
         this.con = con;
@@ -104,18 +105,18 @@ public class TrainDAOImpl implements TrainDAO {
 
             try(ResultSet resultSet = preparedStatement.executeQuery();){
                 while (resultSet.next()){
-                    train = Optional.ofNullable(new TrainMapper()
+                    train = Optional.ofNullable(trainMapper
                             .extractFromResultSet(resultSet));
                 }
             }
-
+            return train.orElse(new Train());
         }
         catch (SQLException e) {
             LOGGER.error("Train with ID : [{}] was not found. An exception occurs : {}",
                     trainId, e.getMessage());
             throw new DAOException("[TrainDAO] exception while loading Train" + e.getMessage(), e);
         }
-        return train.get();
+
     }
 
     @Override
@@ -127,7 +128,6 @@ public class TrainDAOImpl implements TrainDAO {
                     = statement.executeQuery(Constants.TRAINS_GET_ALL_TRAINS)
         ) {
 
-            TrainMapper trainMapper = new TrainMapper();
             while (resultSet.next()){
                 trains.add(trainMapper.extractFromResultSet(resultSet));
             }
@@ -141,24 +141,47 @@ public class TrainDAOImpl implements TrainDAO {
     }
 
     @Override
-    public List<Train> findAllTrains() throws DAOException {
+    public List<Train> findAllTrains(int offset) throws DAOException {
         List<Train> trains = new ArrayList<>();
 
 
-        try(Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery(Constants.TRAINS_GET_ALL_TRAINS)
-        ) {
+        try(PreparedStatement preparedStatement
+                    = con.prepareStatement(Constants.TRAINS_GET_ALL_TRAINS)) {
 
-            TrainMapper trainMapper = new TrainMapper();
-            while (resultSet.next()){
-                trains.add(trainMapper.extractFromResultSet(resultSet));
+            preparedStatement.setInt(1, offset);
+
+
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    Train newTrain = trainMapper
+                            .extractFromResultSet(resultSet);
+                    newTrain.setSchedules(
+                            new ScheduleDAOImpl(this.con).findScheduleByTrain(newTrain));
+                    trains.add(newTrain);
+                }
             }
+            return trains;
         }
         catch (SQLException e) {
             LOGGER.error("Trains were not found. An exception occurs : {}", e.getMessage());
             throw new DAOException("[TrainDAO] exception while reading all trains" + e.getMessage(), e);
         }
+    }
 
-        return trains;
+    @Override
+    public int countRecords() {
+        int recordsCount = 0;
+        try (PreparedStatement preparedStatement =
+                     con.prepareStatement(Constants.TRAINS_GET_COUNT);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            resultSet.next();
+            recordsCount = resultSet.getInt(1);
+            return recordsCount;
+        } catch (SQLException e) {
+            LOGGER.error("[TrainDAO] Failed to count trains!" +
+                            " An exception occurs :[{}]",
+                    e.getMessage());
+        }
+        return recordsCount;
     }
 }

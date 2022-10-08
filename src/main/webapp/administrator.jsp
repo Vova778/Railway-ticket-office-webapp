@@ -76,17 +76,17 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="station" items="${route}">
+        <c:forEach var="route" items="${route}">
             <tr>
-                <td><c:out value="${station.trainNumber}"/>
+                <td><c:out value="${route.trainNumber}"/>
                 </td>
-                <td><c:out value="${station.startingStation.name}"/>
+                <td><c:out value="${route.startingStation.name}"/>
                 </td>
-                <td><c:out value="${station.departureTime}"/>
+                <td><c:out value="${route.departureTime}"/>
                 </td>
-                <td><c:out value="${station.finalStation.name}"/>
+                <td><c:out value="${route.finalStation.name}"/>
                 </td>
-                <td><c:out value="${station.arrivalTime}"/>
+                <td><c:out value="${route.arrivalTime}"/>
                 </td>
                 <td><c:out value="${receipt.schedule.id}"/>
                 </td>

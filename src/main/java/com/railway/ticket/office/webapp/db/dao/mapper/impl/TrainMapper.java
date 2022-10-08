@@ -15,7 +15,7 @@ public class TrainMapper implements ObjectMapper<Train> {
         Map<String, Train> trainMapMap = new HashMap<>();
         Train train = new Train();
 
-        train.setNumber(resultSet.getInt(Fields.TRAIN_ID));
+        train.setNumber(resultSet.getInt(Fields.TRAIN_NUMBER));
         train.setSeats(resultSet.getInt(Fields.TRAIN_SEATS));
 
         return train;

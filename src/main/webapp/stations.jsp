@@ -55,11 +55,11 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="station" items="${stations}">
+        <c:forEach var="route" items="${stations}">
             <tr>
-                <td><c:out value="${station.id}"/>
+                <td><c:out value="${route.id}"/>
                 </td>
-                <td><c:out value="${station.name}"/>
+                <td><c:out value="${route.name}"/>
                 </td>
 
             </tr>

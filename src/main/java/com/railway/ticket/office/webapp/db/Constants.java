@@ -1,8 +1,6 @@
 package com.railway.ticket.office.webapp.db;
 
 public class Constants {
-    public static final String URL = "jdbc:mysql://localhost:3306/railway_station_ticket";
-    public static final String FULL_URL = "jdbc:mysql://localhost:3306/railway_station_ticket?user=root&password=Vova778ltym1";
 
     public static final String ROUTES_INSERT_ROUTE = "insert into route values (default,?,?,?,?,?,?,?,?,?,?)";
     public static final String ROUTES_DELETE_ROUTE = "delete from route where id=?";
@@ -55,7 +53,7 @@ public class Constants {
     public static final String TRAINS_UPDATE_TRAIN = "update train set seats=? where number=?";
     public static final String TRAINS_GET_TRAIN_BY_NUMBER = "select * from train where number=?";
   // public static final String TRAINS_GET_TRAIN_BETWEEN_STATIONS="select * from routes where";
-    public static final String TRAINS_GET_ALL_TRAINS = "select * from train";
+    public static final String TRAINS_GET_ALL_TRAINS = "select * from train order by number LIMIT 10 OFFSET ?";
     public static final String TRAINS_GET_COUNT = "SELECT COUNT(*) FROM train";
 
     public static final String USERS_INSERT_USER = "insert into user values (default, ?,?,?,?,?,?)";
@@ -63,7 +61,8 @@ public class Constants {
     public static final String USERS_UPDATE_USER = "update user set login=?, password_id=?, first_name=?, last_name=?, phone=?, role_id=? where id=?";
     public static final String USERS_GET_USER_BY_ID = "select * from user where id=?";
     public static final String USERS_GET_USER_BY_LOGIN = "select * from user where login=?";
-    public static final String USERS_GET_ALL_USERS = "select * from user";
+    public static final String USERS_GET_ALL_USERS = "select * from user order by id LIMIT 10 OFFSET ?";
+    public static final String USERS_GET_COUNT = "SELECT COUNT(*) FROM user";
     public static final String GET_ROLE_NAME_BY_ID = "SELECT name FROM role RIGHT JOIN user ON role.id = user.role_id WHERE user.id = ?";
     public static final String GET_ROLE_ID_BY_NAME = "select id from role where name=?";
 

@@ -33,7 +33,7 @@ public class Fields {
     public static final String TICKET_ARRIVAL_TIME = "arrival_time";
     public static final String TICKET_STATUS_ID ="ticket_status_id";
 
-    public static final String TRAIN_ID = "id";
+    public static final String TRAIN_NUMBER = "number";
     public static final String TRAIN_SEATS = "seats";
 
     public static final String USER_ID = "id";

@@ -24,9 +24,9 @@ public class UserMapper implements ObjectMapper<User> {
     }
 
     private User.Role getById(int id) {
-        for(User.Role r : User.Role.values()) {
+        for(User.Role r : User.Role.values())
             if(r.getId() == (id)) return r;
-        }
+
         return null;
     }
 

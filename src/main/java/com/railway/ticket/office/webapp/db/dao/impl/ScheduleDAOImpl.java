@@ -113,6 +113,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
                             .extractFromResultSet(resultSet));
                 }
             }
+            return schedule.orElse(new Schedule());
 
         }
         catch (SQLException e) {
@@ -120,32 +121,31 @@ public class ScheduleDAOImpl implements ScheduleDAO {
                     scheduleId, e.getMessage());
             throw new DAOException("[ScheduleDAO] exception while loading Schedule by id" + e.getMessage(), e);
         }
-        return schedule.get();
     }
 
     @Override
     public List<Schedule> findScheduleByTrain(Train train) throws DAOException {
         List<Schedule> schedules = new ArrayList<>();
 
-
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.SCHEDULE_GET_SCHEDULE_BY_TRAIN_ID)) {
 
             preparedStatement.setInt(1,train.getNumber());
 
-            try(ResultSet resultSet = preparedStatement.executeQuery()){
+            try(ResultSet resultSet =
+                        preparedStatement.executeQuery()){
                 while (resultSet.next()){
                     schedules.add(scheduleMapper.extractFromResultSet(resultSet));
                 }
             }
-
+            return schedules;
         }
         catch (SQLException e) {
             LOGGER.error("Schedule with train Id : [{}] was not found. An exception occurs : {}",
                     train.getNumber(), e.getMessage());
             throw new DAOException("[ScheduleDAO] exception while loading Schedule by train Id" + e.getMessage(), e);
         }
-        return schedules;
+
     }
 
     @Override

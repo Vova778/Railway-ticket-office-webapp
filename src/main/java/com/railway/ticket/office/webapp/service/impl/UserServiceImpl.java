@@ -95,11 +95,21 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<User> findAll() throws ServiceException {
+    public List<User> findAll(int offset) throws ServiceException {
         try {
-            return userDAO.findAllUsers();
+            return userDAO.findAllUsers(offset);
         } catch (DAOException e) {
             LOGGER.error("[UserService] An exception occurs while receiving Users. Exc: {}", e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+    @Override
+    public int countRecords() throws ServiceException {
+        try {
+            return userDAO.countRecords();
+        } catch (DAOException e) {
+            LOGGER.error("[UserService] An exception occurs while counting users. Exc: {}",
+                    e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }

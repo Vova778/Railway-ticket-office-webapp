@@ -19,5 +19,6 @@ public interface UserDAO {
 
     User findUserByLogin(String login) throws DAOException;
 
-    List<User> findAllUsers() throws DAOException;
+    List<User> findAllUsers(int offset) throws DAOException;
+    int countRecords() throws DAOException;
 }

@@ -114,11 +114,21 @@ public class TrainServiceImpl implements TrainService {
     }
 
     @Override
-    public List<Train> findAll() throws ServiceException {
+    public List<Train> findAll(int offset) throws ServiceException {
         try {
-            return trainDAO.findAllTrains();
+            return trainDAO.findAllTrains(offset);
         } catch (DAOException e) {
             LOGGER.error("[TrainService] An exception occurs while receiving Trains. Exc: {}",
+                    e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+    @Override
+    public int countRecords() throws ServiceException {
+        try {
+            return trainDAO.countRecords();
+        } catch (DAOException e) {
+            LOGGER.error("[TrainService] An exception occurs while counting trains. Exc: {}",
                     e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
