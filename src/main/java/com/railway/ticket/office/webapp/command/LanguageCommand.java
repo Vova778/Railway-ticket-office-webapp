@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class LanguageCommand implements Command  {
-    private static final Logger LOGGER = LogManager.getLogger(LanguageCommand.class);
+    private static final Logger LOGGER =
+            LogManager.getLogger(LanguageCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {

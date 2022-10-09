@@ -58,17 +58,17 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="route" items="${users}">
+        <c:forEach var="station" items="${users}">
             <tr>
-                <td><c:out value="${route.login}"/>
+                <td><c:out value="${station.login}"/>
                 </td>
-                <td><c:out value="${route.firstName}"/>
+                <td><c:out value="${station.firstName}"/>
                 </td>
-                <td><c:out value="${route.lastName}"/>
+                <td><c:out value="${station.lastName}"/>
                 </td>
-                <td><c:out value="${route.phone}"/>
+                <td><c:out value="${station.phone}"/>
                 </td>
-                <td><c:out value="${route.role}"/>
+                <td><c:out value="${station.role}"/>
                 </td>
             </tr>
         </c:forEach>

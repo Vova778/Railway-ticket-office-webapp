@@ -3,9 +3,7 @@ package com.railway.ticket.office.webapp.listener;
 import com.railway.ticket.office.webapp.command.*;
 import com.railway.ticket.office.webapp.command.route.AllRoutesCommand;
 import com.railway.ticket.office.webapp.command.schedule.ScheduleCommand;
-import com.railway.ticket.office.webapp.command.station.AllStationsCommand;
-import com.railway.ticket.office.webapp.command.station.CreateStationCommand;
-import com.railway.ticket.office.webapp.command.station.StationFormCommand;
+import com.railway.ticket.office.webapp.command.station.*;
 import com.railway.ticket.office.webapp.command.train.AllTrainsCommand;
 import com.railway.ticket.office.webapp.command.user.*;
 import com.railway.ticket.office.webapp.db.dao.*;
@@ -165,11 +163,17 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         commandContainer.addCommand("station_form", appCommand);
         LOGGER.info("{} StationFormCommand created.", CONTEXT_LISTENER_MSG);
 
-
         appCommand = new CreateStationCommand(stationService);
         commandContainer.addCommand("create_station", appCommand);
         LOGGER.info("{} CreateStationCommand created.", CONTEXT_LISTENER_MSG);
 
+        appCommand = new EditStationCommand(stationService);
+        commandContainer.addCommand("edit_station", appCommand);
+        LOGGER.info("{} EditStationCommand created.", CONTEXT_LISTENER_MSG);
+
+        appCommand = new EditStationFormCommand(stationService);
+        commandContainer.addCommand("edit_station_form", appCommand);
+        LOGGER.info("{} EditStationFormCommand created.", CONTEXT_LISTENER_MSG);
 
 
         context.setAttribute("commandContainer", commandContainer);

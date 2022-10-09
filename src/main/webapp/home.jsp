@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<fmt:setLocale value="${sessionScope.lang}"/>
+<fmt:setBundle basename="messages"/>
 <html lang="${sessionScope.lang}">
 
 <head>
@@ -23,8 +25,8 @@
                     </li>
                     <li class="nav-item"><a class="nav-link" href="login.jsp"><span style="color: var(--bs-navbar-active-color);">Basket</span><br></a></li>
                     <li class="nav-item"><a class="nav-link" href="registration.jsp" style="color: var(--bs-navbar-active-color);">Register</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="home.jsp">Home</a></li>
-                </ul><a class="btn btn-primary ms-md-2" role="button" href="login.jsp">Sing in</a>
+                    <li class="nav-item"><a class="nav-link active" href="home.jsp"><fmt:message key="text.home"/></a></li>
+                </ul><a class="btn btn-primary ms-md-2" role="button" href="login.jsp"><fmt:message key="text.sign.up"/> </a>
             </div>
         </div>
     </nav>
@@ -32,10 +34,11 @@
     <section class="text-bg-light" style="background: var(--bs-gray-700);padding: 30px;padding-right: 22px;padding-left: 22px;padding-top: 55px;padding-bottom: 55px;">
         <div class="container text-bg-secondary">
             <div class="row">
-                <div class="col"><strong>From</strong><input type="text"><strong>To</strong><input type="text"></div>
+                <div class="col"><strong><fmt:message key="text.from"/></strong><input type="text">
+                    <strong><fmt:message key="text.to"/></strong><input type="text"></div>
             </div>
             <div class="row">
-                <div class="col"><strong>Data of Journey</strong><input type="date"></div>
+                <div class="col"><strong><fmt:message key="text.data.of.journey"/> </strong><input type="date"></div>
             </div>
         </div>
     </section>

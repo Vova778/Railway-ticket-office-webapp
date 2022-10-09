@@ -56,14 +56,14 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="route" items="${trains}">
+        <c:forEach var="station" items="${trains}">
             <tr>
-                <td><c:out value="${route.number}"/>
+                <td><c:out value="${station.number}"/>
                 </td>
-                <td><c:out value="${route.seats}"/>
+                <td><c:out value="${station.seats}"/>
                 </td>
                 <td>
-                    <c:forEach items="${route.schedules}" var="schedule" >
+                    <c:forEach items="${station.schedules}" var="schedule" >
                       <a class="text-primary" class="page-link "
                            href="controller?command=schedule&scheduleId=${schedule.id}">
                                 <c:out value=" ${schedule.date} "/><br> </a>
