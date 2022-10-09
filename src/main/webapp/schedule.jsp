@@ -8,7 +8,7 @@
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Administrator panel</title>
+    <title>Schedule</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 
@@ -32,38 +32,44 @@
 </nav>
 
 <div class="container py-4 py-xl-5">
-    <ul class="nav nav-pills nav-justified">
-        <li class="nav-item">
-            <a class="nav-link" href="controller?command=routes">Routes</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="controller?command=trains">Trains</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="controller?command=stations">Stations</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="controller?command=users">Users</a>
-        </li>
-    </ul>
+    <div class="col-md-8 col-xl-6 text-center mx-auto" style="margin-top: 50px" >
+        <h2><fmt:message key="text.schedule"/></h2>
+    </div>
     <hr class="bg-secondary border-2 border-top border-secondary">
     <table class="table">
         <thead>
         <tr>
-            <th scope="col">Train number</th>
-            <th scope="col">Total Seats</th>
-            <th scope="col">Schedule</th>
+            <th scope="col"><fmt:message key="text.train.number"/></th>
+            <th scope="col"><fmt:message key="text.stoppage.number"/> </th>
+            <th scope="col"><fmt:message key="text.starting.station"/></th>
+            <th scope="col"><fmt:message key="text.departure.time"/></th>
+            <th scope="col"><fmt:message key="text.final.station"/></th>
+            <th scope="col"><fmt:message key="text.arrival.time"/></th>
+            <th scope="col"><fmt:message key="text.available.seats"/></th>
+            <th scope="col"><fmt:message key="text.day"/></th>
+            <th scope="col"><fmt:message key="text.price"/></th>
         </tr>
         </thead>
         <tbody>
         <c:forEach var="route" items="${routes}">
             <tr>
-                <td><c:out value="${route.number}"/>
+                <td><c:out value="${route.trainNumber}"/>
                 </td>
-                <td><c:out value="${route.seats}"/>
+                <td><c:out value="${route.stoppageNumber}"/>
                 </td>
-                <td>
-                    <c:out value="${route.seats}"/>
+                <td><c:out value="${route.startingStation.name}"/>
+                </td>
+                <td><c:out value="${route.departureTime}"/>
+                </td>
+                <td><c:out value="${route.finalStation.name}"/>
+                </td>
+                <td><c:out value="${route.arrivalTime}"/>
+                </td>
+                <td><c:out value="${route.availableSeats}"/>
+                </td>
+                <td><c:out value="${route.day}"/>
+                </td>
+                <td><c:out value="${route.price}"/>
                 </td>
             </tr>
         </c:forEach>

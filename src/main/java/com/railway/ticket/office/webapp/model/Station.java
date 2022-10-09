@@ -12,7 +12,9 @@ public class Station implements Serializable {
         this.name = name;
     }
 
-
+    public Station(String name) {
+        this.name = name;
+    }
 
     public Station() {
 

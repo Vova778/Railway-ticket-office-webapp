@@ -38,7 +38,7 @@ public class StationServiceImpl implements StationService {
             throw new IllegalArgumentException(NULL_STATION_INPUT_EXC);
         }
         try {
-            checkAndSave(station);
+            stationDAO.insertStation(station);
         } catch (SQLException e) {
             LOGGER.error("[StationService] SQLException while saving Station (id: {}). Exc: {}"
                     , station.getId(), e.getMessage());
