@@ -103,7 +103,7 @@ public class TrainDAOImpl implements TrainDAO {
 
             preparedStatement.setInt(1,trainId);
 
-            try(ResultSet resultSet = preparedStatement.executeQuery();){
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()){
                     train = Optional.ofNullable(trainMapper
                             .extractFromResultSet(resultSet));

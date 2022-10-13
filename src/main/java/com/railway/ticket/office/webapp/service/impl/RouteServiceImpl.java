@@ -38,7 +38,7 @@ public class RouteServiceImpl implements RouteService {
             throw new IllegalArgumentException(NULL_ROUTE_INPUT_EXC);
         }
         try {
-            checkAndSave(route);
+            routeDAO.insertRoute(route);
         } catch (SQLException e) {
             LOGGER.error("[RouteService] SQLException while saving Route (id: {}). Exc: {}"
                     , route.getId(), e.getMessage());

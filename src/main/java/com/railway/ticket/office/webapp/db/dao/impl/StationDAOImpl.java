@@ -132,14 +132,14 @@ public class StationDAOImpl implements StationDAO {
                             .extractFromResultSet(resultSet));
                 }
             }
-
+            return station.orElse(new Station());
         }
         catch (SQLException e) {
             LOGGER.error("Station with name : [{}] was not found. An exception occurs : {}",
                     stationName, e.getMessage());
             throw new DAOException("[StationDAO] exception while loading Station by name" + e.getMessage(), e);
         }
-        return station.get();
+
     }
 
     @Override
@@ -147,11 +147,33 @@ public class StationDAOImpl implements StationDAO {
         List<Station> stations = new ArrayList<>();
 
         try(PreparedStatement preparedStatement
-                    = con.prepareStatement(Constants.STATIONS_GET_ALL_STATIONS)) {
+                    = con.prepareStatement(Constants.STATIONS_GET_ALL_STATIONS_WITH_OFFSET)) {
 
             preparedStatement.setInt(1, offset);
 
             try(ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    stations.add(stationMapper
+                            .extractFromResultSet(resultSet));
+                }
+            }
+            return stations;
+        }
+        catch (SQLException e) {
+            LOGGER.error("Stations were not found. An exception occurs : {}", e.getMessage());
+            throw new DAOException("[StationDAO] exception while reading all stations" + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<Station> findAllStations() throws DAOException {
+        List<Station> stations = new ArrayList<>();
+
+        try(Statement statement
+                    = con.createStatement()) {
+
+            try(ResultSet resultSet =
+                        statement.executeQuery(Constants.STATIONS_GET_ALL_STATIONS)){
                 while (resultSet.next()){
                     stations.add(stationMapper
                             .extractFromResultSet(resultSet));

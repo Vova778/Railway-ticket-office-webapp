@@ -9,9 +9,11 @@ public class Constants {
             " from route\n" +
             "right join station starting_station on starting_station_id=starting_station.id right join station final_station\n" +
             "on final_station_id=final_station.id where id=?";
-    public static final String ROUTES_GET_ROUTE_BY_SCHEDULE_ID = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name\n" +
-            " from route right join station starting_station on starting_station_id=starting_station.id right join station final_station\n" +
-            "on final_station_id=final_station.id where schedule_id=?";
+    public static final String ROUTES_GET_ROUTE_BY_SCHEDULE_ID = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name, train.seats total_seats from route\n" +
+            " right join station starting_station on starting_station_id=starting_station.id\n" +
+            " right join station final_station on final_station_id=final_station.id\n" +
+            " right join train on train_id=train.number \n" +
+            " where schedule_id=? order by stoppage_number;";
     public static final String ROUTES_GET_ALL_ROUTES = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name\n" +
             " from route right join station starting_station\n" +
             "on starting_station_id=starting_station.id right join station final_station on  final_station_id=final_station.id";
@@ -25,8 +27,9 @@ public class Constants {
     public static final String STATIONS_UPDATE_STATION = "update station set name=? where id=?";
     public static final String STATIONS_GET_STATION_BY_ID = "select * from station where id=?";
     public static final String STATIONS_GET_STATION_BY_NAME = "select * from station where name=?";
-    public static final String STATIONS_GET_ALL_STATIONS = "select * from station order by id LIMIT 10 OFFSET ?";
+    public static final String STATIONS_GET_ALL_STATIONS_WITH_OFFSET = "select * from station order by id LIMIT 10 OFFSET ?";
     public static final String STATIONS_GET_COUNT = "SELECT COUNT(*) FROM station";
+    public static final String STATIONS_GET_ALL_STATIONS = "select * from station order by name";
 
 
 

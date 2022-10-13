@@ -106,7 +106,7 @@ public class RouteDAOImpl implements RouteDAO {
         preparedStatement.setInt(k++,route.getAvailableSeats());
         preparedStatement.setInt(k++,route.getDay());
         preparedStatement.setInt(k++,route.getScheduleId());
-        preparedStatement.setInt(k++,route.getTrainNumber());
+        preparedStatement.setInt(k++,route.getTrain().getNumber());
         preparedStatement.setDouble(k,route.getPrice());
     }
 

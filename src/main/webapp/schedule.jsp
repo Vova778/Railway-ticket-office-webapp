@@ -36,6 +36,13 @@
         <h2><fmt:message key="text.schedule"/></h2>
     </div>
     <hr class="bg-secondary border-2 border-top border-secondary">
+    <div class="container justify-content-center">
+        <a href="controller?command=route_form&scheduleId=${param.scheduleId}" style="text-decoration:none;">
+            <button type="button" class="btn btn-outline-secondary">
+                <fmt:message key="text.add.route"/></button>
+        </a>
+    </div>
+    <hr class="bg-secondary border-2 border-top border-secondary">
     <table class="table">
         <thead>
         <tr>
@@ -53,7 +60,7 @@
         <tbody>
         <c:forEach var="station" items="${routes}">
             <tr>
-                <td><c:out value="${station.trainNumber}"/>
+                <td><c:out value="${station.train.number}"/>
                 </td>
                 <td><c:out value="${station.stoppageNumber}"/>
                 </td>

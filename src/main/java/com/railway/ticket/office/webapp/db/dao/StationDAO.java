@@ -21,5 +21,7 @@ public interface StationDAO {
 
     List<Station> findAllStations(int offset) throws DAOException;
 
+    List<Station> findAllStations() throws DAOException;
+
     int countRecords() throws DAOException;
 }

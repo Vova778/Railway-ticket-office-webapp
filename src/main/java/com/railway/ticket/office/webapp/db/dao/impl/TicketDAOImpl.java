@@ -116,7 +116,7 @@ public class TicketDAOImpl implements TicketDAO {
 
             preparedStatement.setInt(1,ticketId);
 
-            try(ResultSet resultSet = preparedStatement.executeQuery();){
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()){
                     ticket = Optional.ofNullable(ticketMapper
                             .extractFromResultSet(resultSet));

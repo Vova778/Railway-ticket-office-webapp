@@ -10,11 +10,11 @@ public class Fields {
     public static final String ROUTE_AVAILABLE_SEATS = "available_seats";
     public static final String ROUTE_DAY = "day";
     public static final String ROUTE_SCHEDULE_ID = "schedule_id";
-   // public static final String ROUTE_SCHEDULE_DATE = "schedule_date";
     public static final String ROUTE_TRAIN_ID = "train_id";
     public static final String ROUTE_PRICE = "price";
     public static final String ROUTE_STARTING_STATION_NAME = "starting_station_name";
     public static final String ROUTE_FINAL_STATION_NAME = "final_station_name";
+    public static final String ROUTE_TOTAL_SEATS = "total_seats";
 
     public static final String SCHEDULE_ID="id";
     public static final String SCHEDULE_DATE="date";
@@ -43,5 +43,6 @@ public class Fields {
     public static final String USER_LAST_NAME = "last_name";
     public static final String USER_PHONE = "phone";
     public static final String USER_ROLE_ID = "role_id";
+
 
 }

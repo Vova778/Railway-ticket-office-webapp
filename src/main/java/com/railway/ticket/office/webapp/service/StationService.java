@@ -17,7 +17,9 @@ public interface StationService {
 
     Station findStationByName (String stationName) throws ServiceException;
 
-    List<Station> findAll (int offset) throws ServiceException;
+    List<Station> findAll() throws ServiceException;
+
+    List<Station> findAll(int offset) throws ServiceException;
 
     int countRecords() throws ServiceException;
 }
