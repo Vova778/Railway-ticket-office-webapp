@@ -16,10 +16,6 @@ public class Route implements Serializable {
     private int day;
     private double price;
 
-
-
-
-
     public static Builder newBuilder() {
         return new Route().new Builder();
     }
@@ -75,9 +71,82 @@ public class Route implements Serializable {
         return day;
     }
 
-
     public double getPrice() {
         return price;
+    }
+
+    public void setPrice(double price) {
+        if(price<=0){
+            throw new IllegalArgumentException("Price cannot be < 0");
+        }
+        this.price = price;
+    }
+
+    public void setScheduleId(int scheduleId) {
+        if(scheduleId<0){
+            throw new IllegalArgumentException("Schedule id cannot be < 0");
+        }
+        this.scheduleId = scheduleId;
+    }
+
+    public void setAvailableSeats(int availableSeats) {
+        if (availableSeats < 0) {
+            throw new IllegalArgumentException("Available seats cannot be < 0");
+        }
+        this.availableSeats = availableSeats;
+    }
+
+
+    public void setDay(int day) {
+        if(day<=0){
+            throw new IllegalArgumentException("Day cannot be < 0");
+        }
+        this.day = day;
+    }
+
+    public void setStoppageNumber(int stoppageNumber) {
+        if (stoppageNumber <= 0) {
+            throw new IllegalArgumentException("Stoppage number cannot be <= 0");
+        }
+        this.stoppageNumber = stoppageNumber;
+    }
+
+    public void setTrain(Train train) {
+        if(train ==null){
+            throw new IllegalArgumentException("Train cannot be null");
+        }
+        this.train = train;
+    }
+
+    public void setFinalStation(Station finalStation) {
+        if (finalStation == null) {
+            throw new IllegalArgumentException("Final station id cannot be < 0");
+        }
+        if (finalStation.getName().equals(startingStation.getName())) {
+            throw new IllegalArgumentException("Final station cannot be the same as the starting station");
+        }
+        this.finalStation = finalStation;
+    }
+
+    public void setArrivalTime(Time arrivalTime) {
+        if (arrivalTime == null) {
+            throw new IllegalArgumentException("Arrival time cannot be null");
+        }
+        this.arrivalTime = arrivalTime;
+    }
+
+    public void setStartingStation(Station startingStation) {
+        if (startingStation== null) {
+            throw new IllegalArgumentException("Starting station cannot be null");
+        }
+        this.startingStation = startingStation;
+    }
+
+    public void setDepartureTime(Time departureTime) {
+        if (departureTime == null) {
+            throw new IllegalArgumentException("Departure time cannot be null");
+        }
+        this.departureTime = departureTime;
     }
 
 

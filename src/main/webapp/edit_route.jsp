@@ -37,7 +37,7 @@
 </nav>
 <div class="container">
     <div class="col-md-8 col-xl-6 text-center mx-auto">
-        <h2><fmt:message key="text.add.route"/></h2>
+        <h2><fmt:message key="text.edit.route"/></h2>
     </div>
     <div class="row">
         <div class="col">
@@ -50,7 +50,8 @@
                                     <form class="text-center" action="controller" method="post">
 
 
-                                        <input hidden name="command" value="add_route"/>
+                                        <input hidden name="command" value="edit_route"/>
+                                        <input type="hidden" name="routeId" value="${route.id}">
                                         <input hidden name="scheduleId" value="${param.scheduleId}"/>
 
 
@@ -79,7 +80,7 @@
 
                                         <div class="mb-3">
                                             <button class="btn btn-success d-block w-100" type="submit"
-                                                    value=""><fmt:message key="text.add.route"/>
+                                                    value=""><fmt:message key="text.edit.route"/>
                                             </button>
                                         </div>
                                     </form>

@@ -93,7 +93,7 @@ public class StationDAOImpl implements StationDAO {
     }
 
     @Override
-    public Station findStationById(int stationId) throws DAOException {
+    public Optional<Station> findStationById(int stationId) throws DAOException {
         Optional<Station> station = Optional.empty();
 
         try(PreparedStatement preparedStatement
@@ -114,12 +114,12 @@ public class StationDAOImpl implements StationDAO {
                     stationId, e.getMessage());
             throw new DAOException("[StationDAO] exception while loading Station by ID" + e.getMessage(), e);
         }
-        return station.get();
+        return station;
     }
 
     @Override
-    public Station findStationByName(String stationName) throws DAOException {
-        Optional<Station> station = Optional.empty();
+    public Optional<Station> findStationByName(String stationName) throws DAOException {
+        Optional<Station>  station = Optional.empty();
 
         try(PreparedStatement preparedStatement
                     = con.prepareStatement(Constants.STATIONS_GET_STATION_BY_NAME)) {
@@ -132,7 +132,7 @@ public class StationDAOImpl implements StationDAO {
                             .extractFromResultSet(resultSet));
                 }
             }
-            return station.orElse(new Station());
+            return station;
         }
         catch (SQLException e) {
             LOGGER.error("Station with name : [{}] was not found. An exception occurs : {}",

@@ -114,7 +114,8 @@ public class RouteDAOImpl implements RouteDAO {
     public Route findRouteById(int routeId) throws DAOException {
         Optional<Route> route = Optional.empty();
 
-        try(PreparedStatement preparedStatement = con.prepareStatement(Constants.ROUTES_GET_ROUTE_BY_ID)) {
+        try(PreparedStatement preparedStatement
+                    = con.prepareStatement(Constants.ROUTES_GET_ROUTE_BY_ID)) {
 
             preparedStatement.setInt(1,routeId);
 

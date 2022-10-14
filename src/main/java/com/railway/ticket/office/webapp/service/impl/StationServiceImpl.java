@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 public class StationServiceImpl implements StationService {
     private static final Logger LOGGER = LogManager.getLogger(StationServiceImpl.class);
@@ -46,7 +47,7 @@ public class StationServiceImpl implements StationService {
 
     public boolean isStationExists(String stationName) throws ServiceException {
         try {
-            if (stationDAO.findStationByName(stationName).getId() != 0) {
+            if (stationDAO.findStationByName(stationName).isPresent()) {
                 LOGGER.info("[StationService] Station with name [{}] was successfully found"
                         , stationName);
                 return true;
@@ -90,7 +91,7 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public Station findStationById(int stationId) throws ServiceException {
+    public Optional<Station> findStationById(int stationId) throws ServiceException {
         if (stationId < 1) {
             LOGGER.error(NULL_STATION_INPUT_EXC);
             throw new IllegalArgumentException(NULL_STATION_INPUT_EXC);
@@ -129,7 +130,7 @@ public class StationServiceImpl implements StationService {
 
 
     @Override
-    public Station findStationByName(String stationName) throws ServiceException {
+    public Optional<Station> findStationByName(String stationName) throws ServiceException {
         if (stationName == null || stationName.equals("")) {
             LOGGER.error(NULL_STATION_INPUT_EXC);
             throw new IllegalArgumentException(NULL_STATION_INPUT_EXC);

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Time;
 import java.util.List;
+import java.util.Optional;
 
 public class AddRouteCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(AddRouteCommand.class);
@@ -35,7 +36,7 @@ public class AddRouteCommand implements Command {
         int scheduleId;
         Route route;
         String destinationStationName = "";
-        Station destinationStation;
+        Optional<Station> destinationStation;
         try {
             destinationStationName = req.getParameter("destinationPoint");
             destinationStation = stationService.findStationByName(destinationStationName);
@@ -62,7 +63,7 @@ public class AddRouteCommand implements Command {
             route = Route.newBuilder()
                     .setStoppageNumber(stoppageNumber)
                     .setStartingStation(previousRoute.getFinalStation())
-                    .setFinalStation(destinationStation)
+                    .setFinalStation(destinationStation.get())
                     .setArrivalTime(arrivalTime)
                     .setDepartureTime(departureTime)
                     .setAvailableSeats(previousRoute.getTrain().getSeats())

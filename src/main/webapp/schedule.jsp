@@ -58,25 +58,36 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="station" items="${routes}">
+        <c:forEach var="route" items="${routes}">
             <tr>
-                <td><c:out value="${station.train.number}"/>
+                <td><c:out value="${route.train.number}"/>
                 </td>
-                <td><c:out value="${station.stoppageNumber}"/>
+                <td><c:out value="${route.stoppageNumber}"/>
                 </td>
-                <td><c:out value="${station.startingStation.name}"/>
+                <td><c:out value="${route.startingStation.name}"/>
                 </td>
-                <td><c:out value="${station.departureTime}"/>
+                <td><c:out value="${route.departureTime}"/>
                 </td>
-                <td><c:out value="${station.finalStation.name}"/>
+                <td><c:out value="${route.finalStation.name}"/>
                 </td>
-                <td><c:out value="${station.arrivalTime}"/>
+                <td><c:out value="${route.arrivalTime}"/>
                 </td>
-                <td><c:out value="${station.availableSeats}"/>
+                <td><c:out value="${route.availableSeats}"/>
                 </td>
-                <td><c:out value="${station.day}"/>
+                <td><c:out value="${route.day}"/>
                 </td>
-                <td><c:out value="${station.price}"/>
+                <td><c:out value="${route.price}"/>
+                </td>
+                <td>
+                    <button type="button"
+                            class="btn btn-outline-warning"
+                            onclick="window.location='controller?command=edit_route_form&routeId=${route.id}&scheduleId=${param.scheduleId}'">
+                        Edit</button>
+                </td>
+                <td>
+                    <button type="button"
+                            class="btn btn-outline-danger" onclick="window.location='controller?command=remove_route&routeId=${route.id}&scheduleId=${param.scheduleId}'">
+                        Remove</button>
                 </td>
             </tr>
         </c:forEach>

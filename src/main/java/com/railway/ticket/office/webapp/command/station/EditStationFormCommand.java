@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 public class EditStationFormCommand implements Command {
     private static final Logger LOGGER
@@ -25,7 +26,7 @@ public class EditStationFormCommand implements Command {
     public String execute(HttpServletRequest req,
                           HttpServletResponse resp)
             throws CommandException, FatalApplicationException {
-        Station station = null;
+        Optional<Station> station = null;
         int id = Integer.parseInt(req.getParameter("stationId"));
         try {
             station = stationService.findStationById(id);
@@ -33,7 +34,7 @@ public class EditStationFormCommand implements Command {
             LOGGER.error("[EditStationFormCommand] Can't receive station by id:[{}]", id);
             throw new CommandException(e.getMessage(), e);
         }
-        req.setAttribute("station", station);
+        req.setAttribute("station", station.get());
         return "edit_station.jsp";
     }
 }

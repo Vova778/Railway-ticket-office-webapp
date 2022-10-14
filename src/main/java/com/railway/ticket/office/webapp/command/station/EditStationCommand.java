@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 public class EditStationCommand implements Command {
     private static final Logger LOGGER =
@@ -27,15 +28,16 @@ public class EditStationCommand implements Command {
             throws CommandException, FatalApplicationException {
         String name = req.getParameter("name");
         try {
-            Station updated = stationService
+            Optional<Station> updated = stationService
                     .findStationById(
                             Integer.parseInt(req.getParameter("stationId")));
 
             if (name != null && !name.isEmpty()) {
-                updated.setName(name);
+                updated.ifPresent(station -> station.setName(name));
             }
-
-            stationService.update(updated.getId(), updated);
+            if(updated.isPresent()){
+                stationService.update(updated.get().getId(), updated.get());
+            }
             return "controller?command=stations";
         } catch (ServiceException e) {
             LOGGER.error("[EditStationCommand] Can't update station");

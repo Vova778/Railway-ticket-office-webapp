@@ -5,6 +5,7 @@ import com.railway.ticket.office.webapp.model.Station;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Optional;
 
 public interface StationDAO {
     Connection getConnection();
@@ -15,9 +16,9 @@ public interface StationDAO {
 
     void updateStation(int stationId, Station station) throws DAOException;
 
-    Station findStationById(int stationId) throws DAOException;
+    Optional<Station> findStationById(int stationId) throws DAOException;
 
-    Station findStationByName(String stationName) throws DAOException;
+    Optional<Station> findStationByName(String stationName) throws DAOException;
 
     List<Station> findAllStations(int offset) throws DAOException;
 

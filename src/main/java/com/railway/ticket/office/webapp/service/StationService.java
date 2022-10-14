@@ -5,6 +5,7 @@ import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Station;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface StationService {
     void insert (Station station) throws ServiceException, FatalApplicationException;
@@ -13,9 +14,9 @@ public interface StationService {
 
     void update (int stationId, Station station) throws ServiceException;
 
-    Station findStationById (int stationId) throws ServiceException;
+    Optional<Station> findStationById (int stationId) throws ServiceException;
 
-    Station findStationByName (String stationName) throws ServiceException;
+    Optional<Station> findStationByName (String stationName) throws ServiceException;
 
     List<Station> findAll() throws ServiceException;
 

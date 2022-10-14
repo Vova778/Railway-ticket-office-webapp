@@ -4,11 +4,10 @@ public class Constants {
 
     public static final String ROUTES_INSERT_ROUTE = "insert into route values (default,?,?,?,?,?,?,?,?,?,?)";
     public static final String ROUTES_DELETE_ROUTE = "delete from route where id=?";
-    public static final String ROUTES_UPDATE_ROUTE = "update route set stoppage_number=?, starting_station_id=?, final_station_id=?, departure_time=?, arrival_time=?, available_seats=?, day=?, schedule_id=? train_id=? where id=?";
-    public static final String ROUTES_GET_ROUTE_BY_ID = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name\n" +
-            " from route\n" +
-            "right join station starting_station on starting_station_id=starting_station.id right join station final_station\n" +
-            "on final_station_id=final_station.id where id=?";
+    public static final String ROUTES_UPDATE_ROUTE = "update route set stoppage_number=?, starting_station_id=?, final_station_id=?, departure_time=?, arrival_time=?, available_seats=?, day=?, schedule_id=?, train_id=?, price=? where id=?";
+    public static final String ROUTES_GET_ROUTE_BY_ID = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name, train.seats total_seats " +
+            " from route right join station starting_station on starting_station_id=starting_station.id right join station final_station " +
+            "on final_station_id=final_station.id right join train on train_id=train.number where route.id=?";
     public static final String ROUTES_GET_ROUTE_BY_SCHEDULE_ID = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name, train.seats total_seats from route\n" +
             " right join station starting_station on starting_station_id=starting_station.id\n" +
             " right join station final_station on final_station_id=final_station.id\n" +

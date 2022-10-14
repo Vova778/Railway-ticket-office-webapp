@@ -69,15 +69,22 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="station" items="${stations}">
+        <c:forEach var="route" items="${stations}">
             <tr>
-                <td><c:out value="${station.id}"/>
+                <td><c:out value="${route.id}"/>
                 </td>
-                <td><c:out value="${station.name}"/>
+                <td><c:out value="${route.name}"/>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-outline-warning" onclick="window.location='controller?command=edit_station_form&stationId=${station.id}'">
+                    <button type="button"
+                            class="btn btn-outline-warning"
+                            onclick="window.location='controller?command=edit_station_form&stationId=${route.id}'">
                         Edit</button>
+                </td>
+                <td>
+                    <button type="button"
+                            class="btn btn-outline-danger" onclick="window.location='controller?command=remove_station&stationId=${route.id}'">
+                        Remove</button>
                 </td>
 
             </tr>
