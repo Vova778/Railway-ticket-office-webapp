@@ -32,15 +32,26 @@
     </nav>
     <hr style="color: var(--bs-blue);height: 3px;background: var(--bs-blue);margin-top: 0px;">
     <section class="text-bg-light" style="background: var(--bs-gray-700);padding: 30px;padding-right: 22px;padding-left: 22px;padding-top: 55px;padding-bottom: 55px;">
-        <div class="container text-bg-secondary">
+        <form class="text-center" action="controller" method="get">
+            <input hidden name="command" value="find_routes_between_stations"/>
             <div class="row">
-                <div class="col"><strong><fmt:message key="text.from"/></strong><input type="text">
-                    <strong><fmt:message key="text.to"/></strong><input type="text"></div>
+                <input type="text" name="startingStation">
             </div>
             <div class="row">
-                <div class="col"><strong><fmt:message key="text.data.of.journey"/> </strong><input type="date"></div>
+                <input type="text" name="finalStation">
             </div>
-        </div>
+            <div class="row">
+                    <input type="date" name="date">
+            </div>
+
+            <div class="mb-1">
+                <button class="btn btn-success d-block w-100 " type="submit"
+                        value=""><fmt:message key="text.search"/>
+                </button>
+            </div>
+
+
+        </form>
     </section>
     <%@ include file="include/footer.jsp" %>
     <script src="js/bootstrap.min.js"></script>

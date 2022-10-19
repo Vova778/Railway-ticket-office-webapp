@@ -5,8 +5,10 @@ import com.railway.ticket.office.webapp.exceptions.CommandException;
 import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Route;
+import com.railway.ticket.office.webapp.model.Schedule;
 import com.railway.ticket.office.webapp.model.Station;
 import com.railway.ticket.office.webapp.service.RouteService;
+import com.railway.ticket.office.webapp.service.ScheduleService;
 import com.railway.ticket.office.webapp.service.StationService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,11 +24,13 @@ public class AddRouteCommand implements Command {
     private static final String ADD_ROUTE_COMMAND = "[AddRouteCommand]";
 
     private final StationService stationService;
+    private final ScheduleService scheduleService;
     private final RouteService routeService;
 
-    public AddRouteCommand(RouteService routeService, StationService stationService) {
+    public AddRouteCommand(RouteService routeService, StationService stationService, ScheduleService scheduleService) {
         this.routeService = routeService;
         this.stationService = stationService;
+        this.scheduleService = scheduleService;
     }
 
     @Override
@@ -48,8 +52,11 @@ public class AddRouteCommand implements Command {
         }
 
         try {
-
             scheduleId = Integer.parseInt(req.getParameter("scheduleId"));
+
+            Schedule schedule = scheduleService
+                    .findScheduleById(scheduleId);
+
             Time arrivalTime = Time.valueOf(req.getParameter("arrivalTime") + ":00");
             Time departureTime = Time.valueOf(req.getParameter("departureTime") + ":00");
 
@@ -70,7 +77,7 @@ public class AddRouteCommand implements Command {
                     .setDay(day)
                     .setPrice(Double.parseDouble(req.getParameter("price")))
                     .setTrain(previousRoute.getTrain())
-                    .setScheduleId(scheduleId)
+                    .setSchedule(schedule)
                     .build();
 
             LOGGER.info("{} Route from view : {};", ADD_ROUTE_COMMAND, route);

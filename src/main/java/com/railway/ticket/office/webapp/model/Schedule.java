@@ -16,6 +16,11 @@ public class Schedule implements Serializable {
         this.trainId = trainId;
     }
 
+    public Schedule(int id, Date date) {
+        this.id = id;
+        this.date = date;
+    }
+
     public Schedule() {
 
     }

@@ -8,10 +8,11 @@ public class Route implements Serializable {
     private int stoppageNumber;
     private Station startingStation;
     private Station finalStation;
-    private int scheduleId;
+    private Schedule schedule;
     private Train train;
     private Time departureTime;
     private Time arrivalTime;
+    private Time travelTime;
     private int availableSeats;
     private int day;
     private double price;
@@ -31,16 +32,13 @@ public class Route implements Serializable {
     }
 
     public void setId(int id) {
-        if(scheduleId<0){
-            throw new IllegalArgumentException("Schedule id cannot be < 0");
+        if(id <0){
+            throw new IllegalArgumentException("Id cannot be < 0");
         }
         this.id = id;
     }
 
 
-    public int getScheduleId() {
-        return scheduleId;
-    }
 
     public Station getStartingStation() {
         return startingStation;
@@ -82,11 +80,11 @@ public class Route implements Serializable {
         this.price = price;
     }
 
-    public void setScheduleId(int scheduleId) {
-        if(scheduleId<0){
-            throw new IllegalArgumentException("Schedule id cannot be < 0");
+    public void setSchedule(Schedule schedule) {
+        if(schedule ==null){
+            throw new IllegalArgumentException("Schedule id cannot be null");
         }
-        this.scheduleId = scheduleId;
+        this.schedule = schedule;
     }
 
     public void setAvailableSeats(int availableSeats) {
@@ -149,6 +147,16 @@ public class Route implements Serializable {
         this.departureTime = departureTime;
     }
 
+    public Time getTravelTime() {
+        return travelTime;
+    }
+
+    public void setTravelTime(Time travelTime) {
+        if (travelTime == null) {
+            throw new IllegalArgumentException("Travel time cannot be null");
+        }
+        this.travelTime = travelTime;
+    }
 
     @Override
     public String toString() {
@@ -171,14 +179,14 @@ public class Route implements Serializable {
 
         if (id != route.id) return false;
         if (stoppageNumber != route.stoppageNumber) return false;
-        if (scheduleId != route.scheduleId) return false;
-        if (train != route.train) return false;
         if (availableSeats != route.availableSeats) return false;
         if (day != route.day) return false;
         if (Double.compare(route.price, price) != 0) return false;
         if (startingStation != null ? !startingStation.equals(route.startingStation) : route.startingStation != null)
             return false;
         if (finalStation != null ? !finalStation.equals(route.finalStation) : route.finalStation != null) return false;
+        if (schedule != null ? !schedule.equals(route.schedule) : route.schedule != null) return false;
+        if (train != null ? !train.equals(route.train) : route.train != null) return false;
         if (departureTime != null ? !departureTime.equals(route.departureTime) : route.departureTime != null)
             return false;
         return arrivalTime != null ? arrivalTime.equals(route.arrivalTime) : route.arrivalTime == null;
@@ -192,8 +200,8 @@ public class Route implements Serializable {
         result = 31 * result + stoppageNumber;
         result = 31 * result + (startingStation != null ? startingStation.hashCode() : 0);
         result = 31 * result + (finalStation != null ? finalStation.hashCode() : 0);
-        result = 31 * result + scheduleId;
-
+        result = 31 * result + (schedule != null ? schedule.hashCode() : 0);
+        result = 31 * result + (train != null ? train.hashCode() : 0);
         result = 31 * result + (departureTime != null ? departureTime.hashCode() : 0);
         result = 31 * result + (arrivalTime != null ? arrivalTime.hashCode() : 0);
         result = 31 * result + availableSeats;
@@ -205,6 +213,10 @@ public class Route implements Serializable {
 
     public Train getTrain() {
         return train;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
     }
 
     public class Builder {
@@ -221,11 +233,11 @@ public class Route implements Serializable {
 
 
 
-        public Builder setScheduleId(int scheduleId) {
-            if(scheduleId<0){
-                throw new IllegalArgumentException("Schedule id cannot be < 0");
+        public Builder setSchedule(Schedule schedule) {
+            if(schedule==null){
+                throw new IllegalArgumentException("Schedule cannot be null");
             }
-            Route.this.scheduleId = scheduleId;
+            Route.this.schedule = schedule;
             return this;
         }
 

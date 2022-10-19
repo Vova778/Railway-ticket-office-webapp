@@ -5,6 +5,8 @@ import com.railway.ticket.office.webapp.exceptions.DAOException;
 import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Route;
+import com.railway.ticket.office.webapp.model.Schedule;
+import com.railway.ticket.office.webapp.model.Station;
 import com.railway.ticket.office.webapp.service.RouteService;
 import com.railway.ticket.office.webapp.utils.db.DBUtils;
 import org.apache.logging.log4j.LogManager;
@@ -123,9 +125,9 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<Route> findAllRoutesWithOffset(int offset) throws ServiceException {
+    public List<Route> findAll(int offset) throws ServiceException {
         try {
-            return routeDAO.findAllRoutesWithOffset(offset);
+            return routeDAO.findAllRoutes(offset);
         } catch (DAOException e) {
             LOGGER.error("[RouteService] An exception occurs while receiving Routes. Exc: {}",
                     e.getMessage());
@@ -140,6 +142,19 @@ public class RouteServiceImpl implements RouteService {
             return routeDAO.findRoutesByScheduleId(scheduleId);
         } catch (DAOException e) {
             LOGGER.error("[RouteService] An exception occurs while receiving Routes by schedule id. Exc: {}",
+                    e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<Route> findRoutesBetweenStations(Schedule schedule, Station startStation, Station endStation) throws ServiceException {
+        try {
+            return routeDAO.findRoutesBetweenStations(schedule,
+                    startStation,
+                    endStation);
+        } catch (DAOException e) {
+            LOGGER.error("[RouteService] An exception occurs while receiving Routes between stations. Exc: {}",
                     e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }

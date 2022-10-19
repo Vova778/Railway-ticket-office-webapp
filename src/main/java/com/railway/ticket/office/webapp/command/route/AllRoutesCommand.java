@@ -38,7 +38,7 @@ public class AllRoutesCommand implements Command {
             page = Integer.parseInt(request.getParameter("page"));
         }
         try {
-            routes = routeService.findAllRoutesWithOffset((page-1)*10);
+            routes = routeService.findAll((page-1)*10);
             LOGGER.info("{} Routes found.", ALL_ROUTES_COMMAND);
             countPages = routeService.countRecords() / 10 + 1;
         } catch (ServiceException e) {

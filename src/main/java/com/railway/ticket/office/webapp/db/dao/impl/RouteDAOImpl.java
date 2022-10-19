@@ -5,6 +5,8 @@ import com.railway.ticket.office.webapp.db.dao.RouteDAO;
 import com.railway.ticket.office.webapp.db.dao.mapper.impl.RouteMapper;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
 import com.railway.ticket.office.webapp.model.Route;
+import com.railway.ticket.office.webapp.model.Schedule;
+import com.railway.ticket.office.webapp.model.Station;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -105,7 +107,7 @@ public class RouteDAOImpl implements RouteDAO {
         preparedStatement.setTime(k++,route.getArrivalTime());
         preparedStatement.setInt(k++,route.getAvailableSeats());
         preparedStatement.setInt(k++,route.getDay());
-        preparedStatement.setInt(k++,route.getScheduleId());
+        preparedStatement.setInt(k++,route.getSchedule().getId());
         preparedStatement.setInt(k++,route.getTrain().getNumber());
         preparedStatement.setDouble(k,route.getPrice());
     }
@@ -119,7 +121,7 @@ public class RouteDAOImpl implements RouteDAO {
 
             preparedStatement.setInt(1,routeId);
 
-            try(ResultSet resultSet = preparedStatement.executeQuery();){
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()){
                     route = Optional.ofNullable(new RouteMapper()
                             .extractFromResultSet(resultSet));
@@ -144,7 +146,7 @@ public class RouteDAOImpl implements RouteDAO {
 
             preparedStatement.setInt(1, scheduleId);
 
-            try(ResultSet resultSet = preparedStatement.executeQuery();){
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()){
                     routes.add(routeMapper
                             .extractFromResultSet(resultSet));
@@ -184,13 +186,41 @@ public class RouteDAOImpl implements RouteDAO {
     }
 
     @Override
-    public List<Route> findAllRoutesWithOffset(int offset) throws DAOException {
+    public List<Route> findAllRoutes(int offset) throws DAOException {
         List<Route> routes = new ArrayList<>();
 
         try(PreparedStatement preparedStatement
                     = con.prepareStatement(Constants.ROUTES_GET_ALL_ROUTES_WITH_OFFSET)) {
 
             preparedStatement.setInt(1, offset);
+
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    routes.add(routeMapper
+                            .extractFromResultSet(resultSet));
+                }
+            }
+            return routes;
+        }
+        catch (SQLException e) {
+            LOGGER.error("Routes were not found. An exception occurs : {}", e.getMessage());
+            throw new DAOException("[RouteDAO] exception while reading all routes" + e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public List<Route> findRoutesBetweenStations(Schedule schedule, Station startStation, Station endStation) throws DAOException {
+        List<Route> routes = new ArrayList<>();
+
+        try(PreparedStatement preparedStatement
+                    = con.prepareStatement(Constants.ROUTES_FIND_ROUTES_BETWEEN_STATIONS)) {
+
+            int k =1;
+            preparedStatement.setInt(k++, schedule.getId());
+            preparedStatement.setInt(k++, startStation.getId());
+            preparedStatement.setInt(k++, schedule.getId());
+            preparedStatement.setInt(k++, endStation.getId());
+            preparedStatement.setInt(k, schedule.getId());
 
             try(ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()){

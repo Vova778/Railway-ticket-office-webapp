@@ -10,6 +10,7 @@ public class Fields {
     public static final String ROUTE_AVAILABLE_SEATS = "available_seats";
     public static final String ROUTE_DAY = "day";
     public static final String ROUTE_SCHEDULE_ID = "schedule_id";
+    public static final String ROUTE_SCHEDULE_DATE = "schedule_date";
     public static final String ROUTE_TRAIN_ID = "train_id";
     public static final String ROUTE_PRICE = "price";
     public static final String ROUTE_STARTING_STATION_NAME = "starting_station_name";

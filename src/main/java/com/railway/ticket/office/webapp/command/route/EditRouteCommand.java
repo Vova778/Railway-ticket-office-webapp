@@ -46,6 +46,7 @@ public class EditRouteCommand implements Command {
             destinationStation.ifPresent(updated::setFinalStation);
             updated.setArrivalTime(arrivalTime);
             updated.setDepartureTime(departureTime);
+            updated.setPrice(Double.parseDouble(req.getParameter("price")));
 
             routeService.update(updated.getId(), updated);
             return "controller?command=schedule&scheduleId="+scheduleId;

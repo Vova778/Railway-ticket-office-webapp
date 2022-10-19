@@ -1,6 +1,7 @@
 package com.railway.ticket.office.webapp.listener;
 
 import com.railway.ticket.office.webapp.command.*;
+import com.railway.ticket.office.webapp.command.logic.FindRoutesBetweenStationsCommand;
 import com.railway.ticket.office.webapp.command.route.*;
 import com.railway.ticket.office.webapp.command.schedule.ScheduleCommand;
 import com.railway.ticket.office.webapp.command.station.*;
@@ -179,7 +180,7 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         commandContainer.addCommand("route_form", appCommand);
         LOGGER.info("{} RouteFormCommand created.", CONTEXT_LISTENER_MSG);
 
-        appCommand = new AddRouteCommand(routeService ,stationService);
+        appCommand = new AddRouteCommand(routeService ,stationService, scheduleService);
         commandContainer.addCommand("add_route", appCommand);
         LOGGER.info("{} AddRouteCommand created.", CONTEXT_LISTENER_MSG);
 
@@ -195,6 +196,11 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         appCommand = new EditRouteCommand(routeService,stationService);
         commandContainer.addCommand("edit_route", appCommand);
         LOGGER.info("{} EditRouteCommand created.", CONTEXT_LISTENER_MSG);
+
+        appCommand = new FindRoutesBetweenStationsCommand(stationService,scheduleService, routeService);
+        commandContainer.addCommand("find_routes_between_stations", appCommand);
+        LOGGER.info("{} FindRoutesBetweenStationsCommand created.", CONTEXT_LISTENER_MSG);
+
 
         context.setAttribute("commandContainer", commandContainer);
 
