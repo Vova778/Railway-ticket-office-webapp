@@ -19,4 +19,8 @@ public interface TicketService {
     Ticket findTicketById(int ticketId) throws ServiceException;
 
     List<Ticket> findTicketsByUserId (int userId) throws ServiceException;
+
+    List<Ticket> findTicketsByUserId (int userId, int offset) throws ServiceException;
+
+    int countRecords() throws ServiceException;
 }

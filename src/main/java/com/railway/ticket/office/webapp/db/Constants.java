@@ -55,9 +55,11 @@ public class Constants {
     public static final String TICKETS_UPDATE_TICKET = "update ticket set fare=?, starting_station=?, final_station=?, departure_time=?, arrival_time=?,train_number=?, user_id=?,ticket_status_id where id=?";
     public static final String TICKETS_GET_TICKET_BY_ID = "select * from ticket where id=?";
     public static final String TICKETS_GET_TICKET_BY_USER_ID = "select * from ticket where user_id=?";
+    public static final String TICKETS_GET_TICKET_BY_USER_ID_WITH_OFFSET = " SELECT * FROM ticket WHERE user_id = ? LIMIT 10 OFFSET ?";
     public static final String TICKETS_GET_ALL_TICKETS = "select * from ticket";
     public static final String GET_TICKET_STATUS_BY_TICKET_ID =" select name from ticket_status right join ticket on ticket.ticket_status_id= ticket_status.id where ticket.id=?";
     public static final String GET_TICKET_STATUS_ID_BY_NAME = "SELECT id FROM ticket_status WHERE name=?";
+    public static final String TICKETS_GET_COUNT = "SELECT COUNT(*) FROM ticket";
 
     public static final String TRAINS_INSERT_TRAIN = "insert into train values (default, ?,?)";
     public static final String TRAINS_DELETE_TRAIN = "delete from train where number=?";
@@ -74,10 +76,8 @@ public class Constants {
     public static final String USERS_GET_USER_BY_LOGIN = "select * from user where login=?";
     public static final String USERS_GET_ALL_USERS = "select * from user order by id LIMIT 10 OFFSET ?";
     public static final String USERS_GET_COUNT = "SELECT COUNT(*) FROM user";
-    public static final String GET_ROLE_NAME_BY_ID = "SELECT name FROM role RIGHT JOIN user ON role.id = user.role_id WHERE user.id = ?";
-    public static final String GET_ROLE_ID_BY_NAME = "select id from role where name=?";
 
 
-    private Constants() {
-    }
+
+    private Constants() {}
 }

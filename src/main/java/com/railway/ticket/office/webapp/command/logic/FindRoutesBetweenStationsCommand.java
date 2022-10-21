@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class FindRoutesBetweenStationsCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse resp) throws CommandException, FatalApplicationException {
         int page;
         List<Route> routes = new ArrayList<>();
-
+        HttpSession session = request.getSession();
         List<Schedule> schedules = null;
         int countPages;
         if (request.getParameter("page") == null
@@ -60,13 +61,13 @@ public class FindRoutesBetweenStationsCommand implements Command {
                     request.getParameter("finalStation")).get();
 
             schedules = scheduleService.findSchedulesByDate(date);
-
+            int id =0;
             for (Schedule schedule: schedules) {
                 schedule.setRoutes(
                         routeService.findRoutesBetweenStations(
                                 schedule,startingStation,finalStation));
                 double price =0;
-             
+                int availableSeats = 1000;
                 Route route = new Route();
                 route.setStartingStation(startingStation);
                 route.setFinalStation(finalStation);
@@ -81,16 +82,16 @@ public class FindRoutesBetweenStationsCommand implements Command {
 
                 for (Route r: schedule.getRoutes()) {
                     price+=r.getPrice();
+                    availableSeats = Math.min(availableSeats, r.getAvailableSeats());
                 }
-
-
+                route.setId(id++);
                 route.setTravelTime(new Time(route.getArrivalTime().getTime()
                         -route.getDepartureTime().getTime() - 7200000 ));
+                route.setAvailableSeats(availableSeats);
                 route.setPrice(price);
                 routes.add(route);
             }
-
-
+            session.setAttribute("routes", routes);
             LOGGER.info("{} Routes between stations were found.", FIND_ROUTE_COMMAND);
             countPages = schedules.size() / 10 + 1;
         } catch (ServiceException e) {

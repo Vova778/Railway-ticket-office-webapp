@@ -44,10 +44,10 @@ public class LoginCommand implements Command {
                         LOGIN_COMMAND, user.getLogin());
                 session.setAttribute("user", user);
                 if (user.getRole().getId() == User.Role.ADMIN.getId()) {
-                    page = "controller?command=admin";
+                    page = "controller?command=home";
                 }
                 if (user.getRole().getId() == User.Role.USER.getId()) {
-                    page = "controller?command=menu";
+                    page = "controller?command=home";
                 }
             }
             return page;

@@ -5,6 +5,7 @@ import com.railway.ticket.office.webapp.command.logic.FindRoutesBetweenStationsC
 import com.railway.ticket.office.webapp.command.route.*;
 import com.railway.ticket.office.webapp.command.schedule.ScheduleCommand;
 import com.railway.ticket.office.webapp.command.station.*;
+import com.railway.ticket.office.webapp.command.ticket.BookTicketCommand;
 import com.railway.ticket.office.webapp.command.train.AllTrainsCommand;
 import com.railway.ticket.office.webapp.command.user.*;
 import com.railway.ticket.office.webapp.db.dao.*;
@@ -200,6 +201,15 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         appCommand = new FindRoutesBetweenStationsCommand(stationService,scheduleService, routeService);
         commandContainer.addCommand("find_routes_between_stations", appCommand);
         LOGGER.info("{} FindRoutesBetweenStationsCommand created.", CONTEXT_LISTENER_MSG);
+
+        appCommand = new BookTicketCommand(ticketService);
+        commandContainer.addCommand("book_ticket", appCommand);
+        LOGGER.info("{} BookTicketCommand created.", CONTEXT_LISTENER_MSG);
+
+        appCommand = new UserTicketsCommand(ticketService);
+        commandContainer.addCommand("basket", appCommand);
+        LOGGER.info("{} UserTicketsCommand created.", CONTEXT_LISTENER_MSG);
+
 
 
         context.setAttribute("commandContainer", commandContainer);

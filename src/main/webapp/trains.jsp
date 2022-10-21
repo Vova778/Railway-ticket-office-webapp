@@ -26,7 +26,12 @@
                     <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22" height="22"></a>
                         <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22" height="22" style="width: 26px;height: 26px;"></a></div>
                 </li>
+                <li class="nav-item"><a class="nav-link active" href="controller?command=routes"><fmt:message key="text.admin.page"/></a></li>
+                <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout" /></span><br></a></li>
+                <li class="nav-item"><a class="nav-link active" href="home.jsp"><fmt:message key="text.home"/></a></li>
             </ul>
+            <a class="btn btn-primary ms-md-2" role="button" href="controller?command=basket"><fmt:message key="text.basket"/> </a>
+
         </div>
     </div>
 </nav>
@@ -56,14 +61,14 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="route" items="${trains}">
+        <c:forEach var="station" items="${trains}">
             <tr>
-                <td><c:out value="${route.number}"/>
+                <td><c:out value="${station.number}"/>
                 </td>
-                <td><c:out value="${route.seats}"/>
+                <td><c:out value="${station.seats}"/>
                 </td>
                 <td>
-                    <c:forEach items="${route.schedules}" var="schedule" >
+                    <c:forEach items="${station.schedules}" var="schedule" >
                       <a class="text-primary" class="page-link "
                            href="controller?command=schedule&scheduleId=${schedule.id}">
                                 <c:out value=" ${schedule.date} "/><br> </a>

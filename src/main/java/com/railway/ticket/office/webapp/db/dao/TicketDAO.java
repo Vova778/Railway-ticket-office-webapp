@@ -19,7 +19,9 @@ public interface TicketDAO {
 
     List<Ticket> findTicketByUser(int userId) throws DAOException;
 
+    List<Ticket> findTicketByUser(int userId, int offset) throws DAOException;
+
     List<Ticket> findAllTickets() throws DAOException;
 
-
+    int countRecords() throws DAOException;
 }

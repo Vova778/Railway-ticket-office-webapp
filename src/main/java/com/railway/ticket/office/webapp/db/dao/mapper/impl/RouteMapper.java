@@ -23,7 +23,7 @@ public class RouteMapper implements ObjectMapper<Route> {
         );
 
         Schedule schedule = new Schedule(
-                resultSet.getInt(Fields.SCHEDULE_ID),
+                resultSet.getInt(Fields.ROUTE_SCHEDULE_ID),
                 resultSet.getDate(Fields.SCHEDULE_DATE)
         );
 

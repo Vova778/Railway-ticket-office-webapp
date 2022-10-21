@@ -6,7 +6,6 @@ import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Ticket;
 import com.railway.ticket.office.webapp.service.TicketService;
-import com.railway.ticket.office.webapp.utils.db.DBUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,7 +38,7 @@ public class TicketServiceImpl implements TicketService {
             throw new IllegalArgumentException(NULL_TICKET_INPUT_EXC);
         }
         try {
-            checkAndSave(ticket);
+            ticketDAO.insertTicket(ticket);
         } catch (SQLException e) {
             LOGGER.error("[TicketService] SQLException while saving Schedule (id: {}). Exc: {}"
                     , ticket.getId(), e.getMessage());
@@ -47,26 +46,7 @@ public class TicketServiceImpl implements TicketService {
         }
     }
 
-    private void checkAndSave(Ticket ticket) throws ServiceException, SQLException {
-        ticketDAO.getConnection().setAutoCommit(false);
-        try {
-            if (ticketDAO.findTicketById(ticket.getId()).getId() != 0) {
-                DBUtils.rollback(ticketDAO.getConnection());
-                LOGGER.error(EXISTED_TICKET_EXC
-                        , ticket.getId());
-                throw new ServiceException(EXISTED_TICKET_EXC);
-            }
-            ticketDAO.insertTicket(ticket);
-            ticketDAO.getConnection().commit();
-            ticketDAO.getConnection().setAutoCommit(true);
-            LOGGER.info("[TicketService] Ticket saved. (id: {})", ticket.getId());
-        } catch (DAOException e) {
-            ticketDAO.getConnection().rollback();
-            LOGGER.error("[TicketService] Connection rolled back while saving Ticket. (id: {}). Exc: {}"
-                    , ticket.getId(), e.getMessage());
-            throw new ServiceException(e.getMessage(), e);
-        }
-    }
+
 
     @Override
     public void delete(int scheduleId) throws ServiceException {
@@ -136,6 +116,31 @@ public class TicketServiceImpl implements TicketService {
         } catch (DAOException e) {
             LOGGER.error("[TicketService] An exception occurs while receiving Ticket. (id: {}). Exc: {}"
                     , userId, e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+    @Override
+    public List<Ticket> findTicketsByUserId(int userId, int offset) throws ServiceException {
+        if (userId < 1) {
+            LOGGER.error(NULL_TICKET_INPUT_EXC);
+            throw new IllegalArgumentException(NULL_TICKET_INPUT_EXC);
+        }
+        try {
+            return ticketDAO.findTicketByUser(userId, offset);
+        } catch (DAOException e) {
+            LOGGER.error("[TicketService] An exception occurs while receiving Ticket. (id: {}). Exc: {}"
+                    , userId, e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
+    public int countRecords() throws ServiceException {
+        try {
+            return ticketDAO.countRecords();
+        } catch (DAOException e) {
+            LOGGER.error("[TicketService] An exception occurs while counting tickets. Exc: {}",
+                    e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }

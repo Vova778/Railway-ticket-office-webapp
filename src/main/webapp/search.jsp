@@ -43,8 +43,11 @@
             <th scope="col"><fmt:message key="text.final.station" /> </th>
             <th scope="col"><fmt:message key="text.arrival.time" /> </th>
             <th scope="col"><fmt:message key="text.time.of.travel" /> </th>
+            <th scope="col"><fmt:message key="text.available.seats" /> </th>
             <th scope="col"><fmt:message key="text.price" /> </th>
             <th scope="col"><fmt:message key="text.details" /> </th>
+            <th scope="col"> </th>
+
         </tr>
         </thead>
         <tbody>
@@ -62,9 +65,19 @@
                 </td>
                 <td><c:out value="${route.travelTime}"/>
                 </td>
+                <td><c:out value="${route.availableSeats}"/>
+                </td>
                 <td><c:out value="${route.price}"/>
                 </td>
                 <td> <a href=""> <fmt:message key="text.details" /> </a>
+                </td>
+                <td>
+                    <form action="controller" method="post">
+                        <input hidden name="command" value="book_ticket"/>
+                        <input hidden name="routeId" value="${route.id}"/>
+                    <button type="submit"
+                            class="btn btn-outline-info" >
+                        <fmt:message key="text.book" /></button></form>
                 </td>
             </tr>
         </c:forEach>

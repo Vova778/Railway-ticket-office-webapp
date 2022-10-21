@@ -61,8 +61,8 @@
 
                                         <label>
                                             <select name="destinationPoint" style="margin-bottom: 10px">
-                                                <c:forEach var="route" items="${stations}">
-                                                    <option value="${route.name}">${route.name}</option>
+                                                <c:forEach var="station" items="${stations}">
+                                                    <option value="${station.name}">${station.name}</option>
                                                 </c:forEach>
                                             </select>
                                         </label>

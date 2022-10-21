@@ -33,8 +33,6 @@ public class TicketDAOImpl implements TicketDAO {
                     con.prepareStatement(Constants.TICKETS_INSERT_TICKET,
                             Statement.RETURN_GENERATED_KEYS)) {
 
-            con.setAutoCommit(false);
-
             setTicketParameters(ticket, preparedStatement);
 
             preparedStatement.executeUpdate();
@@ -97,14 +95,13 @@ public class TicketDAOImpl implements TicketDAO {
     private void setTicketParameters(Ticket ticket, PreparedStatement preparedStatement) throws SQLException {
         int k = 1;
         preparedStatement.setDouble(k++,ticket.getFare());
-        preparedStatement.setInt(k++,ticket.getStartingStationId());
-        preparedStatement.setInt(k++,ticket.getFinalStationId());
+        preparedStatement.setString(k++,ticket.getStartingStation());
+        preparedStatement.setString(k++,ticket.getFinalStation());
         preparedStatement.setTimestamp(k++,ticket.getDepartureTime());
         preparedStatement.setTimestamp(k++,ticket.getArrivalTime());
         preparedStatement.setInt(k++,ticket.getTrainNumber());
         preparedStatement.setInt(k++,ticket.getUserId());
-        int ticketStatusId = getTicketStatusIdByName(ticket);
-        preparedStatement.setInt(k,ticketStatusId);
+        preparedStatement.setInt(k,ticket.getTicketStatus().getId());
     }
 
     @Override
@@ -140,6 +137,34 @@ public class TicketDAOImpl implements TicketDAO {
                     = con.prepareStatement(Constants.TICKETS_GET_TICKET_BY_USER_ID)){
 
             preparedStatement.setInt(1, userId);
+
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    tickets.add(ticketMapper
+                            .extractFromResultSet(resultSet));
+                }
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("Ticket with User ID : [{}] was not found. An exception occurs : {}",
+                    userId, e.getMessage());
+            throw new DAOException("[TicketDAO] exception while loading Ticket by User ID" + e.getMessage(), e);
+        }
+
+
+        return tickets;
+    }
+
+    @Override
+    public List<Ticket> findTicketByUser(int userId,int offset ) throws DAOException {
+
+        List<Ticket> tickets = new ArrayList<>();
+
+        try(PreparedStatement preparedStatement
+                    = con.prepareStatement(Constants.TICKETS_GET_TICKET_BY_USER_ID_WITH_OFFSET)){
+
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, offset);
 
             try(ResultSet resultSet = preparedStatement.executeQuery();){
                 while (resultSet.next()){
@@ -181,27 +206,8 @@ public class TicketDAOImpl implements TicketDAO {
     }
 
 
-    private String getTicketStatusByTicketId(Ticket ticket, int ticketStatusId) throws SQLException {
-        String name = null;
-        try (PreparedStatement preparedStatement = con.prepareStatement(Constants.GET_TICKET_STATUS_BY_TICKET_ID)) {
 
-            preparedStatement.setInt(1, ticket.getId() );
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                name = resultSet.getString("name");
-            }
-        } catch (SQLException e) {
-            LOGGER.error("Ticket status : [{}] was not found. An exception occurs." +
-                            " Transaction rolled back!!! : {}",
-                    ticket.getTicketStatus().getTicketStatusName(), e.getMessage());
-            con.rollback();
-            throw new DAOException("[TicketDAO] exception while reading Ticket status" + e.getMessage(), e);
-        }
-        return name;
-    }
-
-    private int getTicketStatusIdByName(Ticket ticket ) throws SQLException, DAOException {
+    private int getTicketStatusIdByName(Ticket ticket ) throws DAOException {
         int ticketStatusId = 0;
         try (PreparedStatement preparedStatement = con.prepareStatement(Constants.GET_TICKET_STATUS_ID_BY_NAME)) {
             preparedStatement.setString(1, ticket.getTicketStatus().getTicketStatusName());
@@ -213,10 +219,25 @@ public class TicketDAOImpl implements TicketDAO {
             LOGGER.error("Ticket status : [{}] was not found. An exception occurs." +
                             " Transaction rolled back!!! : {}",
                     ticket.getTicketStatus().getTicketStatusName(), e.getMessage());
-            con.rollback();
             throw new DAOException("[TicketDAO] exception while reading Ticket status" + e.getMessage(), e);
         }
         return ticketStatusId;
+    }
+    @Override
+    public int countRecords() {
+        int recordsCount = 0;
+        try (PreparedStatement preparedStatement =
+                     con.prepareStatement(Constants.TICKETS_GET_COUNT);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            resultSet.next();
+            recordsCount = resultSet.getInt(1);
+            return recordsCount;
+        } catch (SQLException e) {
+            LOGGER.error("[TicketDAO] Failed to count tickets!" +
+                            " An exception occurs :[{}]",
+                    e.getMessage());
+        }
+        return recordsCount;
     }
 
 }
