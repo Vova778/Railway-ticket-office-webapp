@@ -21,7 +21,10 @@ public interface RouteDAO {
 
     List<Route> findRoutesByScheduleId(int scheduleId) throws DAOException;
 
+    List<Route> findRoutesByTicketId(int ticketId) throws DAOException;
+
     List<Route> findAllRoutes() throws DAOException;
+
     List<Route> findAllRoutes(int offset) throws DAOException;
 
     List<Route> findRoutesBetweenStations(Schedule schedule,

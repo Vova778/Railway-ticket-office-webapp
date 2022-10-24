@@ -52,7 +52,7 @@
         </li>
     </ul>
     <hr class="bg-secondary border-2 border-top border-secondary">
-    <table class="table">
+    <table class = "table table-striped table-bordered table-hover">
         <thead>
         <tr>
             <th scope="col">Login</th>

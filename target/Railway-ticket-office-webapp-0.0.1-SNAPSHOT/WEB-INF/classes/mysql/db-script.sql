@@ -171,14 +171,14 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 INSERT INTO role
 values (default, 'User'),
-       (default, 'Manager');
+       (default, 'Admin');
 
 
 
 INSERT INTO user
 values (default, 'Vova123', 'e6dac66f9c7513b27ff95899ad70807b5657b2407e8f6938b63c90dea01976bd', 'Vova1', 'Muradin1', '1111111111', 2),
-       (default, 'Ivan234', '1223c7b48a508cb5cedead8e9b28a4f10fa713c2586f7a99259edd256938ae3e', 'Іван', 'Іванович', '1111111111', 1),
-       (default, 'Vova345', '1111', 'Vova3', 'Muradin3', '1111111111', 1);
+       (default, 'Ivan234', '1223c7b48a508cb5cedead8e9b28a4f10fa713c2586f7a99259edd256938ae3e', 'Іван', 'Іванович', '1111111111', 2),
+       (default, 'Petrov', 'aa784d98ec7b230f843ed6b21fddb3bf9e3f837f3b0e163df6d040824d6882ff', 'Петро', 'Петрович', '1111111111', 1);
 
 
 
@@ -231,7 +231,8 @@ values (default, 1, 1, 2, '10:00', '11:30', 10, 1, 1, 201, 21.0),
 
 insert into ticket_status
 values (default, 'QUEUED'),
-       (default, 'CLOSED');
+       (default, 'CLOSED'),
+       (default, 'CANCELED');
 
 insert into status_flow
 values (default, 1, 2);

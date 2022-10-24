@@ -26,7 +26,12 @@
                     <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22" height="22"></a>
                         <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22" height="22" style="width: 26px;height: 26px;"></a></div>
                 </li>
+
+                <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout" /></span><br></a></li>
+                <li class="nav-item"><a class="nav-link active" href="home.jsp"><fmt:message key="text.home"/></a></li>
             </ul>
+            <a class="btn btn-primary ms-md-2" role="button" href="basket.jsp"><fmt:message key="text.basket"/> </a>
+
         </div>
     </div>
 </nav>
@@ -47,30 +52,31 @@
             <th scope="col"><fmt:message key="text.fare" /> </th>
             <th scope="col"><fmt:message key="text.ticket.status" /> </th>
             <th scope="col"> </th>
+            <th scope="col"> </th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="station" items="${tickets}">
+        <c:forEach var="ticket" items="${tickets}">
             <tr>
-                <td><c:out value="${station.trainNumber}"/>
+                <td><c:out value="${ticket.trainNumber}"/>
                 </td>
-                <td><c:out value="${station.startingStation}"/>
+                <td><c:out value="${ticket.startingStation}"/>
                 </td>
-                <td><c:out value="${station.departureTime}"/>
+                <td><c:out value="${ticket.departureTime}"/>
                 </td>
-                <td><c:out value="${station.finalStation}"/>
+                <td><c:out value="${ticket.finalStation}"/>
                 </td>
-                <td><c:out value="${station.arrivalTime}"/>
+                <td><c:out value="${ticket.arrivalTime}"/>
                 </td>
-                <td><c:out value="${station.fare}"/>
+                <td><c:out value="${ticket.fare}"/>
                 </td>
-                <td><c:out value="${station.ticketStatus}"/>
+                <td><c:out value="${ticket.ticketStatus}"/>
                 </td>
                 <td> <a href=""> <fmt:message key="text.details" /> </a>
                 </td>
                 <td>
                     <button type="button"
-                            class="btn btn-outline-danger" onclick="window.location='controller?command=cancel_ticket&ticket=${station.id}'">
+                            class="btn btn-outline-danger" onclick="window.location='controller?command=cancel_ticket&ticketId=${ticket.id}'">
                         <fmt:message key="text.cancel" /></button>
                 </td>
             </tr>

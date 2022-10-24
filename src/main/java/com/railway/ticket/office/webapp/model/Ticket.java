@@ -2,6 +2,7 @@ package com.railway.ticket.office.webapp.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class Ticket implements Serializable {
     private int id;
@@ -13,6 +14,7 @@ public class Ticket implements Serializable {
     private Timestamp arrivalTime;
     private int userId;
     private TicketStatus ticketStatus;
+    private List<Route> routes;
 
 
 
@@ -130,6 +132,18 @@ public class Ticket implements Serializable {
             throw new IllegalArgumentException("Ticket status cannot be null");
         }
         this.ticketStatus = ticketStatus;
+    }
+
+    public List<Route> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(List<Route> routes) {
+        if(routes ==null || routes.isEmpty()){
+            throw new IllegalArgumentException("RouteList cannot be null");
+
+        }
+        this.routes = routes;
     }
 
     public enum TicketStatus {

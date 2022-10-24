@@ -21,7 +21,11 @@ public interface RouteService {
 
     List<Route> findRoutesByScheduleId (int scheduleId) throws ServiceException;
 
+    List<Route> findRoutesByTicketId(int ticketId) throws ServiceException;
+
+
     List<Route> findAll(int offset) throws  ServiceException;
+
 
     List<Route> findRoutesBetweenStations(Schedule schedule,
                                           Station startStation,

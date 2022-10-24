@@ -159,9 +159,35 @@ public class RouteDAOImpl implements RouteDAO {
             throw new DAOException("[RouteDAO] exception while loading Route by Schedule ID" + e.getMessage(), e);
         }
 
+        return routes;
+    }
+
+    @Override
+    public List<Route> findRoutesByTicketId(int ticketId) throws DAOException {
+        List<Route> routes = new ArrayList<>();
+
+        try(PreparedStatement preparedStatement
+                    = con.prepareStatement(Constants.ROUTES_GET_ROUTE_BY_TICKET_ID)){
+
+            preparedStatement.setInt(1, ticketId);
+
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
+                while (resultSet.next()){
+                    routes.add(routeMapper
+                            .extractFromResultSet(resultSet));
+                }
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("Route with Ticket ID : [{}] was not found. An exception occurs : {}",
+                    ticketId, e.getMessage());
+            throw new DAOException("[RouteDAO] exception while loading Route by Ticket ID" + e.getMessage(), e);
+        }
+
 
         return routes;
     }
+
 
     @Override
     public List<Route> findAllRoutes() throws DAOException {

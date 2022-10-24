@@ -7,6 +7,7 @@ import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Route;
 import com.railway.ticket.office.webapp.model.Ticket;
 import com.railway.ticket.office.webapp.model.User;
+import com.railway.ticket.office.webapp.service.RouteService;
 import com.railway.ticket.office.webapp.service.TicketService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,9 +24,11 @@ public class BookTicketCommand implements Command {
     private static final String BOOK_TICKET_COMMAND = "[BookTicketCommand]";
 
     private final TicketService ticketService;
+    private final RouteService routeService;
 
-    public BookTicketCommand(TicketService ticketService) {
+    public BookTicketCommand(TicketService ticketService, RouteService routeService) {
         this.ticketService = ticketService;
+        this.routeService = routeService;
     }
 
     @Override
@@ -52,12 +55,24 @@ public class BookTicketCommand implements Command {
             ticket.setTrainNumber(route.getTrain().getNumber());
             ticket.setUserId(user.getId());
             ticket.setTicketStatus(Ticket.TicketStatus.QUEUED);
+            ticket.setRoutes(routeService.findRoutesBetweenStations(
+                    route.getSchedule(),
+                    route.getStartingStation(),
+                    route.getFinalStation()));
 
 
             LOGGER.info("{} Ticket from view : {};"
                     , BOOK_TICKET_COMMAND, ticket);
 
             ticketService.insert(ticket);
+
+            List<Route> routeToUpdate = routeService.findRoutesByTicketId(ticket.getId());
+
+            for(Route r: routeToUpdate){
+                r.setAvailableSeats(r.getAvailableSeats()-1);
+                routeService.update(r.getId(),r);
+            }
+
             LOGGER.info("{} Ticket was successfully added : {}"
                     , BOOK_TICKET_COMMAND, ticket);
 

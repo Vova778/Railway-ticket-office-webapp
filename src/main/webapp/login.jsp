@@ -39,16 +39,16 @@
                                 <div class="card-body d-flex flex-column align-items-center">
                                     <form class="text-center" action="controller" method="post">
                                         <input hidden name="command" value="login">
-                                        <div class="mb-3"><input class="form-control" type="text" name="login"
+                                        <div class="form-outline mb-4"><input class="form-control form-control-lg" type="text" name="login"
                                                                  placeholder="Login" minlength="4" maxlength="16"
                                                                  pattern=".{4,16}" required="">
                                         </div>
-                                        <div class="mb-3"><input class="form-control" type="password" name="password"
+                                        <div class="form-outline mb-4"><input class="form-control form-control-lg" type="password" name="password"
                                                                  placeholder="Password" required="" minlength="6"
                                                                  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,65}$">
                                         </div>
                                         <div class="mb-3">
-                                            <button class="btn btn-secondary d-block w-100" type="submit" ><fmt:message key="text.login"/></button>
+                                            <button class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" type="submit" ><fmt:message key="text.login"/></button>
                                         </div>
                                         <a href="" class="text-muted"><fmt:message key="text.forgot.password"/></a>
                                     </form>

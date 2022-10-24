@@ -26,7 +26,12 @@
                     <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22" height="22"></a>
                         <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22" height="22" style="width: 26px;height: 26px;"></a></div>
                 </li>
+
+                <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout" /></span><br></a></li>
+                <li class="nav-item"><a class="nav-link active" href="home.jsp"><fmt:message key="text.home"/></a></li>
             </ul>
+            <a class="btn btn-primary ms-md-2" role="button" href="basket.jsp"><fmt:message key="text.basket"/> </a>
+
         </div>
     </div>
 </nav>
@@ -34,7 +39,7 @@
 <div class="container py-4 py-xl-5">
 
     <hr class="bg-secondary border-2 border-top border-secondary">
-    <table class="table">
+    <table class = "table table-striped table-bordered table-hover">
         <thead>
         <tr>
             <th scope="col"><fmt:message key="text.train.number" /> </th>

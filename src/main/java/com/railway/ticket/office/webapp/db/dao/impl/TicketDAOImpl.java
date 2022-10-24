@@ -4,6 +4,7 @@ import com.railway.ticket.office.webapp.db.Constants;
 import com.railway.ticket.office.webapp.db.dao.TicketDAO;
 import com.railway.ticket.office.webapp.db.dao.mapper.impl.TicketMapper;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
+import com.railway.ticket.office.webapp.model.Route;
 import com.railway.ticket.office.webapp.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,6 +43,8 @@ public class TicketDAOImpl implements TicketDAO {
                 LOGGER.info("Ticket : {} was inserted successfully", ticket);
             }
 
+            setRoutesForTicket(ticket);
+            LOGGER.info("Routes for ticket: {} were inserted successfully", ticket);
 
         } catch (SQLException e) {
             LOGGER.error("Ticket : [{}] was not inserted. An exception occurs : {}",
@@ -50,6 +53,33 @@ public class TicketDAOImpl implements TicketDAO {
         }
     }
 
+
+    private void setRoutesForTicket(Ticket ticket) throws DAOException {
+        try(PreparedStatement preparedStatement =
+                    con.prepareStatement(Constants.TICKETS_INSERT_TICKET_ROUTES)) {
+
+            preparedStatement.setInt(1, ticket.getId());
+            preparedStatement.setInt(2, ticket.getUserId());
+            preparedStatement.setInt(3, ticket.getTicketStatus().getId());
+
+            for(Route r: ticket.getRoutes()){
+                int k = 4;
+
+                preparedStatement.setInt(k++, r.getId());
+                preparedStatement.setInt(k++, r.getStartingStation().getId());
+                preparedStatement.setInt(k++, r.getFinalStation().getId());
+                preparedStatement.setInt(k++, r.getSchedule().getId());
+                preparedStatement.setInt(k, r.getTrain().getNumber());
+                preparedStatement.executeUpdate();
+            }
+
+
+        } catch (SQLException e) {
+            LOGGER.error("Ticket : [{}] was not inserted. An exception occurs : {}",
+                    ticket, e.getMessage());
+            throw new DAOException("[TicketDAO] exception while creating Ticket" + e.getMessage(), e);
+        }
+    }
     @Override
     public void deleteTicket(int ticketId) throws DAOException {
         try(PreparedStatement preparedStatement =

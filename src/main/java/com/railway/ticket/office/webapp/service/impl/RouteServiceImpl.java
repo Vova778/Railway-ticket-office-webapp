@@ -148,6 +148,17 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
+    public List<Route> findRoutesByTicketId(int ticketId) throws ServiceException {
+        try {
+            return routeDAO.findRoutesByScheduleId(ticketId);
+        } catch (DAOException e) {
+            LOGGER.error("[RouteService] An exception occurs while receiving Routes by ticket id. Exc: {}",
+                    e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
+
+    @Override
     public List<Route> findRoutesBetweenStations(Schedule schedule, Station startStation, Station endStation) throws ServiceException {
         try {
             return routeDAO.findRoutesBetweenStations(schedule,

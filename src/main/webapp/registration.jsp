@@ -12,7 +12,7 @@
 
 </head>
 
-<body>
+<body >
 <nav class="navbar navbar-light navbar-expand-md bg-info py-3" style="height: 130px;">
     <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><img style="margin: 0px;margin-right: 0px;width: 110px;height: 110px;" src="img/est.2012%20(1).png" width="120" height="120"></a><span class="fs-3">Railway ticket office webapp</span><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-2">
@@ -39,36 +39,37 @@
                                 <div class="card-body d-flex flex-column align-items-center">
                                     <form class="text-center" action="controller" method="post">
                                         <input hidden name="command" value="registration"/>
-                                        <div class="d-lg-flex justify-content-lg-end align-items-lg-start mb-3"><input
-                                                class="form-control" type="text" name="login" placeholder="Login"
+                                        <div class="form-outline mb-4">
+                                            <input
+                                                class="form-control form-control-lg" type="text" name="login" placeholder="Login"
                                                 minlength="4" maxlength="44"
                                                 pattern="^(?=.{4,45}$)([\w-\.]{1,})+@([\w-]+\.)+([\w-]{2,4})$"
                                                 required=""/></div>
-                                        <div style="margin-bottom: 16px;"><input class="form-control" type="text"
+                                        <div class="form-outline mb-4"><input class="form-control form-control form-control-lg" type="text"
                                                                                  placeholder="First Name"
                                                                                  name="firstName"
                                                                                  pattern="^\p{L}{2,45}$"
                                                                                  minlength="1" required=""
                                                                                  maxlength="44"/></div>
-                                        <div style="margin-bottom: 16px;"><input class="form-control" type="text"
+                                        <div class="form-outline mb-4"><input class="form-control form-control-lg" type="text"
                                                                                  placeholder="Last name"
                                                                                  name="lastName" minlength="1"
                                                                                  pattern="^\p{L}{2,45}$"
                                                                                  required="" maxlength="44"/></div>
-                                        <div style="margin-bottom: 16px;"><input class="form-control" type="text"
+                                        <div class="form-outline mb-4"><input class="form-control form-control-lg" type="text"
                                                                                  name="phone"
                                                                                  placeholder="Phone number"
                                                                                  maxlength="10" required=""
                                                                                  minlength="10"
                                                                                  pattern="^(?=.{3,45}$)[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$"/>
                                         </div>
-                                        <div class="mb-3"><input class="form-control" type="password" name="password"
+                                        <div class="form-outline mb-4"><input class="form-control form-control-lg" type="password" name="password"
                                                                  placeholder="Password" required="" minlength="6"
                                                                  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,65}$"/>
                                         </div>
                                         <div class="mb-3">
-                                            <button class="btn btn-secondary d-block w-110" type="submit"
-                                                    value=""><fmt:message key="text.sign.up"/>
+                                            <button  class="btn btn-secondary btn-lg" type="submit" data-mdb-ripple-color="dark"
+                                                    value=""><fmt:message key="text.register"/>
                                             </button>
                                         </div>
                                         <a class="text-muted" href="controller?command=loginForm"><fmt:message key="text.account.exists"/> </a>

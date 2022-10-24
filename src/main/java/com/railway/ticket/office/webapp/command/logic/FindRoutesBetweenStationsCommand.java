@@ -24,7 +24,6 @@ import java.util.List;
 public class FindRoutesBetweenStationsCommand implements Command {
     private static final Logger LOGGER  = LogManager.getLogger(FindRoutesBetweenStationsCommand.class);
     private static final String FIND_ROUTE_COMMAND = "[FindRouteCommand]";
-    private static final long DAY = 86400L;
 
     private final StationService stationService;
     private final ScheduleService scheduleService;
@@ -68,6 +67,8 @@ public class FindRoutesBetweenStationsCommand implements Command {
                                 schedule,startingStation,finalStation));
                 double price =0;
                 int availableSeats = 1000;
+
+
                 Route route = new Route();
                 route.setStartingStation(startingStation);
                 route.setFinalStation(finalStation);
@@ -84,12 +85,14 @@ public class FindRoutesBetweenStationsCommand implements Command {
                     price+=r.getPrice();
                     availableSeats = Math.min(availableSeats, r.getAvailableSeats());
                 }
+
                 route.setId(id++);
                 route.setTravelTime(new Time(route.getArrivalTime().getTime()
                         -route.getDepartureTime().getTime() - 7200000 ));
                 route.setAvailableSeats(availableSeats);
                 route.setPrice(price);
                 routes.add(route);
+
             }
             session.setAttribute("routes", routes);
             LOGGER.info("{} Routes between stations were found.", FIND_ROUTE_COMMAND);

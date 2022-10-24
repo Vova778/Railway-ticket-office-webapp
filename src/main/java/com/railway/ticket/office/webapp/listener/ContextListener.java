@@ -6,6 +6,7 @@ import com.railway.ticket.office.webapp.command.route.*;
 import com.railway.ticket.office.webapp.command.schedule.ScheduleCommand;
 import com.railway.ticket.office.webapp.command.station.*;
 import com.railway.ticket.office.webapp.command.ticket.BookTicketCommand;
+import com.railway.ticket.office.webapp.command.ticket.CancelTicketCommand;
 import com.railway.ticket.office.webapp.command.train.AllTrainsCommand;
 import com.railway.ticket.office.webapp.command.user.*;
 import com.railway.ticket.office.webapp.db.dao.*;
@@ -133,10 +134,6 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         commandContainer.addCommand("login", appCommand);
         LOGGER.info("{} LoginCommand created.", CONTEXT_LISTENER_MSG);
 
-       /* appCommand = new MenuCommand(ticketService);
-        commandContainer.addCommand("menu", appCommand);
-        LOGGER.info("{} MenuCommand created.", CONTEXT_LISTENER_MSG);*/
-
         appCommand = new LogoutCommand();
         commandContainer.addCommand("logout", appCommand);
         LOGGER.info("{} LogoutCommand created.", CONTEXT_LISTENER_MSG);
@@ -202,13 +199,18 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         commandContainer.addCommand("find_routes_between_stations", appCommand);
         LOGGER.info("{} FindRoutesBetweenStationsCommand created.", CONTEXT_LISTENER_MSG);
 
-        appCommand = new BookTicketCommand(ticketService);
+        appCommand = new BookTicketCommand(ticketService, routeService);
         commandContainer.addCommand("book_ticket", appCommand);
         LOGGER.info("{} BookTicketCommand created.", CONTEXT_LISTENER_MSG);
 
         appCommand = new UserTicketsCommand(ticketService);
         commandContainer.addCommand("basket", appCommand);
         LOGGER.info("{} UserTicketsCommand created.", CONTEXT_LISTENER_MSG);
+
+        appCommand = new CancelTicketCommand(ticketService, routeService);
+        commandContainer.addCommand("cancel_ticket", appCommand);
+        LOGGER.info("{} CancelTicketCommand created.", CONTEXT_LISTENER_MSG);
+
 
 
 
