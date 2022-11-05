@@ -4,6 +4,7 @@ import com.railway.ticket.office.webapp.exceptions.DAOException;
 import com.railway.ticket.office.webapp.model.Route;
 import com.railway.ticket.office.webapp.model.Schedule;
 import com.railway.ticket.office.webapp.model.Station;
+import com.railway.ticket.office.webapp.model.Ticket;
 
 import java.sql.Connection;
 import java.util.List;
@@ -16,6 +17,8 @@ public interface RouteDAO {
     void deleteRoute(int routeId) throws DAOException;
 
     void updateRoute(int routeId, Route route) throws DAOException;
+
+    boolean updateTicketRoutes (Ticket ticket) throws DAOException;
 
     Route findRouteById(int routeId) throws DAOException;
 

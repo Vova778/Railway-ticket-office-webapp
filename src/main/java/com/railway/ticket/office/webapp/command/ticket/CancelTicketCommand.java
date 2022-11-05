@@ -34,33 +34,32 @@ public class CancelTicketCommand implements Command {
                           HttpServletResponse resp)
             throws CommandException, FatalApplicationException {
         try {
-
-            int ticketId = Integer.parseInt(req.getParameter("ticketId")) ;
-
+            int ticketId = Integer.parseInt(req.getParameter("ticketId"));
             Ticket ticket = ticketService.findTicketById(ticketId);
 
-            ticket.setTicketStatus(Ticket.TicketStatus.CANCELED);
-            ticketService.update(ticketId,ticket);
-            List<Route> routeToUpdate
-                    = routeService.findRoutesByTicketId(ticket.getId());
+            if (ticket.getTicketStatus().getId() == 1) {
 
-            for(Route r: routeToUpdate){
-                r.setAvailableSeats(r.getAvailableSeats()+1);
-                routeService.update(r.getId(),r);
+                ticket.setTicketStatus(Ticket.TicketStatus.CANCELED);
+                ticketService.update(ticketId, ticket);
+
+                List<Route> routes = routeService.findRoutesByTicketId(ticket.getId());
+                routes.forEach(r -> r.setAvailableSeats(r.getAvailableSeats() + 1));
+                ticket.setRoutes(routes);
+                routeService.updateTicketRoutes(ticket);
+
+                LOGGER.info("{} Ticket from view : {};"
+                        , BOOK_TICKET_COMMAND, ticket);
+
+
+                LOGGER.info("{} Ticket was successfully cancelled : {}"
+                        , BOOK_TICKET_COMMAND, ticket);
             }
-
-            LOGGER.info("{} Ticket from view : {};"
-                    , BOOK_TICKET_COMMAND, ticket);
-
-
-            LOGGER.info("{} Ticket was successfully cancelled : {}"
-                    , BOOK_TICKET_COMMAND, ticket);
-
 
         } catch (ServiceException e) {
             LOGGER.error("An exception occurs while adding Ticket");
             throw new CommandException(e.getMessage(), e);
         }
         return "controller?command=basket";
-    } }
+    }
+}
 

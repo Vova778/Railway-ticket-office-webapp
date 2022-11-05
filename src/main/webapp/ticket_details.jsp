@@ -8,7 +8,7 @@
 <head>
     <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Search</title>
+    <title>Route information</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 
@@ -51,21 +51,19 @@
 </nav>
 
 <div class="container py-4 py-xl-5">
-
+    <div class="col-md-8 col-xl-6 text-center mx-auto" style="margin-top: 50px" >
+        <h2><fmt:message key="text.route.information"/></h2>
+    </div>
+    <hr class="bg-secondary border-2 border-top border-secondary">
     <hr class="bg-secondary border-2 border-top border-secondary">
     <table class = "table table-striped table-bordered table-hover">
         <thead>
         <tr>
-            <th scope="col"><fmt:message key="text.train.number" /> </th>
-            <th scope="col"><fmt:message key="text.starting.station" /> </th>
-            <th scope="col"><fmt:message key="text.departure.time" /> </th>
-            <th scope="col"><fmt:message key="text.final.station" /> </th>
-            <th scope="col"><fmt:message key="text.arrival.time" /> </th>
-            <th scope="col"><fmt:message key="text.time.of.travel" /> </th>
-            <th scope="col"><fmt:message key="text.available.seats" /> </th>
-            <th scope="col"><fmt:message key="text.price" /> </th>
-            <th scope="col"><fmt:message key="text.details" /> </th>
-            <th scope="col"> </th>
+            <th scope="col"><fmt:message key="text.train.number"/></th>
+            <th scope="col"><fmt:message key="text.starting.station"/></th>
+            <th scope="col"><fmt:message key="text.departure.time"/></th>
+            <th scope="col"><fmt:message key="text.final.station"/></th>
+            <th scope="col"><fmt:message key="text.arrival.time"/></th>
 
         </tr>
         </thead>
@@ -82,50 +80,12 @@
                 </td>
                 <td><c:out value="${route.schedule.date} ${route.arrivalTime}"/>
                 </td>
-                <td><c:out value="${route.travelTime}"/>
-                </td>
-                <td><c:out value="${route.availableSeats}"/>
-                </td>
-                <td><c:out value="${route.price}"/>
-                </td>
-                <td> <a href=""> <fmt:message key="text.details" /> </a>
-                </td>
-                <td>
-                    <form action="controller" method="post">
-                        <input hidden name="command" value="book_ticket"/>
-                        <input hidden name="routeId" value="${route.id}"/>
-                    <button type="submit"
-                            class="btn btn-outline-info" >
-                        <fmt:message key="text.book" /></button></form>
-                </td>
+
             </tr>
         </c:forEach>
         </tbody>
     </table>
-    <nav>
-        <ul class="pagination justify-content-center">
-            <c:if test="${param.page-1 >= 1}">
-                <li class="page-item"><a class="page-link"
-                                         href="controller?command=${param.command}&page=${param.page-1}">Previous</a>
-                </li>
-            </c:if>
 
-            <c:forEach var="page" items="${pages}">
-
-                <li class="page-item"><a class="page-link"
-                                         href="controller?command=${param.command}&page=${page}">${page}</a>
-                </li>
-
-            </c:forEach>
-            <c:set var="size" scope="page" value="${requestScope.pages}"/>
-
-            <c:if test="${param.page+1 <= size.size()}">
-                <li class="page-item"><a class="page-link"
-                                         href="controller?command=${param.command}&page=${param.page+1}">Next</a>
-                </li>
-            </c:if>
-        </ul>
-    </nav>
 </div>
 <%@ include file="include/footer.jsp" %>
 <script src="js/bootstrap.min.js"></script>

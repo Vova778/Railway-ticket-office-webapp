@@ -38,17 +38,12 @@ public class FindRoutesBetweenStationsCommand implements Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse resp) throws CommandException, FatalApplicationException {
-        int page;
+
         List<Route> routes = new ArrayList<>();
         HttpSession session = request.getSession();
         List<Schedule> schedules = null;
         int countPages;
-        if (request.getParameter("page") == null
-                || request.getParameter("page").equals("")) {
-            page = 1;
-        } else {
-            page = Integer.parseInt(request.getParameter("page"));
-        }
+
         try {
             String s = request.getParameter("date");
             Date date = Date.valueOf(s);

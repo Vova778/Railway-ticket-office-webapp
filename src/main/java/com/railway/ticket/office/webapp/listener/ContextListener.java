@@ -7,6 +7,7 @@ import com.railway.ticket.office.webapp.command.schedule.ScheduleCommand;
 import com.railway.ticket.office.webapp.command.station.*;
 import com.railway.ticket.office.webapp.command.ticket.BookTicketCommand;
 import com.railway.ticket.office.webapp.command.ticket.CancelTicketCommand;
+import com.railway.ticket.office.webapp.command.ticket.TicketDetailsCommand;
 import com.railway.ticket.office.webapp.command.train.AllTrainsCommand;
 import com.railway.ticket.office.webapp.command.user.*;
 import com.railway.ticket.office.webapp.db.dao.*;
@@ -210,6 +211,10 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         appCommand = new CancelTicketCommand(ticketService, routeService);
         commandContainer.addCommand("cancel_ticket", appCommand);
         LOGGER.info("{} CancelTicketCommand created.", CONTEXT_LISTENER_MSG);
+
+        appCommand = new TicketDetailsCommand(routeService);
+        commandContainer.addCommand("ticket_details", appCommand);
+        LOGGER.info("{} TicketDetailsCommand created.", CONTEXT_LISTENER_MSG);
 
 
 

@@ -149,6 +149,7 @@ public class TicketDAOImpl implements TicketDAO {
                             .extractFromResultSet(resultSet));
                 }
             }
+          //  setRoutesForTicket(ticket.get());
         }
         catch (SQLException e) {
             LOGGER.error("Ticket with ID : [{}] was not found. An exception occurs : {}",

@@ -21,17 +21,31 @@
         <span class="fs-3"><fmt:message key="text.brand"/></span>
         <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-2">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item text-end">
-                    <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22" height="22"></a>
-                        <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22" height="22" style="width: 26px;height: 26px;"></a></div>
-                </li>
+            <c:if test="${sessionScope.user.role.id == 1}">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item text-end">
+                        <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22" height="22"></a>
+                            <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22" height="22" style="width: 26px;height: 26px;"></a></div>
+                    </li>
 
-                <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout" /></span><br></a></li>
-                <li class="nav-item"><a class="nav-link active" href="home.jsp"><fmt:message key="text.home"/></a></li>
-            </ul>
-            <a class="btn btn-primary ms-md-2" role="button" href="basket.jsp"><fmt:message key="text.basket"/> </a>
+                    <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout" /></span><br></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="home.jsp"><fmt:message key="text.home"/></a></li>
+                </ul>
+                <a class="btn btn-primary ms-md-2" role="button" href="basket.jsp"><fmt:message key="text.basket"/> </a>
+            </c:if>
 
+            <c:if test="${sessionScope.user.role.id == 2}">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item text-end">
+                        <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22" height="22"></a>
+                            <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22" height="22" style="width: 26px;height: 26px;"></a></div>
+                    </li>
+                    <li class="nav-item"><a class="nav-link active" href="controller?command=routes"><fmt:message key="text.admin.page"/></a></li>
+                    <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout" /></span><br></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="home.jsp"><fmt:message key="text.home"/></a></li>
+                </ul>
+                <a class="btn btn-primary ms-md-2" role="button" href="controller?command=basket"><fmt:message key="text.basket"/> </a>
+            </c:if>
         </div>
     </div>
 </nav>
@@ -41,7 +55,7 @@
         <h2><fmt:message key="text.hello"/> <c:out value="${sessionScope.user.firstName }"/> <c:out value="${sessionScope.user.lastName }"/></h2>
     </div>
     <hr class="bg-secondary border-2 border-top border-secondary">
-    <table class="table">
+    <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
             <th scope="col"><fmt:message key="text.train.number" /> </th>
@@ -72,8 +86,9 @@
                 </td>
                 <td><c:out value="${ticket.ticketStatus}"/>
                 </td>
-                <td> <a href=""> <fmt:message key="text.details" /> </a>
+                <td> <a href="controller?command=ticket_details&ticketId=${ticket.id}" > <fmt:message key="text.details" /> </a>
                 </td>
+
                 <td>
                     <button type="button"
                             class="btn btn-outline-danger" onclick="window.location='controller?command=cancel_ticket&ticketId=${ticket.id}'">
@@ -111,5 +126,6 @@
 <%@ include file="include/footer.jsp" %>
 <script src="js/bootstrap.min.js"></script>
 </body>
+
 
 </html>

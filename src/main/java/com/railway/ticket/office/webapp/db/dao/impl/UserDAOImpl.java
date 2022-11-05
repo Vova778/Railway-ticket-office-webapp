@@ -30,7 +30,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void insertUser(final User user) throws DAOException {
+    public void insertUser(User user) throws DAOException {
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.USERS_INSERT_USER,
                             Statement.RETURN_GENERATED_KEYS)) {
@@ -38,15 +38,17 @@ public class UserDAOImpl implements UserDAO {
             setUserParameters(user, preparedStatement);
 
             preparedStatement.executeUpdate();
+
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
+
             if (resultSet.next()) {
+
                 user.setId(resultSet.getInt(1));
-                LOGGER.info("User : {} was saved successfully", user);
+                LOGGER.info("User : {} was inserted successfully", user);
             }
 
-            LOGGER.info("User : {} was inserted successfully", user);
         } catch (SQLException e) {
-            LOGGER.error("User : [{}] was not inserted. An exception occurs : {}",
+            LOGGER.error("User : [{}] wasn`t inserted. An exception occurs : {}",
                     user, e.getMessage());
             throw new DAOException("[UserDAO] exception while creating User" + e.getMessage(), e);
         }
@@ -83,7 +85,6 @@ public class UserDAOImpl implements UserDAO {
 
             preparedStatement.setInt(7,userId);
 
-
             int updatedRow = preparedStatement.executeUpdate();
             if(updatedRow>0){
                 LOGGER.info("User with ID : {} was updated successfully", userId);
@@ -106,50 +107,6 @@ public class UserDAOImpl implements UserDAO {
         int roleId = user.getRole().getId();
         preparedStatement.setInt(k,roleId);
     }
-
- /*
-    private String getRoleNameById(User user, long roleId) throws SQLException, DAOException {
-        String roleName = null;
-        try (PreparedStatement preparedStatement = con.prepareStatement(Constants.GET_ROLE_NAME_BY_ID)) {
-            preparedStatement.setInt(1, user.getId());
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                roleName = resultSet.getString("name");
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("Role : [{}] was not found. An exception occurs." +
-                            " Transaction rolled back!!! : {}",
-                    roleId, e.getMessage());
-            con.rollback();
-            throw new DAOException("[UserDAO] exception while reading Role" + e.getMessage(), e);
-        }
-        return roleName;
-    }
-
-  private int getRoleIdByName(User user) throws SQLException, DAOException {
-        int roleId =0;
-        try (PreparedStatement preparedStatement = con.prepareStatement(Constants.GET_ROLE_ID_BY_NAME)) {
-            preparedStatement.setString(1, user.getRole().getRoleName());
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                roleId = resultSet.getInt("id");
-            }
-
-        } catch (SQLException e) {
-            LOGGER.error("Role : [{}] was not found. An exception occurs." +
-                            " Transaction rolled back!!! : {}",
-                    user.getRole().getRoleName(), e.getMessage());
-            con.rollback();
-            throw new DAOException("[UserDAO] exception while reading Role" + e.getMessage(), e);
-        }
-        return roleId;
-    }*/
-
 
 
     @Override

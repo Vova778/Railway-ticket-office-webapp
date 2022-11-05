@@ -66,16 +66,13 @@ public class BookTicketCommand implements Command {
 
             ticketService.insert(ticket);
 
-            List<Route> routeToUpdate = routeService.findRoutesByTicketId(ticket.getId());
+            ticket.getRoutes()
+                    .forEach((r) -> r.setAvailableSeats(r.getAvailableSeats()-1));
 
-            for(Route r: routeToUpdate){
-                r.setAvailableSeats(r.getAvailableSeats()-1);
-                routeService.update(r.getId(),r);
-            }
+            routeService.updateTicketRoutes(ticket);
 
             LOGGER.info("{} Ticket was successfully added : {}"
                     , BOOK_TICKET_COMMAND, ticket);
-
 
         } catch (ServiceException e) {
             LOGGER.error("An exception occurs while adding Ticket");

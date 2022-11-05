@@ -27,16 +27,17 @@
 </nav>
 <div class="container">
     <div class="col-md-8 col-xl-6 text-center mx-auto" style="margin-top: 50px" >
-        <h2><fmt:message key="text.login.form"/></h2>
+
     </div>
     <div class="row">
         <div class="col">
             <section class="position-relative py-4 py-xl-5">
                 <div class="container">
                     <div class="row d-flex justify-content-center">
-                        <div class="col-md-6 col-xl-4">
-                            <div class="card mb-5">
-                                <div class="card-body d-flex flex-column align-items-center">
+                        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                            <div class="card border-0 shadow rounded-3 my-5">
+                                <div class="card-body p-4 p-sm-5">
+                                    <h2 class="card-title text-center mb-5 fw-light fs-5"><fmt:message key="text.login.form"/></h2>
                                     <form class="text-center" action="controller" method="post">
                                         <input hidden name="command" value="login">
                                         <div class="form-outline mb-4"><input class="form-control form-control-lg" type="text" name="login"
@@ -47,10 +48,10 @@
                                                                  placeholder="Password" required="" minlength="6"
                                                                  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,65}$">
                                         </div>
-                                        <div class="mb-3">
-                                            <button class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" type="submit" ><fmt:message key="text.login"/></button>
+                                        <div class="d-grid mb-2">
+                                            <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit" ><fmt:message key="text.login"/></button>
                                         </div>
-                                        <a href="" class="text-muted"><fmt:message key="text.forgot.password"/></a>
+                                        <a href="registration.jsp" class="text-muted"><fmt:message key="text.have.not.account"/></a>
                                     </form>
                                 </div>
                             </div>

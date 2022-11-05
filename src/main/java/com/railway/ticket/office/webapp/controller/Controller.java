@@ -18,12 +18,10 @@ import java.io.IOException;
 @WebServlet(name = "Controller", value = "/controller")
 public class Controller extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(Controller.class);
-    private CommandContainer commandContainer;
+
 
     @Override
     public void init(ServletConfig config) {
-        commandContainer =
-                (CommandContainer) config.getServletContext().getAttribute("commandContainer");
     }
 
 
@@ -32,7 +30,7 @@ public class Controller extends HttpServlet {
         String url = null;
         try {
             url = getUrl(request, response);
-            LOGGER.info("[AppController-doGet] URL processed");
+            LOGGER.info("[Controller-doGet] URL processed");
         } catch (CommandException | FatalApplicationException e) {
             LOGGER.error("An exception occurs: {}, req encoding: {}", e.getMessage(), request.getCharacterEncoding());
             response.sendError(500, "Can't process command");
@@ -44,7 +42,7 @@ public class Controller extends HttpServlet {
         String url = null;
         try {
             url = getUrl(request, response);
-            LOGGER.info("[AppController-doPost] URL processed [{}], resp encoding: {}", url,
+            LOGGER.info("[Controller-doPost] URL processed [{}], resp encoding: {}", url,
                     response.getCharacterEncoding());
         } catch (CommandException | FatalApplicationException e) {
             LOGGER.error("An exception occurs: {}", e.getMessage());
@@ -57,6 +55,6 @@ public class Controller extends HttpServlet {
             throws CommandException, FatalApplicationException {
         String commandName = req.getParameter("command");
         Command command = CommandContainer.getCommand(commandName);
-        return command.execute(req,resp);
+        return command.execute(req, resp);
     }
 }

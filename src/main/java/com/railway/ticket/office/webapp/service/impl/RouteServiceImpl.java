@@ -7,6 +7,7 @@ import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Route;
 import com.railway.ticket.office.webapp.model.Schedule;
 import com.railway.ticket.office.webapp.model.Station;
+import com.railway.ticket.office.webapp.model.Ticket;
 import com.railway.ticket.office.webapp.service.RouteService;
 import com.railway.ticket.office.webapp.utils.db.DBUtils;
 import org.apache.logging.log4j.LogManager;
@@ -98,6 +99,21 @@ public class RouteServiceImpl implements RouteService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
+    @Override
+    public boolean updateTicketRoutes(Ticket ticket) throws ServiceException {
+        if ( ticket == null) {
+            LOGGER.error(NULL_ROUTE_INPUT_EXC);
+            throw new IllegalArgumentException(NULL_ROUTE_INPUT_EXC);
+        }
+        try {
+            routeDAO.updateTicketRoutes(ticket);
+            return true;
+        } catch (DAOException e) {
+            LOGGER.error("[RouteService] An exception occurs while updating Route by Ticket Id. (Ticket Id: {}). Exc: {}"
+                    , ticket.getId(), e.getMessage());
+            throw new ServiceException(e.getMessage(), e);
+        }
+    }
 
     @Override
     public Route findRouteById(int routeId) throws ServiceException {
@@ -150,7 +166,7 @@ public class RouteServiceImpl implements RouteService {
     @Override
     public List<Route> findRoutesByTicketId(int ticketId) throws ServiceException {
         try {
-            return routeDAO.findRoutesByScheduleId(ticketId);
+            return routeDAO.findRoutesByTicketId(ticketId);
         } catch (DAOException e) {
             LOGGER.error("[RouteService] An exception occurs while receiving Routes by ticket id. Exc: {}",
                     e.getMessage());

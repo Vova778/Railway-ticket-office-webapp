@@ -68,7 +68,13 @@
             <div class="card mb-4">
                 <div class="card-body d-flex flex-column align-items-center">
                     <form  class="text-center" action="controller" method="get">
-                        <input hidden name="command" value="find_routes_between_stations"/>
+                        <c:if test="${sessionScope.user.role.id == null}">
+                            <input hidden name="command" value="registrationForm"/>
+                        </c:if >
+                        <c:if test="${sessionScope.user.role.id != null}">
+                            <input hidden name="command" value="find_routes_between_stations"/>
+                        </c:if >
+
                         <div class="mb-3"><input class="form-control" type="text" name="startingStation" placeholder="From"></div>
                         <div class="mb-3"><input class="form-control" type="text" name="finalStation" placeholder="To"></div>
                         <div class="mb-3"><input class="form-control" type="date" min="20.10.2022" name="date"></div>
