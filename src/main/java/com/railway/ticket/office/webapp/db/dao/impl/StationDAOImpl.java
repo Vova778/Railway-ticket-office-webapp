@@ -101,7 +101,7 @@ public class StationDAOImpl implements StationDAO {
 
             preparedStatement.setInt(1,stationId);
 
-            try(ResultSet resultSet = preparedStatement.executeQuery();){
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()){
                     station = Optional.ofNullable(stationMapper
                             .extractFromResultSet(resultSet));
@@ -126,7 +126,7 @@ public class StationDAOImpl implements StationDAO {
 
             preparedStatement.setString(1,stationName);
 
-            try(ResultSet resultSet = preparedStatement.executeQuery();){
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()){
                     station = Optional.ofNullable(new StationMapper()
                             .extractFromResultSet(resultSet));

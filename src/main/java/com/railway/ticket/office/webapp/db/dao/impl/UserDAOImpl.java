@@ -146,7 +146,7 @@ public class UserDAOImpl implements UserDAO {
 
             preparedStatement.setString(1,login);
 
-            try(ResultSet resultSet = preparedStatement.executeQuery();){
+            try(ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()){
                     user = Optional.ofNullable(userMapper
                             .extractFromResultSet(resultSet));

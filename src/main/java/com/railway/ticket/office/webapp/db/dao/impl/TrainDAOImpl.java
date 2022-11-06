@@ -36,7 +36,8 @@ public class TrainDAOImpl implements TrainDAO {
                     con.prepareStatement(Constants.TRAINS_INSERT_TRAIN,
                             Statement.RETURN_GENERATED_KEYS)) {
 
-            preparedStatement.setInt(1,train.getSeats());
+            preparedStatement.setInt(1,train.getNumber());
+            preparedStatement.setInt(2,train.getSeats());
 
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();

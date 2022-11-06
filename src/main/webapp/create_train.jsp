@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8" http-equiv="Content-Type" name="viewport"
           content="text/html, width=device-width, initial-scale=1.0, shrink-to-fit=no"/>
-    <title>Create station</title>
+    <title>Create train</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 
@@ -30,7 +30,7 @@
 </nav>
 <div class="container">
     <div class="col-md-8 col-xl-6 text-center mx-auto">
-        <h2><fmt:message key="text.create.station" /></h2>
+        <h2><fmt:message key="text.create.train" /></h2>
     </div>
     <div class="row">
         <div class="col">
@@ -42,19 +42,25 @@
                                 <div class="card-body d-flex flex-column align-items-center">
                                     <form class="text-center" action="controller" method="post">
 
-                                        <input hidden name="command" value="create_station"/>
-
-
+                                        <input hidden name="command" value="create_train"/>
 
                                         <div style="margin-bottom: 16px;"><input class="form-control" type="text"
-                                                                                 placeholder="Name"
-                                                                                 name="stationName"
-                                                                                 pattern="^(?=.{3,45}$)\w+( \w+)*$"
-                                                                                 minlength="2"
-                                                                                 maxlength="45"/></div>
+                                                                                 placeholder="Number"
+                                                                                 name="number"
+
+                                                                                 minlength="3"
+                                                                                 maxlength="8"/></div>
+
+                                        <div style="margin-bottom: 16px;"><input class="form-control" type="text"
+                                                                                 placeholder="Seats"
+                                                                                 name="seats"
+
+                                                                                 minlength="1"
+                                                                                 maxlength="5"/></div>
+
                                         <div class="mb-3">
                                             <button class="btn btn-success d-block w-100" type="submit"
-                                                    value=""> <fmt:message key="text.create.station"/>
+                                                    value=""> <fmt:message key="text.create.train"/>
                                             </button>
                                         </div>
                                     </form>

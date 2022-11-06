@@ -51,6 +51,14 @@
             <a class="nav-link" href="controller?command=users">Users</a>
         </li>
     </ul>
+
+    <hr class="bg-secondary border-2 border-top border-secondary">
+    <div class="container justify-content-center">
+        <a href="controller?command=train_form" style="text-decoration:none;">
+            <button type="button" class="btn btn-outline-secondary">
+                <fmt:message key="text.create.train"/></button>
+        </a>
+    </div>
     <hr class="bg-secondary border-2 border-top border-secondary">
     <table class = "table table-striped table-bordered table-hover">
         <thead>
@@ -58,21 +66,35 @@
             <th scope="col">Train number</th>
             <th scope="col">Total Seats</th>
             <th scope="col">Schedule</th>
+            <th scope="col"> </th>
+            <th scope="col"> </th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="station" items="${trains}">
+        <c:forEach var="train" items="${trains}">
             <tr>
-                <td><c:out value="${station.number}"/>
+                <td><c:out value="${train.number}"/>
                 </td>
-                <td><c:out value="${station.seats}"/>
+                <td>${train.seats}
                 </td>
                 <td>
-                    <c:forEach items="${station.schedules}" var="schedule" >
+                    <c:forEach items="${train.schedules}" var="schedule" >
                       <a class="text-primary" class="page-link "
                            href="controller?command=schedule&scheduleId=${schedule.id}">
                                 <c:out value=" ${schedule.date} "/><br> </a>
             </c:forEach>
+                </td>
+                <td>
+                    <button type="button"
+                            class="btn btn-outline-info"
+                            onclick="window.location='controller?command=create_schedule_form&trainNumber=${train.number}'">
+                        <fmt:message key="text.add.schedule"/> </button>
+                </td>
+                <td>
+                    <button type="button"
+                            class="btn btn-outline-warning"
+                            onclick="window.location='controller?command=edit_train_form&trainNumber=${train.number}'">
+                        <fmt:message key="text.edit"/> </button>
                 </td>
             </tr>
         </c:forEach>

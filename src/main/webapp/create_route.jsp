@@ -53,6 +53,13 @@
                                         <input hidden name="command" value="add_route"/>
                                         <input hidden name="scheduleId" value="${param.scheduleId}"/>
 
+                                        <label>
+                                            <select name="destinationPoint" style="margin-bottom: 10px">
+                                                <c:forEach var="station" items="${stations}">
+                                                    <option value="${station.name}">${station.name}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </label>
 
                                         <div style="margin-bottom: 16px;"><input class="form-control" type="time"
                                                                                  placeholder="Departure Time"

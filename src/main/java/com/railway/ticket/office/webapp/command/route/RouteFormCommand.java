@@ -36,6 +36,6 @@ public class RouteFormCommand implements Command {
             throw new CommandException(e.getMessage(), e);
         }
         request.setAttribute("stations", stations);
-        return "add_route.jsp";
+        return "create_route.jsp";
     }
 }

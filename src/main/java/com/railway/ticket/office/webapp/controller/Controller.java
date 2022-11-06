@@ -19,14 +19,12 @@ import java.io.IOException;
 public class Controller extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(Controller.class);
 
+    @Override
+    public void init(ServletConfig config){}
 
     @Override
-    public void init(ServletConfig config) {
-    }
-
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String url = null;
         try {
             url = getUrl(request, response);

@@ -19,15 +19,15 @@ import java.sql.Time;
 import java.util.List;
 import java.util.Optional;
 
-public class AddRouteCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(AddRouteCommand.class);
+public class CreateRouteCommand implements Command {
+    private static final Logger LOGGER = LogManager.getLogger(CreateRouteCommand.class);
     private static final String ADD_ROUTE_COMMAND = "[AddRouteCommand]";
 
     private final StationService stationService;
     private final ScheduleService scheduleService;
     private final RouteService routeService;
 
-    public AddRouteCommand(RouteService routeService, StationService stationService, ScheduleService scheduleService) {
+    public CreateRouteCommand(RouteService routeService, StationService stationService, ScheduleService scheduleService) {
         this.routeService = routeService;
         this.stationService = stationService;
         this.scheduleService = scheduleService;

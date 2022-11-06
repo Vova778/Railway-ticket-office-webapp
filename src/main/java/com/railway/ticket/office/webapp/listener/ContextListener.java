@@ -3,11 +3,15 @@ package com.railway.ticket.office.webapp.listener;
 import com.railway.ticket.office.webapp.command.*;
 import com.railway.ticket.office.webapp.command.logic.FindRoutesBetweenStationsCommand;
 import com.railway.ticket.office.webapp.command.route.*;
+import com.railway.ticket.office.webapp.command.schedule.CreateScheduleCommand;
+import com.railway.ticket.office.webapp.command.schedule.CreateScheduleFormCommand;
 import com.railway.ticket.office.webapp.command.schedule.ScheduleCommand;
 import com.railway.ticket.office.webapp.command.station.*;
 import com.railway.ticket.office.webapp.command.ticket.BookTicketCommand;
 import com.railway.ticket.office.webapp.command.ticket.CancelTicketCommand;
 import com.railway.ticket.office.webapp.command.ticket.TicketDetailsCommand;
+import com.railway.ticket.office.webapp.command.train.CreateTrainCommand;
+import com.railway.ticket.office.webapp.command.train.CreateTrainFormCommand;
 import com.railway.ticket.office.webapp.command.train.AllTrainsCommand;
 import com.railway.ticket.office.webapp.command.user.*;
 import com.railway.ticket.office.webapp.db.dao.*;
@@ -159,7 +163,7 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         commandContainer.addCommand("schedule", appCommand);
         LOGGER.info("{} ScheduleCommand created.", CONTEXT_LISTENER_MSG);
 
-        appCommand = new StationFormCommand();
+        appCommand = new CreateStationFormCommand();
         commandContainer.addCommand("station_form", appCommand);
         LOGGER.info("{} StationFormCommand created.", CONTEXT_LISTENER_MSG);
 
@@ -179,7 +183,7 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         commandContainer.addCommand("route_form", appCommand);
         LOGGER.info("{} RouteFormCommand created.", CONTEXT_LISTENER_MSG);
 
-        appCommand = new AddRouteCommand(routeService ,stationService, scheduleService);
+        appCommand = new CreateRouteCommand(routeService ,stationService, scheduleService);
         commandContainer.addCommand("add_route", appCommand);
         LOGGER.info("{} AddRouteCommand created.", CONTEXT_LISTENER_MSG);
 
@@ -215,6 +219,22 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         appCommand = new TicketDetailsCommand(routeService);
         commandContainer.addCommand("ticket_details", appCommand);
         LOGGER.info("{} TicketDetailsCommand created.", CONTEXT_LISTENER_MSG);
+
+        appCommand = new CreateTrainCommand(trainService);
+        commandContainer.addCommand("create_train", appCommand);
+        LOGGER.info("{} AddTrainCommand created.", CONTEXT_LISTENER_MSG);
+
+        appCommand = new CreateTrainFormCommand();
+        commandContainer.addCommand("train_form", appCommand);
+        LOGGER.info("{} AddTrainFormCommand created.", CONTEXT_LISTENER_MSG);
+
+        appCommand = new CreateScheduleCommand(scheduleService);
+        commandContainer.addCommand("create_schedule", appCommand);
+        LOGGER.info("{} CreateScheduleCommand created.", CONTEXT_LISTENER_MSG);
+
+        appCommand = new CreateScheduleFormCommand();
+        commandContainer.addCommand("create_schedule_form", appCommand);
+        LOGGER.info("{} CreateScheduleFormCommand created.", CONTEXT_LISTENER_MSG);
 
 
 

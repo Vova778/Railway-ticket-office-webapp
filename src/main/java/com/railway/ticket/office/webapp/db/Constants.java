@@ -60,7 +60,7 @@ public class Constants {
     public static final String GET_TICKET_STATUS_ID_BY_NAME = "SELECT id FROM ticket_status WHERE name=?";
     public static final String TICKETS_GET_COUNT = "SELECT COUNT(*) FROM ticket";
 
-    public static final String TRAINS_INSERT_TRAIN = "insert into train values (default, ?,?)";
+    public static final String TRAINS_INSERT_TRAIN = "insert into train values (?,?)";
     public static final String TRAINS_DELETE_TRAIN = "delete from train where number=?";
     public static final String TRAINS_UPDATE_TRAIN = "update train set seats=? where number=?";
     public static final String TRAINS_GET_TRAIN_BY_NUMBER = "select * from train where number=?";
