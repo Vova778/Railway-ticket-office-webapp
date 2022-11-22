@@ -12,12 +12,10 @@ public class Constants {
             " right join station starting_station on starting_station_id=starting_station.id\n" +
             " right join station final_station on final_station_id=final_station.id  right join train on train_id=train.number \n" +
             " right join schedule s on schedule_id=s.id where schedule_id=? order by stoppage_number;";
-    public static final String ROUTES_GET_ALL_ROUTES = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name, t.seats total_seats from route\n" +
-            " right join train t on route.train_id = t.number right join station starting_station\n" +
-            "on starting_station_id=starting_station.id right join station final_station on  final_station_id=final_station.id";
-    public static final String ROUTES_GET_ALL_ROUTES_WITH_OFFSET = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name, t.seats total_seats, schedule.date from route\n" +
-            " right join schedule on schedule.id=route.schedule_id right join train t on route.train_id = t.number right join station starting_station\n" +
-            "on starting_station_id=starting_station.id right join station final_station on  final_station_id=final_station.id order by route.id LIMIT 10 OFFSET ?";
+    public static final String ROUTES_GET_ALL_ROUTES = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name, t.seats total_seats, schedule.date from route\n" +
+            " left join schedule on schedule.id=route.schedule_id left join train t on route.train_id = t.number left join station starting_station\n" +
+            "on starting_station_id=starting_station.id left join station final_station on  final_station_id=final_station.id order by route.id";
+    public static final String ROUTES_GET_ALL_ROUTES_WITH_OFFSET = ROUTES_GET_ALL_ROUTES + " LIMIT 10 OFFSET ?";
     public static final String ROUTES_GET_COUNT = "SELECT COUNT(*) FROM route";
     public static final String ROUTES_FIND_ROUTES_BETWEEN_STATIONS = "select s.id schedule_id, s.date, r.* , starting_station.name starting_station_name,\n" +
             " final_station.name final_station_name, t.seats total_seats from schedule s right join route r on s.id=r.schedule_id\n" +

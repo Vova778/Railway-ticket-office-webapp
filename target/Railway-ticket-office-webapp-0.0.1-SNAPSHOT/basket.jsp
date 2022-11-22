@@ -72,23 +72,15 @@
         <tbody>
         <c:forEach var="ticket" items="${tickets}">
             <tr>
-                <td><c:out value="${ticket.trainNumber}"/>
-                </td>
-                <td><c:out value="${ticket.startingStation}"/>
-                </td>
-                <td><c:out value="${ticket.departureTime}"/>
-                </td>
-                <td><c:out value="${ticket.finalStation}"/>
-                </td>
-                <td><c:out value="${ticket.arrivalTime}"/>
-                </td>
-                <td><c:out value="${ticket.fare}"/>
-                </td>
-                <td><c:out value="${ticket.ticketStatus}"/>
-                </td>
+                <td>${ticket.trainNumber}</td>
+                <td>${ticket.startingStation}</td>
+                <td>${ticket.departureTime}</td>
+                <td>${ticket.finalStation}</td>
+                <td>${ticket.arrivalTime}</td>
+                <td>${ticket.fare}</td>
+                <td>${ticket.ticketStatus}</td>
                 <td> <a href="controller?command=ticket_details&ticketId=${ticket.id}" > <fmt:message key="text.details" /> </a>
                 </td>
-
                 <td>
                     <button type="button"
                             class="btn btn-outline-danger" onclick="window.location='controller?command=cancel_ticket&ticketId=${ticket.id}'">

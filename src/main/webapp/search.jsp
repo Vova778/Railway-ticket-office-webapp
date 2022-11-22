@@ -72,22 +72,14 @@
         <tbody>
         <c:forEach var="route" items="${routes}">
             <tr>
-                <td><c:out value="${route.train.number}"/>
-                </td>
-                <td><c:out value="${route.startingStation.name}"/>
-                </td>
-                <td><c:out value="${route.schedule.date} ${route.departureTime}"/>
-                </td>
-                <td><c:out value="${route.finalStation.name}"/>
-                </td>
-                <td><c:out value="${route.schedule.date} ${route.arrivalTime}"/>
-                </td>
-                <td><c:out value="${route.travelTime}"/>
-                </td>
-                <td><c:out value="${route.availableSeats}"/>
-                </td>
-                <td><c:out value="${route.price}"/>
-                </td>
+                <td>${route.train.number}</td>
+                <td>${route.startingStation.name}</td>
+                <td>${route.schedule.date} ${route.departureTime}</td>
+                <td>${route.finalStation.name}</td>
+                <td>${route.schedule.date} ${route.arrivalTime}</td>
+                <td>${route.travelTime}</td>
+                <td>${route.availableSeats}</td>
+                <td>${route.price}</td>
                 <td> <a href=""> <fmt:message key="text.details" /> </a>
                 </td>
                 <td>

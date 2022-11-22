@@ -23,8 +23,10 @@
         <div class="collapse navbar-collapse" id="navcol-2">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item text-end">
-                    <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22" height="22"></a>
-                        <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22" height="22" style="width: 26px;height: 26px;"></a></div>
+                    <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}">
+                        <img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22" height="22"></a>
+                        <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}">
+                            <img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22" height="22" style="width: 26px;height: 26px;"></a></div>
                 </li>
                 <li class="nav-item"><a class="nav-link active" href="controller?command=routes"><fmt:message key="text.admin.page"/></a></li>
                 <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout" /></span><br></a></li>
@@ -44,7 +46,8 @@
     <div class="container justify-content-center">
         <a href="controller?command=route_form&scheduleId=${param.scheduleId}" style="text-decoration:none;">
             <button type="button" class="btn btn-outline-secondary">
-                <fmt:message key="text.add.route"/></button>
+                <fmt:message key="text.add.route"/>
+            </button>
         </a>
     </div>
     <hr class="bg-secondary border-2 border-top border-secondary">
@@ -65,24 +68,15 @@
         <tbody>
         <c:forEach var="route" items="${routes}">
             <tr>
-                <td><c:out value="${route.train.number}"/>
-                </td>
-                <td><c:out value="${route.stoppageNumber}"/>
-                </td>
-                <td><c:out value="${route.startingStation.name}"/>
-                </td>
-                <td><c:out value="${route.departureTime}"/>
-                </td>
-                <td><c:out value="${route.finalStation.name}"/>
-                </td>
-                <td><c:out value="${route.arrivalTime}"/>
-                </td>
-                <td><c:out value="${route.availableSeats}"/>
-                </td>
-                <td><c:out value="${route.day}"/>
-                </td>
-                <td><c:out value="${route.price}"/>
-                </td>
+                <td>${route.train.number}</td>
+                <td>${route.stoppageNumber}</td>
+                <td>${route.startingStation.name}</td>
+                <td>${route.departureTime}</td>
+                <td>${route.finalStation.name}</td>
+                <td>${route.arrivalTime}</td>
+                <td>${route.availableSeats}</td>
+                <td>${route.day}</td>
+                <td>${route.price}</td>
                 <td>
                     <button type="button"
                             class="btn btn-outline-warning"
@@ -91,7 +85,8 @@
                 </td>
                 <td>
                     <button type="button"
-                            class="btn btn-outline-danger" onclick="window.location='controller?command=remove_route&routeId=${route.id}&scheduleId=${param.scheduleId}'">
+                            class="btn btn-outline-danger"
+                            onclick="window.location='controller?command=remove_route&routeId=${route.id}&scheduleId=${param.scheduleId}'">
                         <fmt:message key="text.remove"/></button>
                 </td>
             </tr>

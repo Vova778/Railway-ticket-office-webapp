@@ -20,8 +20,14 @@
             <img style="margin: 0px;margin-right: 0px;width: 110px;height: 110px;" src="img/est.2012%20(1).png"
                  width="120" height="120"></a>
         <span class="fs-3"><fmt:message key="text.brand"/></span>
-        <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span
-                class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+
+        <button data-bs-toggle="collapse"
+                class="navbar-toggler"
+                data-bs-target="#navcol-2">
+            <span class="visually-hidden">Toggle navigation</span>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
         <div class="collapse navbar-collapse" id="navcol-2">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item text-end">
@@ -77,20 +83,15 @@
         <tbody>
         <c:forEach var="route" items="${routes}">
             <tr>
-                <td><c:out value="${route.train.number}"/>
-                </td>
-                <td><c:out value="${route.startingStation.name}"/>
-                </td>
-                <td><c:out value="${route.departureTime}"/>
-                </td>
-                <td><c:out value="${route.finalStation.name}"/>
-                </td>
-                <td><c:out value="${route.arrivalTime}"/>
-                </td>
+                <td>${route.train.number}</td>
+                <td>${route.startingStation.name}</td>
+                <td>${route.departureTime}</td>
+                <td>${route.finalStation.name}</td>
+                <td>${route.arrivalTime}</td>
                 <td>
                     <a class="text-primary" class="page-link "
                        href="controller?command=schedule&scheduleId=${route.schedule.id}">
-                        <c:out value=" ${route.schedule.date} "/><br> </a>
+                        ${route.schedule.date}<br> </a>
                 </td>
             </tr>
         </c:forEach>

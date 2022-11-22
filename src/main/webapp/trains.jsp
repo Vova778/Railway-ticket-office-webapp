@@ -73,7 +73,7 @@
         <tbody>
         <c:forEach var="train" items="${trains}">
             <tr>
-                <td><c:out value="${train.number}"/>
+                <td>${train.number}
                 </td>
                 <td>${train.seats}
                 </td>
@@ -81,7 +81,7 @@
                     <c:forEach items="${train.schedules}" var="schedule" >
                       <a class="text-primary" class="page-link "
                            href="controller?command=schedule&scheduleId=${schedule.id}">
-                                <c:out value=" ${schedule.date} "/><br> </a>
+                                ${schedule.date}<br> </a>
             </c:forEach>
                 </td>
                 <td>
@@ -128,6 +128,7 @@
         </ul>
     </nav>
 </div>
+
 <%@ include file="include/footer.jsp" %>
 <script src="js/bootstrap.min.js"></script>
 </body>

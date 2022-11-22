@@ -191,7 +191,6 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         commandContainer.addCommand("remove_route", appCommand);
         LOGGER.info("{} RemoveRouteCommand created.", CONTEXT_LISTENER_MSG);
 
-
         appCommand = new EditRouteFormCommand(routeService, stationService);
         commandContainer.addCommand("edit_route_form", appCommand);
         LOGGER.info("{} EditRouteFormCommand created.", CONTEXT_LISTENER_MSG);

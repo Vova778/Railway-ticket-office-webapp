@@ -25,14 +25,23 @@
         <div class="collapse navbar-collapse" id="navcol-2">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item text-end">
-                    <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22" height="22"></a>
-                        <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22" height="22" style="width: 26px;height: 26px;"></a></div>
+                    <div class="container"><a class="active"
+                                              href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img
+                            src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22"
+                            height="22"></a>
+                        <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img
+                                class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22"
+                                height="22" style="width: 26px;height: 26px;"></a></div>
                 </li>
-                <li class="nav-item"><a class="nav-link active" href="controller?command=routes"><fmt:message key="text.admin.page"/></a></li>
-                <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout" /></span><br></a></li>
+                <li class="nav-item"><a class="nav-link active" href="controller?command=routes"><fmt:message
+                        key="text.admin.page"/></a></li>
+                <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span
+                        style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout"/></span><br></a>
+                </li>
                 <li class="nav-item"><a class="nav-link active" href="home.jsp"><fmt:message key="text.home"/></a></li>
             </ul>
-            <a class="btn btn-primary ms-md-2" role="button" href="controller?command=basket"><fmt:message key="text.basket"/> </a>
+            <a class="btn btn-primary ms-md-2" role="button" href="controller?command=basket"><fmt:message
+                    key="text.basket"/> </a>
 
         </div>
     </div>
@@ -55,37 +64,41 @@
     </ul>
     <hr class="bg-secondary border-2 border-top border-secondary">
     <div class="container justify-content-center">
-        <a href="controller?command=station_form" style="text-decoration:none;">
-            <button type="button" class="btn btn-outline-secondary">
-               <fmt:message key="text.create.station"/></button>
+        <a style="text-decoration:none;">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCreateStation">
+                <fmt:message key="text.create.station"/></button>
         </a>
     </div>
     <hr class="bg-secondary border-2 border-top border-secondary">
-    <table class = "table table-striped table-bordered table-hover">
+    <table class="table table-striped table-bordered table-hover">
         <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col"> </th>
             <th scope="col"> </th>
+
         </tr>
         </thead>
         <tbody>
         <c:forEach var="station" items="${stations}">
             <tr>
-                <td><c:out value="${station.id}"/>
+                <td>${station.id}
                 </td>
-                <td><c:out value="${station.name}"/>
-                </td>
-                <td>
-                    <button type="button"
-                            class="btn btn-outline-warning"
-                            onclick="window.location='controller?command=edit_station_form&stationId=${station.id}'">
-                        <fmt:message key="text.edit"/> </button>
+                <td>${station.name}
                 </td>
                 <td>
                     <button type="button"
-                            class="btn btn-outline-danger" onclick="window.location='controller?command=remove_station&stationId=${station.id}'">
+                            class="btn btn-info"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalEditStation">
+                        <fmt:message key="text.edit"/>
+                    </button>
+                </td>
+                <td>
+                    <button type="button"
+                            class="btn btn-outline-danger"
+                            onclick="window.location='controller?command=remove_station&stationId=${station.id}'">
                         <fmt:message key="text.remove"/></button>
                 </td>
 
@@ -120,6 +133,8 @@
 </div>
 <%@ include file="include/footer.jsp" %>
 <script src="js/bootstrap.min.js"></script>
+
+
 </body>
 
 </html>

@@ -63,18 +63,13 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="station" items="${users}">
+        <c:forEach var="user" items="${users}">
             <tr>
-                <td><c:out value="${station.login}"/>
-                </td>
-                <td><c:out value="${station.firstName}"/>
-                </td>
-                <td><c:out value="${station.lastName}"/>
-                </td>
-                <td><c:out value="${station.phone}"/>
-                </td>
-                <td><c:out value="${station.role}"/>
-                </td>
+                <td>${user.login}</td>
+                <td>${user.firstName}</td>
+                <td>${user.lastName}</td>
+                <td>${user.phone}</td>
+                <td>${user.role}</td>
             </tr>
         </c:forEach>
         </tbody>
