@@ -49,19 +49,39 @@
                                 <div class="card-body d-flex flex-column align-items-center">
                                     <form class="text-center" action="controller" method="post">
 
-
                                         <input hidden name="command" value="edit_route"/>
                                         <input type="hidden" name="routeId" value="${route.id}">
                                         <input hidden name="scheduleId" value="${param.scheduleId}"/>
 
 
-                                        <div style="margin-bottom: 16px;"><input class="form-control" type="time"
-                                                                                 placeholder="Departure Time"
-                                                                                 name="departureTime"
-                                        /></div>
+                                        <c:if test="${routes.size() == 0 || route.stoppageNumber == 1}">
+                                        <label>
+                                            <select name="startingStation" style="margin-bottom: 10px">
+                                                    <%--@elvariable id="stations" type="java.util.List"--%>
+                                                <c:forEach var="station" items="${stations}">
+                                                    <option value="${station.name}">${station.name}</option>
+                                                </c:forEach>
+                                            </select>
+                                        </label>
+                                        </c:if>
+
+                                        <c:if test="${routes.size() != 0 && route.stoppageNumber != 1}">
+                                        <input readonly name="startingStation"
+                                               value="${route.startingStation.name}"/>
+                                        </c:if>
+
+
+                                        <div style="margin-bottom: 16px;">
+                                            <input class="form-control" type="time"
+                                                   placeholder="Departure Time"
+                                                   name="departureTime"
+                                                   value="${route.departureTime}"
+                                            />
+                                        </div>
 
                                         <label>
-                                            <select name="destinationPoint" style="margin-bottom: 10px">
+                                            <select name="finalStation" style="margin-bottom: 10px">
+                                                <%--@elvariable id="stations" type="java.util.List"--%>
                                                 <c:forEach var="station" items="${stations}">
                                                     <option value="${station.name}">${station.name}</option>
                                                 </c:forEach>
@@ -71,12 +91,16 @@
                                         <div style="margin-bottom: 16px;"><input class="form-control" type="time"
                                                                                  placeholder="Arrival Time"
                                                                                  name="arrivalTime"
+                                                                                 value="${route.arrivalTime}"
                                         /></div>
 
-                                        <div style="margin-bottom: 16px;"><input class="form-control" type="text"
+                                        <div style="margin-bottom: 16px;"><input class="form-control"
+                                                                                 type="text"
                                                                                  placeholder="Price"
                                                                                  name="price"
-                                        /></div>
+                                                                                 value="${route.price}"/>
+                                        </div>
+
 
                                         <div class="mb-3">
                                             <button class="btn btn-success d-block w-100" type="submit"

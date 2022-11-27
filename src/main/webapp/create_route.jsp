@@ -15,8 +15,8 @@
 <nav class="navbar navbar-light navbar-expand-md bg-info py-3" style="height: 130px;">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="#">
-            <img style="margin: 0px;margin-right: 0px;width: 110px;height: 110px;" src="img/est.2012%20(1).png"
-                 width="120" height="120"></a>
+            <img style="margin: 0px;margin-right: 0px;width: 110px;height: 110px;" src="img/est.2012%20(1).png">
+        </a>
         <span class="fs-3"><fmt:message key="text.brand"/></span>
         <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span
                 class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
@@ -25,11 +25,14 @@
                 <li class="nav-item text-end">
                     <div class="container"><a class="active"
                                               href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img
-                            src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22"
-                            height="22"></a>
-                        <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img
-                                class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22"
-                                height="22" style="width: 26px;height: 26px;"></a></div>
+                            src="img/icons8-ukraine-16.png"
+                            style="width: 26px;height: 26px;"/> </a>
+                        <a class="active"
+                           href="controller?command=setLang&locale&pageToProcess=${param.command}">
+                            <img
+                                class="d-md-flex justify-content-md-end"
+                                src="img/icons8-usa-16.png"
+                                style="width: 26px;height: 26px;"></a></div>
                 </li>
             </ul>
         </div>
@@ -53,21 +56,34 @@
                                         <input hidden name="command" value="add_route"/>
                                         <input hidden name="scheduleId" value="${param.scheduleId}"/>
 
-                                        <label>
-                                            <select name="destinationPoint" style="margin-bottom: 10px">
-                                                <c:forEach var="station" items="${stations}">
-                                                    <option value="${station.name}">${station.name}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </label>
+                                        <%--@elvariable id="routes" type="java.util.List"--%>
+                                        <c:if test="${routes.size() == 0}">
+                                            <label>
+                                                <select name="startingStation" style="margin-bottom: 10px">
+                                                        <%--@elvariable id="stations" type="java.util.List"--%>
+                                                    <c:forEach var="station" items="${stations}">
+                                                        <option value="${station.name}">${station.name}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </label>
+                                        </c:if>
 
-                                        <div style="margin-bottom: 16px;"><input class="form-control" type="time"
-                                                                                 placeholder="Departure Time"
-                                                                                 name="departureTime"
-                                        /></div>
+                                        <c:if test="${routes.size() != 0}">
+                                            <input readonly name="startingStation"
+                                                   value="${routes.get(routes.size()-1).finalStation.name}"/>
+                                        </c:if>
+
+
+                                        <div style="margin-bottom: 16px;">
+                                            <input class="form-control" type="time"
+                                                   placeholder="Departure Time"
+                                                   name="departureTime"
+                                            />
+                                        </div>
 
                                         <label>
-                                            <select name="destinationPoint" style="margin-bottom: 10px">
+                                            <select name="finalStation" style="margin-bottom: 10px">
+                                                <%--@elvariable id="stations" type="java.util.List"--%>
                                                 <c:forEach var="station" items="${stations}">
                                                     <option value="${station.name}">${station.name}</option>
                                                 </c:forEach>
@@ -76,13 +92,14 @@
 
                                         <div style="margin-bottom: 16px;"><input class="form-control" type="time"
                                                                                  placeholder="Arrival Time"
-                                                                                 name="arrivalTime"
-                                        /></div>
+                                                                                 name="arrivalTime"/></div>
 
-                                        <div style="margin-bottom: 16px;"><input class="form-control" type="text"
+                                        <div style="margin-bottom: 16px;"><input class="form-control"
+                                                                                 type="text"
                                                                                  placeholder="Price"
-                                                                                 name="price"
-                                        /></div>
+                                                                                 name="price"/></div>
+
+
 
                                         <div class="mb-3">
                                             <button class="btn btn-success d-block w-100" type="submit"

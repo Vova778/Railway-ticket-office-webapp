@@ -34,16 +34,21 @@ public class EditRouteCommand implements Command {
         int scheduleId;
         try {
             scheduleId = Integer.parseInt(req.getParameter("scheduleId"));
-            Optional<Station> destinationStation
-                    = stationService.findStationByName(req.getParameter("destinationPoint"));
+
+            Optional<Station> startingStation
+                    = stationService.findStationByName(req.getParameter("startingStation"));
+
+            Optional<Station> finalStation
+                    = stationService.findStationByName(req.getParameter("finalStation"));
             Route updated = routeService
                     .findRouteById(
                             Integer.parseInt(req.getParameter("routeId")));
 
-            Time arrivalTime = Time.valueOf(req.getParameter("arrivalTime") + ":00");
-            Time departureTime = Time.valueOf(req.getParameter("departureTime") + ":00");
+            Time arrivalTime = Time.valueOf(req.getParameter("arrivalTime"));
+            Time departureTime = Time.valueOf(req.getParameter("departureTime"));
 
-            destinationStation.ifPresent(updated::setFinalStation);
+            startingStation.ifPresent(updated::setStartingStation);
+            finalStation.ifPresent(updated::setFinalStation);
             updated.setArrivalTime(arrivalTime);
             updated.setDepartureTime(departureTime);
             updated.setPrice(Double.parseDouble(req.getParameter("price")));
@@ -55,4 +60,5 @@ public class EditRouteCommand implements Command {
             throw new CommandException(e.getMessage(), e);
         }
     }
+
 }

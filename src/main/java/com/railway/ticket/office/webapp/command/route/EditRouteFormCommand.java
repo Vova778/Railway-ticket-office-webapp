@@ -30,7 +30,9 @@ public class EditRouteFormCommand implements Command {
     public String execute(HttpServletRequest req,
                           HttpServletResponse resp)
             throws CommandException, FatalApplicationException {
+
         Route route = null;
+        List<Route> routes;
         int id = Integer.parseInt(req.getParameter("routeId"));
 
         List<Station> stations;
@@ -41,14 +43,23 @@ public class EditRouteFormCommand implements Command {
                     "An exception occurs: [{}]", e.getMessage());
             throw new CommandException(e.getMessage(), e);
         }
-        req.setAttribute("stations", stations);
 
         try {
+            routes = routeService.findAll();
+        } catch (ServiceException e) {
+            LOGGER.error("[EditRouteFormCommand] Can't receive routes");
+            throw new CommandException(e.getMessage(), e);
+        }
+
+        try {
+
             route = routeService.findRouteById(id);
         } catch (ServiceException e) {
             LOGGER.error("[EditRouteFormCommand] Can't receive route by id:[{}]", id);
             throw new CommandException(e.getMessage(), e);
         }
+        req.setAttribute("stations", stations);
+        req.setAttribute("routes", routes);
         req.setAttribute("route", route);
         return "edit_route.jsp";
     }

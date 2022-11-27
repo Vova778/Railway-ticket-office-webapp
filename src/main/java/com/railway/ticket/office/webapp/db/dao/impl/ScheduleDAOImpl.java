@@ -38,7 +38,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
             int k = 1;
 
             preparedStatement.setDate(k++,schedule.getDate());
-            preparedStatement.setInt(k,schedule.getTrainId());
+            preparedStatement.setInt(k,schedule.getTrain().getNumber());
 
             preparedStatement.executeUpdate();
 
@@ -84,7 +84,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
             int k = 1;
 
             preparedStatement.setDate(k++,schedule.getDate());
-            preparedStatement.setInt(k++,schedule.getTrainId());
+            preparedStatement.setInt(k++,schedule.getTrain().getNumber());
             preparedStatement.setInt(k,scheduleId);
 
             int updatedRow = preparedStatement.executeUpdate();

@@ -39,14 +39,13 @@ public class Constants {
     public static final String STATIONS_GET_ALL_STATIONS = "select * from station order by name";
 
 
-
     public static final String SCHEDULE_INSERT_SCHEDULE = "insert into schedule values (default, ?,?)";
     public static final String SCHEDULE_DELETE_SCHEDULE = "delete from schedule where id=?";
     public static final String SCHEDULE_UPDATE_SCHEDULE = "update schedule set date=?, train_id=? where id=?";
-    public static final String SCHEDULE_GET_SCHEDULE_BY_ID = "select * from schedule where id=?";
-    public static final String SCHEDULE_GET_SCHEDULE_BY_TRAIN_ID = "select * from schedule where train_id=?";
-    public static final String SCHEDULE_GET_SCHEDULE_BY_DATE = "select * from schedule where date=?";
-    public static final String SCHEDULE_GET_ALL_SCHEDULE = "select * from schedule";
+    public static final String SCHEDULE_GET_SCHEDULE_BY_ID = "select * from schedule left join train on schedule.train_id=train.number where id=?";
+    public static final String SCHEDULE_GET_SCHEDULE_BY_TRAIN_ID = "select * from schedule left join train on schedule.train_id=train.number where train_id=?";
+    public static final String SCHEDULE_GET_SCHEDULE_BY_DATE = "select * from schedule left join train on schedule.train_id=train.number where date=?";
+    public static final String SCHEDULE_GET_ALL_SCHEDULE = "select * from schedule left join train on schedule.train_id=train.number";
 
     public static final String TICKETS_INSERT_TICKET = "insert into ticket values (default, ?,?,?,?,?,?,?,?)";
     public static final String TICKETS_DELETE_TICKET = "delete from ticket where id=?";

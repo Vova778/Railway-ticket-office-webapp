@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Time;
 import java.util.List;
-import java.util.Optional;
 
 public class CreateRouteCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(CreateRouteCommand.class);
@@ -39,50 +38,84 @@ public class CreateRouteCommand implements Command {
 
         int scheduleId;
         Route route;
-        String destinationStationName = "";
-        Optional<Station> destinationStation;
-        try {
-            destinationStationName = req.getParameter("destinationPoint");
-            destinationStation = stationService.findStationByName(destinationStationName);
+        Station startingStation;
+        Station finalStation;
 
+        try {
+            finalStation = stationService
+                    .findStationByName(req.getParameter("finalStation")).get();
         } catch (ServiceException e) {
-            LOGGER.error("An exception occurs while adding route. The station with the name {} does not exist",
-                    destinationStationName);
+            LOGGER.error("An exception occurs while adding route." +
+                            " The station with the name {} does not exist",
+                    req.getParameter("finalStation"));
             throw new CommandException(e.getMessage(), e);
         }
 
+
         try {
-            scheduleId = Integer.parseInt(req.getParameter("scheduleId"));
+            scheduleId = Integer.parseInt(
+                    req.getParameter("scheduleId"));
 
             Schedule schedule = scheduleService
                     .findScheduleById(scheduleId);
 
-            Time arrivalTime = Time.valueOf(req.getParameter("arrivalTime") + ":00");
-            Time departureTime = Time.valueOf(req.getParameter("departureTime") + ":00");
+            List<Route> routeList = routeService
+                    .findRoutesByScheduleId(scheduleId);
 
-            List<Route> routeList = routeService.findRoutesByScheduleId(scheduleId);
             int stoppageNumber = routeList.size() + 1;
+            Time arrivalTime = Time.valueOf(
+                    req.getParameter("arrivalTime") + ":00");
+            Time departureTime;
+            int day;
 
-            Route previousRoute = routeList.get(routeList.size() - 1);
-            int day = previousRoute.getDay();
-            if (arrivalTime.before(departureTime))
-                day++;
+            if(routeList.size()==0){
+                day = 1;
+                departureTime = Time.valueOf(
+                        req.getParameter("departureTime") + ":00");
+
+                try {
+                    startingStation = stationService
+                            .findStationByName(req.getParameter("startingStation"))
+                            .get();
+                } catch (ServiceException e) {
+                    LOGGER.error("An exception occurs while adding route." +
+                                    " The station with the name {} does not exist",
+                            req.getParameter("startingStation"));
+                    throw new CommandException(e.getMessage(), e);
+                }
+
+            } else {
+                Route previousRoute = routeList.get(routeList.size() - 1);
+                day = previousRoute.getDay();
+                departureTime = Time.valueOf(req.getParameter("departureTime") + ":00");
+
+                departureTime
+                        .setTime(departureTime.getTime()
+                                + previousRoute.getArrivalTime().getTime());
+
+                if (arrivalTime.before(departureTime))
+                    day++;
+
+                startingStation = previousRoute.getFinalStation();
+            }
+
             route = Route.newBuilder()
                     .setStoppageNumber(stoppageNumber)
-                    .setStartingStation(previousRoute.getFinalStation())
-                    .setFinalStation(destinationStation.get())
+                    .setStartingStation(startingStation)
+                    .setFinalStation(finalStation)
                     .setArrivalTime(arrivalTime)
                     .setDepartureTime(departureTime)
-                    .setAvailableSeats(previousRoute.getTrain().getSeats())
+                    .setAvailableSeats(schedule.getTrain().getSeats())
                     .setDay(day)
                     .setPrice(Double.parseDouble(req.getParameter("price")))
-                    .setTrain(previousRoute.getTrain())
+                    .setTrain(schedule.getTrain())
                     .setSchedule(schedule)
                     .build();
 
             LOGGER.info("{} Route from view : {};", ADD_ROUTE_COMMAND, route);
 
             routeService.insert(route);
+
             LOGGER.info("{} Route was successfully added : {}", ADD_ROUTE_COMMAND, route);
         } catch (ServiceException e) {
             LOGGER.error("An exception occurs while adding route");

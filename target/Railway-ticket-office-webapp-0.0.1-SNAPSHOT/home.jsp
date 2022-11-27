@@ -17,7 +17,7 @@
 <body class="text-info text-bg-light">
 <nav class="navbar navbar-light navbar-expand-md bg-info py-3" style="height: 130px;">
     <div class="container"><a class="navbar-brand d-flex align-items-center" href="#"><img
-            style="margin: 0px;margin-right: 0px;width: 110px;height: 110px;" src="img/est.2012%20(1).png" width="500"
+            style="margin: 0;width: 110px;height: 110px;" src="img/est.2012%20(1).png" width="500"
             height="500"></a>
         <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span
                 class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
@@ -45,7 +45,8 @@
                     <li class="nav-item"><a class="nav-link active" href="home.jsp"><fmt:message key="text.home"/></a>
                     </li>
                 </ul>
-                <a type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLoginForm"><fmt:message key="text.sign.up"/> </a>
+                <a type="button" class="btn btn-primary" data-bs-toggle="modal"
+                   data-bs-target="#modalLoginForm"><fmt:message key="text.sign.up"/> </a>
             </c:if>
 
             <c:if test="${sessionScope.user.role.id == 1}">
@@ -133,7 +134,7 @@
             <input hidden name="command" value="login">
             <div class="modal-content">
                 <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold"><fmt:message key="text.login.form" /></h4>
+                    <h4 class="modal-title w-100 font-weight-bold"><fmt:message key="text.login.form"/></h4>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -143,17 +144,22 @@
                                                           placeholder="Login" minlength="4" maxlength="16"
                                                           pattern=".{4,16}" required="">
                     </div>
-                    <div class="form-outline mb-4"><input class="form-control form-control-lg" type="password" name="password"
+                    <div class="form-outline mb-4"><input class="form-control form-control-lg" type="password"
+                                                          name="password"
                                                           placeholder="Password" required="" minlength="6"
                                                           pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,65}$">
                     </div>
 
                 </div>
                 <div class="modal-footer d-flex justify-content-center">
-
-                    <a href="registration.jsp" class="text-muted"><fmt:message key="text.have.not.account"/></a>
+                    <a href="registration.jsp" class="text-muted">
+                        <fmt:message key="text.have.not.account"/>
+                    </a>
                     <div class="d-grid mb-2">
-                        <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit" ><fmt:message key="text.login"/></button>
+                        <button class="btn btn-primary btn-login text-uppercase fw-bold"
+                                type="submit">
+                            <fmt:message key="text.login"/>
+                        </button>
                     </div>
 
                 </div>

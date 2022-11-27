@@ -3,17 +3,18 @@ package com.railway.ticket.office.webapp.model;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Schedule implements Serializable {
     private int id;
     private Date date;
-    private int trainId;
+    private Train train;
     private List<Route> routes;
 
-    public Schedule(int id, Date date, int trainId) {
+    public Schedule(int id, Date date, Train train) {
         this.id = id;
         this.date = date;
-        this.trainId = trainId;
+        this.train = train;
     }
 
     public Schedule(int id, Date date) {
@@ -27,6 +28,10 @@ public class Schedule implements Serializable {
 
     public int getId() {
         return id;
+    }
+
+    public Train getTrain() {
+        return train;
     }
 
     public void setId(int id) {
@@ -47,15 +52,11 @@ public class Schedule implements Serializable {
         this.date = date;
     }
 
-    public int getTrainId() {
-        return trainId;
-    }
-
-    public void setTrainId(int trainId) {
-        if (trainId < 0) {
-            throw new IllegalArgumentException("Train cannot be < 0");
+    public void setTrain(Train train) {
+        if (train == null) {
+            throw new IllegalArgumentException("Train cannot be null");
         }
-        this.trainId = trainId;
+        this.train = train;
     }
 
     public List<Route> getRoutes() {
@@ -77,16 +78,16 @@ public class Schedule implements Serializable {
         Schedule schedule = (Schedule) o;
 
         if (id != schedule.id) return false;
-        if (trainId != schedule.trainId) return false;
-        if (date != null ? !date.equals(schedule.date) : schedule.date != null) return false;
-        return routes != null ? routes.equals(schedule.routes) : schedule.routes == null;
+        if (!Objects.equals(date, schedule.date)) return false;
+        if (!Objects.equals(train, schedule.train)) return false;
+        return Objects.equals(routes, schedule.routes);
     }
 
     @Override
     public int hashCode() {
         int result = id;
         result = 31 * result + (date != null ? date.hashCode() : 0);
-        result = 31 * result + trainId;
+        result = 31 * result + (train != null ? train.hashCode() : 0);
         result = 31 * result + (routes != null ? routes.hashCode() : 0);
         return result;
     }
