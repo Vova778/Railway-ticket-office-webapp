@@ -13,7 +13,7 @@ public interface ScheduleService{
 
     void delete (int scheduleId) throws ServiceException;
 
-    void update (int scheduleId, Schedule schedule) throws ServiceException;
+    boolean update (int scheduleId, Schedule schedule) throws ServiceException;
 
     Schedule findScheduleById (int scheduleId) throws ServiceException;
 

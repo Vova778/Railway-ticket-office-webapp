@@ -5,19 +5,20 @@ import com.railway.ticket.office.webapp.model.User;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserDAO {
     Connection getConnection();
 
-    void insertUser(User user) throws DAOException;
+    int insertUser(User user) throws DAOException;
 
     void deleteUser(int userId) throws DAOException;
 
-    void updateUser(int userId, User user) throws DAOException;
+    boolean updateUser(int userId, User user) throws DAOException;
 
-    User findUserById(int userId) throws DAOException;
+    Optional<User> findUserById(int userId) throws DAOException;
 
-    User findUserByLogin(String login) throws DAOException;
+    Optional<User> findUserByLogin(String login) throws DAOException;
 
     List<User> findAllUsers(int offset) throws DAOException;
     int countRecords() throws DAOException;

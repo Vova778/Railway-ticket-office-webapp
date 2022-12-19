@@ -38,7 +38,7 @@ public class TicketServiceImpl implements TicketService {
             throw new IllegalArgumentException(NULL_TICKET_INPUT_EXC);
         }
         try {
-            ticketDAO.insertTicket(ticket);
+            ticket.setId( ticketDAO.insertTicket(ticket));
         } catch (SQLException e) {
             LOGGER.error("[TicketService] SQLException while saving Schedule (id: {}). Exc: {}"
                     , ticket.getId(), e.getMessage());
@@ -64,13 +64,13 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void update(int ticketId, Ticket ticket) throws ServiceException {
+    public boolean update(int ticketId, Ticket ticket) throws ServiceException {
         if (ticketId < 1 || ticket == null) {
             LOGGER.error(NULL_TICKET_INPUT_EXC);
             throw new IllegalArgumentException(NULL_TICKET_INPUT_EXC);
         }
         try {
-            ticketDAO.updateTicket(ticketId, ticket);
+           return   ticketDAO.updateTicket(ticketId, ticket);
         } catch (DAOException e) {
             LOGGER.error("[TicketService] An exception occurs while updating Ticket. (id: {}). Exc: {}"
                     , ticketId, e.getMessage());
@@ -85,7 +85,7 @@ public class TicketServiceImpl implements TicketService {
             throw new IllegalArgumentException(NULL_TICKET_INPUT_EXC);
         }
         try {
-            return ticketDAO.findTicketById(ticketId);
+            return ticketDAO.findTicketById(ticketId).get();
         } catch (DAOException e) {
             LOGGER.error("[TicketService] An exception occurs while receiving Ticket. (id: {}). Exc: {}"
                     , ticketId, e.getMessage());

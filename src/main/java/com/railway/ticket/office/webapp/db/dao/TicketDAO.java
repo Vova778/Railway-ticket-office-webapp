@@ -5,17 +5,18 @@ import com.railway.ticket.office.webapp.model.Ticket;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Optional;
 
 public interface TicketDAO {
     Connection getConnection();
 
-    void insertTicket(Ticket ticket) throws DAOException;
+    int insertTicket(Ticket ticket) throws DAOException;
 
     void deleteTicket(int ticketId)throws DAOException;
 
-    void updateTicket(int ticketId, Ticket ticket) throws DAOException;
+    boolean updateTicket(int ticketId, Ticket ticket) throws DAOException;
 
-    Ticket findTicketById(int ticketId) throws DAOException;
+    Optional<Ticket> findTicketById(int ticketId) throws DAOException;
 
     List<Ticket> findTicketByUser(int userId) throws DAOException;
 

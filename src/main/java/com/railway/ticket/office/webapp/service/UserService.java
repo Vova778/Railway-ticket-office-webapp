@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserService {
     void insert(User user) throws ServiceException, FatalApplicationException;
 
-    void update(int userId, User user) throws ServiceException;
+    boolean update(int userId, User user) throws ServiceException;
 
     void delete(int userId) throws ServiceException;
 

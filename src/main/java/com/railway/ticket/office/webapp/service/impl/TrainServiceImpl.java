@@ -6,7 +6,6 @@ import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Train;
 import com.railway.ticket.office.webapp.service.TrainService;
-import com.railway.ticket.office.webapp.utils.db.DBUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -48,21 +47,18 @@ public class TrainServiceImpl implements TrainService {
     }
 
     private void checkAndSave(Train train) throws ServiceException, SQLException {
-        trainDAO.getConnection().setAutoCommit(false);
+
         try {
-            if (trainDAO.findTrainByNumber(train.getNumber()).getNumber() != 0) {
-                DBUtils.rollback(trainDAO.getConnection());
-                LOGGER.error(EXISTED_TRAIN_EXC
+            if (trainDAO.findTrainByNumber(train.getNumber()).isPresent()) {
+               LOGGER.error(EXISTED_TRAIN_EXC
                         , train.getNumber());
                 throw new ServiceException(EXISTED_TRAIN_EXC);
             }
             trainDAO.insertTrain(train);
-            trainDAO.getConnection().commit();
-            trainDAO.getConnection().setAutoCommit(true);
+
             LOGGER.info("[TrainService] Train saved. (number: {})", train.getNumber());
         } catch (DAOException e) {
-            trainDAO.getConnection().rollback();
-            LOGGER.error("[TrainService] Connection rolled back while saving Train. (number: {}). Exc: {}"
+            LOGGER.error("[TrainService] Train already exist. (number: {}). Exc: {}"
                     , train.getNumber(), e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
@@ -84,13 +80,13 @@ public class TrainServiceImpl implements TrainService {
     }
 
     @Override
-    public void update(int trainId, Train train) throws ServiceException {
+    public boolean update(int trainId, Train train) throws ServiceException {
         if (trainId < 1 || train == null) {
             LOGGER.error(NULL_TRAIN_INPUT_EXC);
             throw new IllegalArgumentException(NULL_TRAIN_INPUT_EXC);
         }
         try {
-            trainDAO.updateTrain(trainId, train);
+            return trainDAO.updateTrain(trainId, train);
         } catch (DAOException e) {
             LOGGER.error("[TrainService] An exception occurs while updating Train. (number: {}). Exc: {}"
                     , trainId, e.getMessage());
@@ -105,7 +101,7 @@ public class TrainServiceImpl implements TrainService {
             throw new IllegalArgumentException(NULL_TRAIN_INPUT_EXC);
         }
         try {
-            return trainDAO.findTrainByNumber(trainId);
+            return trainDAO.findTrainByNumber(trainId).get();
         } catch (DAOException e) {
             LOGGER.error("[TrainService] An exception occurs while receiving train. (number: {}). Exc: {}"
                     , trainId, e.getMessage());

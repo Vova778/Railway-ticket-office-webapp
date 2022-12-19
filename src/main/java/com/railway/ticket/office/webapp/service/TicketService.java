@@ -10,7 +10,7 @@ public interface TicketService {
 
     void insert(Ticket ticket) throws ServiceException, FatalApplicationException;
 
-    void update(int ticketId, Ticket ticket) throws ServiceException;
+    boolean update(int ticketId, Ticket ticket) throws ServiceException;
 
     void delete(int ticketId) throws ServiceException;
 

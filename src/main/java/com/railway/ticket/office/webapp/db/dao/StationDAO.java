@@ -10,11 +10,11 @@ import java.util.Optional;
 public interface StationDAO {
     Connection getConnection();
 
-    void insertStation(Station station) throws DAOException;
+    int insertStation(Station station) throws DAOException;
 
     void deleteStation(int stationId) throws DAOException;
 
-    void updateStation(int stationId, Station station) throws DAOException;
+    boolean updateStation(int stationId, Station station) throws DAOException;
 
     Optional<Station> findStationById(int stationId) throws DAOException;
 

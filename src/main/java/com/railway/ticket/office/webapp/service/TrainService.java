@@ -11,7 +11,7 @@ public interface TrainService {
 
     void delete (int trainId) throws ServiceException;
 
-    void update (int trainId, Train train) throws ServiceException;
+    boolean update (int trainId, Train train) throws ServiceException;
 
     Train findTrainById (int trainId) throws ServiceException;
 

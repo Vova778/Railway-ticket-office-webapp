@@ -2,31 +2,24 @@ package com.railway.ticket.office.webapp.db;
 
 public class Constants {
 
+    private static final String ROUTES_GET = "select  r.* , s.date, starting_s.name starting_station_name, " +
+            " final_s.name final_station_name, t.seats total_seats from route r " +
+            " right join schedule s on s.id=r.schedule_id " +
+            " right join station starting_s on r.starting_station_id=starting_s.id " +
+            " right join station final_s on  r.final_station_id=final_s.id " +
+            " right join train t on s.train_id = t.number ";
     public static final String ROUTES_INSERT_ROUTE = "insert into route values (default,?,?,?,?,?,?,?,?,?,?)";
     public static final String ROUTES_DELETE_ROUTE = "delete from route where id=?";
     public static final String ROUTES_UPDATE_ROUTE = "update route set stoppage_number=?, starting_station_id=?, final_station_id=?, departure_time=?, arrival_time=?, available_seats=?, day=?, schedule_id=?, train_id=?, price=? where id=?";
-    public static final String ROUTES_GET_ROUTE_BY_ID = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name, train.seats total_seats, schedule.date date " +
-            " from route right join station starting_station on starting_station_id=starting_station.id right join station final_station " +
-            "on final_station_id=final_station.id right join train on train_id=train.number right join schedule on schedule.id = route.schedule_id  where route.id=?";
-    public static final String ROUTES_GET_ROUTE_BY_SCHEDULE_ID = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name, train.seats total_seats, s.date date from route\n" +
-            " right join station starting_station on starting_station_id=starting_station.id\n" +
-            " right join station final_station on final_station_id=final_station.id  right join train on train_id=train.number \n" +
-            " right join schedule s on schedule_id=s.id where schedule_id=? order by stoppage_number;";
-    public static final String ROUTES_GET_ALL_ROUTES = "select route.*, starting_station.name starting_station_name, final_station.name final_station_name, t.seats total_seats, schedule.date from route\n" +
-            " left join schedule on schedule.id=route.schedule_id left join train t on route.train_id = t.number left join station starting_station\n" +
-            "on starting_station_id=starting_station.id left join station final_station on  final_station_id=final_station.id order by route.id";
+    public static final String ROUTES_GET_ROUTE_BY_ID = ROUTES_GET + " where route.id=?";
+    public static final String ROUTES_GET_ROUTE_BY_SCHEDULE_ID = ROUTES_GET + " where schedule_id=? order by stoppage_number;";
+    public static final String ROUTES_GET_ALL_ROUTES = ROUTES_GET + " order by route.id";
     public static final String ROUTES_GET_ALL_ROUTES_WITH_OFFSET = ROUTES_GET_ALL_ROUTES + " LIMIT 10 OFFSET ?";
     public static final String ROUTES_GET_COUNT = "SELECT COUNT(*) FROM route";
-    public static final String ROUTES_FIND_ROUTES_BETWEEN_STATIONS = "select s.id schedule_id, s.date, r.* , starting_station.name starting_station_name,\n" +
-            " final_station.name final_station_name, t.seats total_seats from schedule s right join route r on s.id=r.schedule_id\n" +
-            " right join station starting_station on r.starting_station_id=starting_station.id\n" +
-            " right join station final_station on  r.final_station_id=final_station.id right join train t on s.train_id = t.number\n" +
-            "where s.id=? AND r.stoppage_number >= (select stoppage_number from route where route.starting_station_id=? and schedule_id=?)\n" +
-            "AND r.stoppage_number <= (select stoppage_number from route where route.final_station_id=? and schedule_id=?)";
-    public static final String ROUTES_GET_ROUTE_BY_TICKET_ID = "select r.*, starting_station.name starting_station_name, final_station.name final_station_name, train.seats total_seats, s.date date from ticket_has_route\n" +
-            "right join route r on ticket_has_route.route_id=r.id right join station starting_station on starting_station_id=starting_station.id\n" +
-            "right join station final_station on final_station_id=final_station.id  right join train on train_id=train.number \n" +
-            "right join schedule s on r.schedule_id=s.id where ticket_id=?";
+    public static final String ROUTES_FIND_ROUTES_BETWEEN_STATIONS = ROUTES_GET + " where r.stoppage_number >= (select stoppage_number from route where route.starting_station_id=?  and route.schedule_id=s.id) " +
+            " AND r.stoppage_number <= (select stoppage_number from route where route.final_station_id=? and route.schedule_id=s.id) order by s.id";
+    public static final String ROUTES_GET_ROUTE_BY_TICKET_ID = ROUTES_GET
+            + " right join ticket_has_route on ticket_has_route.route_id=r.id where ticket_id=?";
 
 
     public static final String STATIONS_INSERT_STATION = "insert into station values (default, ?)";

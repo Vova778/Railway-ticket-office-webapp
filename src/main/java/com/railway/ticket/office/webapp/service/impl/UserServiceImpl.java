@@ -2,7 +2,6 @@ package com.railway.ticket.office.webapp.service.impl;
 
 import com.railway.ticket.office.webapp.db.dao.UserDAO;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
-import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.User;
 import com.railway.ticket.office.webapp.service.UserService;
@@ -31,13 +30,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void insert(User user) throws ServiceException, FatalApplicationException {
+    public void insert(User user) throws ServiceException {
         if (user == null) {
             LOGGER.error(NULL_USER_INPUT_EXC);
             throw new IllegalArgumentException(NULL_USER_INPUT_EXC);
         }
         try {
-            userDAO.insertUser(user);
+            user.setId( userDAO.insertUser(user));
             LOGGER.info("[UserService] User saved. (login: {})", user.getLogin());
 
         } catch (DAOException e) {
@@ -48,13 +47,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(int userId, User user) throws ServiceException {
+    public boolean update(int userId, User user) throws ServiceException {
         if (userId < 1 || user == null) {
             LOGGER.error(NULL_USER_INPUT_EXC);
             throw new IllegalArgumentException(NULL_USER_INPUT_EXC);
         }
         try {
-            userDAO.updateUser(userId, user);
+           return   userDAO.updateUser(userId, user);
         } catch (DAOException e) {
             LOGGER.error("[UserService] An exception occurs while updating User. (id: {}). Exc: {}"
                     , userId, e.getMessage());
@@ -80,7 +79,7 @@ public class UserServiceImpl implements UserService {
 
     public boolean isUserExists(User user) throws ServiceException {
         try {
-            if (userDAO.findUserByLogin(user.getLogin()).getId() != 0) {
+            if (userDAO.findUserByLogin(user.getLogin()).isPresent()) {
                 LOGGER.info(REGISTERED_LOGIN_EXC
                         , user.getLogin());
                 return true;
@@ -121,7 +120,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException(NULL_USER_INPUT_EXC);
         }
         try {
-            return userDAO.findUserById(id);
+            return userDAO.findUserById(id).get();
         } catch (DAOException e) {
             LOGGER.error("[UserService] An exception occurs while receiving User. (id: {}). Exc: {}"
                     , id, e.getMessage());
@@ -136,7 +135,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException(NULL_USER_INPUT_EXC);
         }
         try {
-            return userDAO.findUserByLogin(login);
+            return userDAO.findUserByLogin(login).get();
         } catch (DAOException e) {
             LOGGER.error("[UserService] An exception occurs while receiving User. (email: {}). Exc: {}"
                     , login, e.getMessage());

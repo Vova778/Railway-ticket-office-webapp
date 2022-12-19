@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class StationServiceImpl implements StationService {
-    private static final Logger LOGGER = LogManager.getLogger(StationServiceImpl.class);
+    private static final Logger log = LogManager.getLogger(StationServiceImpl.class);
     private static final String NULL_STATION_DAO_EXC =
             "[StationService] Can't create StationService with null input StationDAO";
     private static final String NULL_STATION_INPUT_EXC =
@@ -24,7 +24,7 @@ public class StationServiceImpl implements StationService {
 
     public StationServiceImpl(StationDAO stationDAO) {
         if (stationDAO == null) {
-            LOGGER.error(NULL_STATION_DAO_EXC);
+            log.error(NULL_STATION_DAO_EXC);
             throw new IllegalArgumentException(NULL_STATION_DAO_EXC);
         }
         this.stationDAO = stationDAO;
@@ -33,58 +33,48 @@ public class StationServiceImpl implements StationService {
     @Override
     public void insert(Station station) throws ServiceException, FatalApplicationException {
         if (station == null) {
-            LOGGER.error(NULL_STATION_INPUT_EXC);
+            log.error(NULL_STATION_INPUT_EXC);
             throw new IllegalArgumentException(NULL_STATION_INPUT_EXC);
         }
         try {
-            stationDAO.insertStation(station);
+            if(stationDAO.findStationByName(station.getName()).isPresent()){
+                log.error("[StationService] Station with name [{}] already exists", station.getName());
+                throw new ServiceException("Station with name [{}] already exists");
+            }
+            station.setId(stationDAO.insertStation(station));
         } catch (SQLException e) {
-            LOGGER.error("[StationService] SQLException while saving Station (id: {}). Exc: {}"
+            log.error("[StationService] SQLException while saving Station (id: {}). Exc: {}"
                     , station.getId(), e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
-    public boolean isStationExists(String stationName) throws ServiceException {
-        try {
-            if (stationDAO.findStationByName(stationName).isPresent()) {
-                LOGGER.info("[StationService] Station with name [{}] was successfully found"
-                        , stationName);
-                return true;
-            }
-            return false;
-        } catch (DAOException e) {
-            LOGGER.error("[StationService] Station with name [{}] doesn`t exists. Exc: {}"
-                    , stationName, e.getMessage());
-            throw new ServiceException(e.getMessage(), e);
-        }
-    }
 
     @Override
     public void delete(int stationId) throws ServiceException {
         if (stationId < 1) {
-            LOGGER.error(NULL_STATION_INPUT_EXC);
+            log.error(NULL_STATION_INPUT_EXC);
             throw new IllegalArgumentException(NULL_STATION_INPUT_EXC);
         }
         try {
             stationDAO.deleteStation(stationId);
         } catch (DAOException e) {
-            LOGGER.error("[StationService] An exception occurs while deleting Station. (id: {}). Exc: {}"
+            log.error("[StationService] An exception occurs while deleting Station. (id: {}). Exc: {}"
                     , stationId, e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public void update(int stationId, Station station) throws ServiceException {
+    public boolean update(int stationId, Station station) throws ServiceException {
         if (stationId < 1 || station == null) {
-            LOGGER.error(NULL_STATION_INPUT_EXC);
+            log.error(NULL_STATION_INPUT_EXC);
             throw new IllegalArgumentException(NULL_STATION_INPUT_EXC);
         }
         try {
-            stationDAO.updateStation(stationId, station);
+            return stationDAO.updateStation(stationId, station);
         } catch (DAOException e) {
-            LOGGER.error("[StationService] An exception occurs while updating Schedule. (id: {}). Exc: {}"
+            log.error("[StationService] An exception occurs while updating Schedule. (id: {}). Exc: {}"
                     , stationId, e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
@@ -93,13 +83,13 @@ public class StationServiceImpl implements StationService {
     @Override
     public Optional<Station> findStationById(int stationId) throws ServiceException {
         if (stationId < 1) {
-            LOGGER.error(NULL_STATION_INPUT_EXC);
+            log.error(NULL_STATION_INPUT_EXC);
             throw new IllegalArgumentException(NULL_STATION_INPUT_EXC);
         }
         try {
             return stationDAO.findStationById(stationId);
         } catch (DAOException e) {
-            LOGGER.error("[StationService] An exception occurs while receiving Station. (id: {}). Exc: {}"
+            log.error("[StationService] An exception occurs while receiving Station. (id: {}). Exc: {}"
                     , stationId, e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
@@ -110,7 +100,7 @@ public class StationServiceImpl implements StationService {
         try {
             return stationDAO.findAllStations(offset);
         } catch (DAOException e) {
-            LOGGER.error("[StationService] An exception occurs while receiving Stations. Exc: {}",
+            log.error("[StationService] An exception occurs while receiving Stations. Exc: {}",
                     e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
@@ -121,7 +111,7 @@ public class StationServiceImpl implements StationService {
         try {
             return stationDAO.findAllStations();
         } catch (DAOException e) {
-            LOGGER.error(
+            log.error(
                     "[StationService] An exception occurs while receiving Stations. Exc: {}",
                     e.getMessage());
             throw new ServiceException(e.getMessage(), e);
@@ -132,13 +122,13 @@ public class StationServiceImpl implements StationService {
     @Override
     public Optional<Station> findStationByName(String stationName) throws ServiceException {
         if (stationName == null || stationName.equals("")) {
-            LOGGER.error(NULL_STATION_INPUT_EXC);
+            log.error(NULL_STATION_INPUT_EXC);
             throw new IllegalArgumentException(NULL_STATION_INPUT_EXC);
         }
         try {
             return stationDAO.findStationByName(stationName);
         } catch (DAOException e) {
-            LOGGER.error("[StationService] An exception occurs while receiving Station by name. (name: {}). Exc: {}"
+            log.error("[StationService] An exception occurs while receiving Station by name. (name: {}). Exc: {}"
                     , stationName, e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
@@ -149,7 +139,7 @@ public class StationServiceImpl implements StationService {
         try {
             return stationDAO.countRecords();
         } catch (DAOException e) {
-            LOGGER.error("[StationService] An exception occurs while counting stations. Exc: {}",
+            log.error("[StationService] An exception occurs while counting stations. Exc: {}",
                     e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }

@@ -16,7 +16,7 @@ import java.util.Optional;
 public class StationDAOImpl implements StationDAO {
 
     private final Connection con;
-    private static final Logger LOGGER = LogManager.getLogger(StationDAOImpl.class);
+    private static final Logger log = LogManager.getLogger(StationDAOImpl.class);
     private final StationMapper stationMapper = new StationMapper();
 
     public StationDAOImpl(Connection con) {
@@ -28,7 +28,7 @@ public class StationDAOImpl implements StationDAO {
         return con;
     }
     @Override
-    public void insertStation(Station station) throws DAOException {
+    public int insertStation(Station station) throws DAOException {
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.STATIONS_INSERT_STATION,
                             Statement.RETURN_GENERATED_KEYS)) {
@@ -38,13 +38,16 @@ public class StationDAOImpl implements StationDAO {
 
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            int key = 0;
             if (resultSet.next()) {
-                station.setId(resultSet.getInt(1));
-                LOGGER.info("Station : {} was inserted successfully", station);
+                key = resultSet.getInt(1);
             }
 
+            log.info("Station : {} was inserted successfully", station);
+            return key;
+
         } catch (SQLException e) {
-            LOGGER.error("Station : [{}] was not inserted. An exception occurs : {}",
+            log.error("Station : [{}] was not inserted. An exception occurs : {}",
                     station, e.getMessage());
             throw new DAOException("[StationDAO] exception while creating Station" + e.getMessage(), e);
         }
@@ -60,33 +63,35 @@ public class StationDAOImpl implements StationDAO {
             int removedRow = preparedStatement.executeUpdate();
 
             if(removedRow>0){
-                LOGGER.info("Station with ID : {} was removed successfully", stationId);
+                log.info("Station with ID : {} was removed successfully", stationId);
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Station with ID : [{}] was not removed. An exception occurs : {}",
+            log.error("Station with ID : [{}] was not removed. An exception occurs : {}",
                     stationId, e.getMessage());
             throw new DAOException("[StationDAO] exception while removing Station" + e.getMessage(), e);
         }
     }
 
     @Override
-    public void updateStation(int stationId, Station station) throws DAOException {
+    public boolean updateStation(int stationId, Station station) throws DAOException {
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.STATIONS_UPDATE_STATION)) {
 
             int k = 1;
-
             preparedStatement.setString(k++,station.getName());
             preparedStatement.setInt(k,stationId);
-
             int updatedRow = preparedStatement.executeUpdate();
             if(updatedRow>0){
-                LOGGER.info("Station with ID : {} was updated successfully", stationId);
+                log.info("Station with ID : {} was updated successfully", stationId);
+                return true;
+            } else {
+                log.info("Station with ID : [{}] was not found for update", stationId);
+                return false;
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Station with ID : [{}] was not updated. An exception occurs : {}",
+            log.error("Station with ID : [{}] was not updated. An exception occurs : {}",
                     stationId, e.getMessage());
             throw new DAOException("[StationDAO] exception while updating Station" + e.getMessage(), e);
         }
@@ -102,19 +107,21 @@ public class StationDAOImpl implements StationDAO {
             preparedStatement.setInt(1,stationId);
 
             try(ResultSet resultSet = preparedStatement.executeQuery()){
-                while (resultSet.next()){
+                if (resultSet.next()){
                     station = Optional.ofNullable(stationMapper
                             .extractFromResultSet(resultSet));
                 }
             }
+            station.ifPresent(s -> log.info("Station was received: [{}]", s));
+
+            return station;
 
         }
         catch (SQLException e) {
-            LOGGER.error("Station with ID : [{}] was not found. An exception occurs : {}",
+            log.error("Station with ID : [{}] was not found. An exception occurs : {}",
                     stationId, e.getMessage());
             throw new DAOException("[StationDAO] exception while loading Station by ID" + e.getMessage(), e);
         }
-        return station;
     }
 
     @Override
@@ -127,15 +134,17 @@ public class StationDAOImpl implements StationDAO {
             preparedStatement.setString(1,stationName);
 
             try(ResultSet resultSet = preparedStatement.executeQuery()){
-                while (resultSet.next()){
-                    station = Optional.ofNullable(new StationMapper()
+                if (resultSet.next()){
+                    station = Optional.ofNullable(stationMapper
                             .extractFromResultSet(resultSet));
                 }
             }
+            station.ifPresent(s -> log.info("Station was received: [{}]", s));
+
             return station;
         }
         catch (SQLException e) {
-            LOGGER.error("Station with name : [{}] was not found. An exception occurs : {}",
+            log.error("Station with name : [{}] was not found. An exception occurs : {}",
                     stationName, e.getMessage());
             throw new DAOException("[StationDAO] exception while loading Station by name" + e.getMessage(), e);
         }
@@ -160,7 +169,7 @@ public class StationDAOImpl implements StationDAO {
             return stations;
         }
         catch (SQLException e) {
-            LOGGER.error("Stations were not found. An exception occurs : {}", e.getMessage());
+            log.error("Stations were not found. An exception occurs : {}", e.getMessage());
             throw new DAOException("[StationDAO] exception while reading all stations" + e.getMessage(), e);
         }
     }
@@ -182,7 +191,7 @@ public class StationDAOImpl implements StationDAO {
             return stations;
         }
         catch (SQLException e) {
-            LOGGER.error("Stations were not found. An exception occurs : {}", e.getMessage());
+            log.error("Stations were not found. An exception occurs : {}", e.getMessage());
             throw new DAOException("[StationDAO] exception while reading all stations" + e.getMessage(), e);
         }
     }
@@ -197,7 +206,7 @@ public class StationDAOImpl implements StationDAO {
             recordsCount = resultSet.getInt(1);
             return recordsCount;
         } catch (SQLException e) {
-            LOGGER.error("[StationDAO] Failed to count stations! An exception occurs :[{}]",
+            log.error("[StationDAO] Failed to count stations! An exception occurs :[{}]",
                     e.getMessage());
         }
         return recordsCount;

@@ -12,6 +12,7 @@ public class Ticket implements Serializable {
     private int trainNumber;
     private Timestamp departureTime;
     private Timestamp arrivalTime;
+    private Timestamp travelTime;
     private int userId;
     private TicketStatus ticketStatus;
     private List<Route> routes;
@@ -92,7 +93,16 @@ public class Ticket implements Serializable {
         this.finalStation = finalStation;
     }
 
+    public Timestamp getTravelTime() {
+        return travelTime;
+    }
 
+    public void setTravelTime(Timestamp travelTime) {
+        if (travelTime == null) {
+            throw new IllegalArgumentException("Travel time cannot be null");
+        }
+        this.travelTime = travelTime;
+    }
 
     public void setTrainNumber(int trainNumber) {
         if (trainNumber <0) {
@@ -149,7 +159,8 @@ public class Ticket implements Serializable {
     public enum TicketStatus {
         QUEUED("Queued",1),
         CLOSED("Closed",2),
-        CANCELED("Canceled",3);
+        CANCELED("Canceled",3),
+        REFUNDED("Refunded",4);
 
         private final String ticketStatusName;
         private final int id;

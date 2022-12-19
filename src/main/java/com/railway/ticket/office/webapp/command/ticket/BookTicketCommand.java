@@ -56,7 +56,6 @@ public class BookTicketCommand implements Command {
             ticket.setUserId(user.getId());
             ticket.setTicketStatus(Ticket.TicketStatus.QUEUED);
             ticket.setRoutes(routeService.findRoutesBetweenStations(
-                    route.getSchedule(),
                     route.getStartingStation(),
                     route.getFinalStation()));
 

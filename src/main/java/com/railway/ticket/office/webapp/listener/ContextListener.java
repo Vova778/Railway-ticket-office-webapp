@@ -199,7 +199,7 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         commandContainer.addCommand("edit_route", appCommand);
         LOGGER.info("{} EditRouteCommand created.", CONTEXT_LISTENER_MSG);
 
-        appCommand = new FindRoutesBetweenStationsCommand(stationService,scheduleService, routeService);
+        appCommand = new FindRoutesBetweenStationsCommand(stationService,scheduleService, routeService, ticketService);
         commandContainer.addCommand("find_routes_between_stations", appCommand);
         LOGGER.info("{} FindRoutesBetweenStationsCommand created.", CONTEXT_LISTENER_MSG);
 

@@ -12,7 +12,7 @@ public interface StationService {
 
     void delete (int stationId) throws ServiceException;
 
-    void update (int stationId, Station station) throws ServiceException;
+    boolean update (int stationId, Station station) throws ServiceException;
 
     Optional<Station> findStationById (int stationId) throws ServiceException;
 

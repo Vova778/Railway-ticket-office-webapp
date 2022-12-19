@@ -3,7 +3,6 @@ package com.railway.ticket.office.webapp.service;
 import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Route;
-import com.railway.ticket.office.webapp.model.Schedule;
 import com.railway.ticket.office.webapp.model.Station;
 import com.railway.ticket.office.webapp.model.Ticket;
 
@@ -14,7 +13,7 @@ public interface RouteService {
 
     void delete (int routeId) throws ServiceException;
 
-    void update (int routeId, Route route) throws ServiceException;
+    boolean update (int routeId, Route route) throws ServiceException;
 
     boolean updateTicketRoutes (Ticket ticket) throws ServiceException;
 
@@ -30,8 +29,7 @@ public interface RouteService {
     List<Route> findAll(int offset) throws  ServiceException;
 
 
-    List<Route> findRoutesBetweenStations(Schedule schedule,
-                                          Station startStation,
+    List<Route> findRoutesBetweenStations(Station startStation,
                                           Station endStation) throws ServiceException;
 
 

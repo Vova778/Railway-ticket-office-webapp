@@ -18,7 +18,7 @@ public class TrainDAOImpl implements TrainDAO {
 
 
     private final Connection con;
-    private static final Logger LOGGER = LogManager.getLogger(TrainDAOImpl.class);
+    private static final Logger log = LogManager.getLogger(TrainDAOImpl.class);
     private final TrainMapper trainMapper = new TrainMapper();
 
     public TrainDAOImpl(Connection con) {
@@ -31,22 +31,25 @@ public class TrainDAOImpl implements TrainDAO {
     }
 
     @Override
-    public void insertTrain(Train train) throws DAOException {
-        try(PreparedStatement preparedStatement =
-                    con.prepareStatement(Constants.TRAINS_INSERT_TRAIN,
-                            Statement.RETURN_GENERATED_KEYS)) {
+    public int insertTrain(Train train) throws DAOException {
+        try (PreparedStatement preparedStatement =
+                     con.prepareStatement(Constants.TRAINS_INSERT_TRAIN,
+                             Statement.RETURN_GENERATED_KEYS)) {
 
-            preparedStatement.setInt(1,train.getNumber());
-            preparedStatement.setInt(2,train.getSeats());
+            preparedStatement.setInt(1, train.getNumber());
+            preparedStatement.setInt(2, train.getSeats());
 
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            int key = 0;
             if (resultSet.next()) {
-                train.setNumber(resultSet.getInt(1));
+                key = resultSet.getInt(1);
             }
-            LOGGER.info("Train : {} was inserted successfully", train);
+
+            log.info("Train : {} was inserted successfully", train);
+            return key;
         } catch (SQLException e) {
-            LOGGER.error("Train : [{}] was not inserted. An exception occurs : {}",
+            log.error("Train : [{}] was not inserted. An exception occurs : {}",
                     train, e.getMessage());
             throw new DAOException("[TrainDAO] exception while creating Train" + e.getMessage(), e);
         }
@@ -54,66 +57,71 @@ public class TrainDAOImpl implements TrainDAO {
 
     @Override
     public void deleteTrain(int trainId) throws DAOException {
-        try(PreparedStatement preparedStatement =
-                    con.prepareStatement(Constants.TRAINS_DELETE_TRAIN)) {
+        try (PreparedStatement preparedStatement =
+                     con.prepareStatement(Constants.TRAINS_DELETE_TRAIN)) {
 
-            preparedStatement.setInt(1,trainId);
+            preparedStatement.setInt(1, trainId);
 
             int removedRow = preparedStatement.executeUpdate();
 
-            if(removedRow>0){
-                LOGGER.info("Train with ID : {} was removed successfully", trainId);
+            if (removedRow > 0) {
+                log.info("Train with ID : {} was removed successfully", trainId);
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Train with ID : [{}] was not removed. An exception occurs : {}",
+            log.error("Train with ID : [{}] was not removed. An exception occurs : {}",
                     trainId, e.getMessage());
             throw new DAOException("[TrainDAO] exception while removing Train" + e.getMessage(), e);
         }
     }
 
     @Override
-    public void updateTrain(int trainId, Train train) throws DAOException {
-        try(PreparedStatement preparedStatement =
-                    con.prepareStatement(Constants.TRAINS_UPDATE_TRAIN)) {
+    public boolean updateTrain(int trainId, Train train) throws DAOException {
+        try (PreparedStatement preparedStatement =
+                     con.prepareStatement(Constants.TRAINS_UPDATE_TRAIN)) {
 
             int k = 1;
 
-            preparedStatement.setInt(k++,train.getSeats());
-            preparedStatement.setInt(k,trainId);
+            preparedStatement.setInt(k++, train.getSeats());
+            preparedStatement.setInt(k, trainId);
 
 
             int updatedRow = preparedStatement.executeUpdate();
-            if(updatedRow>0){
-                LOGGER.info("Train with ID : {} was updated successfully", trainId);
+            if (updatedRow > 0) {
+                log.info("Train with ID : {} was updated successfully", trainId);
+                return true;
+            } else {
+                log.info("Train with ID : [{}] was not found for update", trainId);
+                return false;
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Train with ID : [{}] was not updated. An exception occurs : {}",
+            log.error("Train with ID : [{}] was not updated. An exception occurs : {}",
                     trainId, e.getMessage());
             throw new DAOException("[TrainDAO] exception while updating Train" + e.getMessage(), e);
         }
     }
 
     @Override
-    public Train findTrainByNumber(int trainId) throws DAOException {
+    public Optional<Train> findTrainByNumber(int trainId) throws DAOException {
         Optional<Train> train = Optional.empty();
 
-        try(PreparedStatement preparedStatement
-                    = con.prepareStatement(Constants.TRAINS_GET_TRAIN_BY_NUMBER)) {
+        try (PreparedStatement preparedStatement
+                     = con.prepareStatement(Constants.TRAINS_GET_TRAIN_BY_NUMBER)) {
 
-            preparedStatement.setInt(1,trainId);
+            preparedStatement.setInt(1, trainId);
 
-            try(ResultSet resultSet = preparedStatement.executeQuery()){
-                while (resultSet.next()){
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
                     train = Optional.ofNullable(trainMapper
                             .extractFromResultSet(resultSet));
                 }
             }
-            return train.orElse(new Train());
-        }
-        catch (SQLException e) {
-            LOGGER.error("Train with ID : [{}] was not found. An exception occurs : {}",
+            train.ifPresent(t -> log.info("Train was received: [{}]", t));
+
+            return train;
+        } catch (SQLException e) {
+            log.error("Train with ID : [{}] was not found. An exception occurs : {}",
                     trainId, e.getMessage());
             throw new DAOException("[TrainDAO] exception while loading Train" + e.getMessage(), e);
         }
@@ -124,17 +132,16 @@ public class TrainDAOImpl implements TrainDAO {
     public List<Train> findTrainBetweenStations(Station startStation, Station endStation) throws DAOException {
         List<Train> trains = new ArrayList<>();
 
-        try(Statement statement = con.createStatement();
-            ResultSet resultSet
-                    = statement.executeQuery(Constants.TRAINS_GET_ALL_TRAINS)
+        try (Statement statement = con.createStatement();
+             ResultSet resultSet
+                     = statement.executeQuery(Constants.TRAINS_GET_ALL_TRAINS)
         ) {
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 trains.add(trainMapper.extractFromResultSet(resultSet));
             }
-        }
-        catch (SQLException e) {
-            LOGGER.error("Trains were not found. An exception occurs : {}", e.getMessage());
+        } catch (SQLException e) {
+            log.error("Trains were not found. An exception occurs : {}", e.getMessage());
             throw new DAOException("[TrainDAO] exception while reading all trains" + e.getMessage(), e);
         }
 
@@ -146,14 +153,14 @@ public class TrainDAOImpl implements TrainDAO {
         List<Train> trains = new ArrayList<>();
 
 
-        try(PreparedStatement preparedStatement
-                    = con.prepareStatement(Constants.TRAINS_GET_ALL_TRAINS)) {
+        try (PreparedStatement preparedStatement
+                     = con.prepareStatement(Constants.TRAINS_GET_ALL_TRAINS)) {
 
             preparedStatement.setInt(1, offset);
 
 
-            try(ResultSet resultSet = preparedStatement.executeQuery()){
-                while (resultSet.next()){
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
                     Train newTrain = trainMapper
                             .extractFromResultSet(resultSet);
                     newTrain.setSchedules(
@@ -162,9 +169,8 @@ public class TrainDAOImpl implements TrainDAO {
                 }
             }
             return trains;
-        }
-        catch (SQLException e) {
-            LOGGER.error("Trains were not found. An exception occurs : {}", e.getMessage());
+        } catch (SQLException e) {
+            log.error("Trains were not found. An exception occurs : {}", e.getMessage());
             throw new DAOException("[TrainDAO] exception while reading all trains" + e.getMessage(), e);
         }
     }
@@ -179,7 +185,7 @@ public class TrainDAOImpl implements TrainDAO {
             recordsCount = resultSet.getInt(1);
             return recordsCount;
         } catch (SQLException e) {
-            LOGGER.error("[TrainDAO] Failed to count trains!" +
+            log.error("[TrainDAO] Failed to count trains!" +
                             " An exception occurs :[{}]",
                     e.getMessage());
         }

@@ -5,7 +5,6 @@ import com.railway.ticket.office.webapp.db.dao.RouteDAO;
 import com.railway.ticket.office.webapp.db.dao.mapper.impl.RouteMapper;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
 import com.railway.ticket.office.webapp.model.Route;
-import com.railway.ticket.office.webapp.model.Schedule;
 import com.railway.ticket.office.webapp.model.Station;
 import com.railway.ticket.office.webapp.model.Ticket;
 import org.apache.logging.log4j.LogManager;
@@ -19,7 +18,7 @@ import java.util.Optional;
 public class RouteDAOImpl implements RouteDAO {
 
     private final Connection con;
-    private static final Logger LOGGER = LogManager.getLogger(RouteDAOImpl.class);
+    private static final Logger log = LogManager.getLogger(RouteDAOImpl.class);
     private final RouteMapper routeMapper = new RouteMapper();
 
     public RouteDAOImpl(Connection connection){
@@ -32,7 +31,7 @@ public class RouteDAOImpl implements RouteDAO {
     }
 
     @Override
-    public void insertRoute(Route route) throws DAOException {
+    public int insertRoute(Route route) throws DAOException {
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.ROUTES_INSERT_ROUTE,
                             Statement.RETURN_GENERATED_KEYS)) {
@@ -42,15 +41,18 @@ public class RouteDAOImpl implements RouteDAO {
             preparedStatement.executeUpdate();
 
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
+
+            int key = 0;
             if (resultSet.next()) {
-                route.setId(resultSet.getInt(1));
-                LOGGER.info("Route : {} was inserted successfully", route);
+                key = resultSet.getInt(1);
             }
 
+            log.info("Route : {} was inserted successfully", route);
 
+            return key;
 
         } catch (SQLException e) {
-            LOGGER.error("Route : [{}] was not inserted. An exception occurs : {}",
+            log.error("Route : [{}] was not inserted. An exception occurs : {}",
                     route, e.getMessage());
             throw new DAOException("[RouteDAO] exception while creating Route" + e.getMessage(), e);
         }
@@ -66,18 +68,18 @@ public class RouteDAOImpl implements RouteDAO {
             int removedRow = preparedStatement.executeUpdate();
 
             if(removedRow>0){
-                LOGGER.info("Route with ID : {} was removed successfully", routeId);
+                log.info("Route with ID : {} was removed successfully", routeId);
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Route with ID : [{}] was not removed. An exception occurs : {}",
+            log.error("Route with ID : [{}] was not removed. An exception occurs : {}",
                     routeId, e.getMessage());
             throw new DAOException("[RouteDAO] exception while removing Route" + e.getMessage(), e);
         }
     }
 
     @Override
-    public void updateRoute(int routeId, Route route) throws DAOException {
+    public boolean updateRoute(int routeId, Route route) throws DAOException {
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.ROUTES_UPDATE_ROUTE)) {
 
@@ -88,11 +90,15 @@ public class RouteDAOImpl implements RouteDAO {
 
             int updatedRow = preparedStatement.executeUpdate();
             if(updatedRow>0){
-                LOGGER.info("Route with ID : {} was updated successfully", routeId);
+                log.info("Route with ID : {} was updated successfully", routeId);
+                return true;
+            } else {
+                log.info("Route with ID : [{}] was not found for update", routeId);
+                return false;
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Route with ID : [{}] was not updated. An exception occurs : {}",
+            log.error("Route with ID : [{}] was not updated. An exception occurs : {}",
                     routeId, e.getMessage());
             throw new DAOException("[RouteDAO] exception while updating Route" + e.getMessage(), e);
         }
@@ -115,7 +121,7 @@ public class RouteDAOImpl implements RouteDAO {
     }
 
     @Override
-    public Route findRouteById(int routeId) throws DAOException {
+    public Optional<Route> findRouteById(int routeId) throws DAOException {
         Optional<Route> route = Optional.empty();
 
         try(PreparedStatement preparedStatement
@@ -124,19 +130,22 @@ public class RouteDAOImpl implements RouteDAO {
             preparedStatement.setInt(1,routeId);
 
             try(ResultSet resultSet = preparedStatement.executeQuery()){
-                while (resultSet.next()){
+                if (resultSet.next()){
                     route = Optional.ofNullable(new RouteMapper()
                             .extractFromResultSet(resultSet));
                 }
             }
+            route.ifPresent(r -> log.info("Route was received : [{}]",
+                    r.getId()));
+
+            return route;
 
         }
         catch (SQLException e) {
-            LOGGER.error("Route with ID : [{}] was not found. An exception occurs : {}",
+            log.error("Route with ID : [{}] was not found. An exception occurs : {}",
                     routeId, e.getMessage());
             throw new DAOException("[RouteDAO] exception while loading Route" + e.getMessage(), e);
         }
-        return route.get();
     }
 
     @Override
@@ -156,7 +165,7 @@ public class RouteDAOImpl implements RouteDAO {
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Route with Schedule ID : [{}] was not found. An exception occurs : {}",
+            log.error("Route with Schedule ID : [{}] was not found. An exception occurs : {}",
                     scheduleId, e.getMessage());
             throw new DAOException("[RouteDAO] exception while loading Route by Schedule ID" + e.getMessage(), e);
         }
@@ -181,7 +190,7 @@ public class RouteDAOImpl implements RouteDAO {
             }
 
         } catch (SQLException e) {
-            LOGGER.error("Route with Ticket ID : [{}] was not found. An exception occurs : {}",
+            log.error("Route with Ticket ID : [{}] was not found. An exception occurs : {}",
                     ticketId, e.getMessage());
             throw new DAOException("[RouteDAO] exception while loading Route by Ticket ID" + e.getMessage(), e);
         }
@@ -206,7 +215,7 @@ public class RouteDAOImpl implements RouteDAO {
             }
         }
         catch (SQLException e) {
-            LOGGER.error("Routes were not found. An exception occurs : {}", e.getMessage());
+            log.error("Routes were not found. An exception occurs : {}", e.getMessage());
             throw new DAOException("[RouteDAO] exception while reading all routes" + e.getMessage(), e);
         }
 
@@ -231,24 +240,22 @@ public class RouteDAOImpl implements RouteDAO {
             return routes;
         }
         catch (SQLException e) {
-            LOGGER.error("Routes were not found. An exception occurs : {}", e.getMessage());
+            log.error("Routes were not found. An exception occurs : {}", e.getMessage());
             throw new DAOException("[RouteDAO] exception while reading all routes" + e.getMessage(), e);
         }
     }
 
     @Override
-    public List<Route> findRoutesBetweenStations(Schedule schedule, Station startStation, Station endStation) throws DAOException {
+    public List<Route> findRoutesBetweenStations( Station startStation, Station endStation) throws DAOException {
         List<Route> routes = new ArrayList<>();
 
         try(PreparedStatement preparedStatement
                     = con.prepareStatement(Constants.ROUTES_FIND_ROUTES_BETWEEN_STATIONS)) {
 
             int k =1;
-            preparedStatement.setInt(k++, schedule.getId());
             preparedStatement.setInt(k++, startStation.getId());
-            preparedStatement.setInt(k++, schedule.getId());
-            preparedStatement.setInt(k++, endStation.getId());
-            preparedStatement.setInt(k, schedule.getId());
+            preparedStatement.setInt(k, endStation.getId());
+
 
             try(ResultSet resultSet = preparedStatement.executeQuery()){
                 while (resultSet.next()){
@@ -259,7 +266,7 @@ public class RouteDAOImpl implements RouteDAO {
             return routes;
         }
         catch (SQLException e) {
-            LOGGER.error("Routes were not found. An exception occurs : {}", e.getMessage());
+            log.error("Routes were not found. An exception occurs : {}", e.getMessage());
             throw new DAOException("[RouteDAO] exception while reading all routes" + e.getMessage(), e);
         }
     }
@@ -276,24 +283,29 @@ public class RouteDAOImpl implements RouteDAO {
                 statement.setInt(11,route.getId());
                 int updatedRow = statement.executeUpdate();
                 if(updatedRow>0){
-                    LOGGER.info("Route with ID : {} was updated successfully", route.getId());
+                    log.info("Route with ID : {} was updated successfully", route.getId());
                 } else {
                     throw new SQLException("Routes weren`t updated. ");
                 }
             }
             con.commit();
-            con.setAutoCommit(true);
+
             return true;
         } catch (SQLException e) {
             try {
                 con.rollback();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
+            log.error("Routes by ticket ID : [{}] were not updated. An exception occurs : {}",
+                    ticket.getId(), e.getMessage());
+            throw new DAOException("[RouteDAO] exception while updating Routes" + e.getMessage(), e);
+        } finally {
+            try {
                 con.setAutoCommit(true);
             } catch (SQLException exception) {
                 exception.printStackTrace();
             }
-            LOGGER.error("Routes by ticket ID : [{}] were not updated. An exception occurs : {}",
-                    ticket.getId(), e.getMessage());
-            throw new DAOException("[RouteDAO] exception while updating Routes" + e.getMessage(), e);
         }
     }
 
@@ -306,7 +318,7 @@ public class RouteDAOImpl implements RouteDAO {
             recordsCount = resultSet.getInt(1);
             return recordsCount;
         } catch (SQLException e) {
-            LOGGER.error("[RouteDAO] Failed to count routes! An exception occurs :[{}]",
+            log.error("[RouteDAO] Failed to count routes! An exception occurs :[{}]",
                     e.getMessage());
         }
         return recordsCount;
