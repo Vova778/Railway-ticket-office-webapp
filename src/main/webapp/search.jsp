@@ -17,7 +17,7 @@
 <nav class="navbar navbar-light navbar-expand-md bg-info py-3" style="height: 130px;">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="#">
-            <img style="margin: 0px;margin-right: 0px;width: 110px;height: 110px;" src="img/est.2012%20(1).png" width="120" height="120"></a>
+            <img style="margin: 0px;margin-right: 0px;width: 110px;height: 110px;" src="img/est.2012%20(1).png"></a>
         <span class="fs-3"><fmt:message key="text.brand"/></span>
         <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-2">
@@ -37,8 +37,8 @@
             <c:if test="${sessionScope.user.role.id == 2}">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item text-end">
-                        <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22" height="22"></a>
-                            <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22" height="22" style="width: 26px;height: 26px;"></a></div>
+                        <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" ></a>
+                            <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" style="width: 26px;height: 26px;"></a></div>
                     </li>
                     <li class="nav-item"><a class="nav-link active" href="controller?command=routes"><fmt:message key="text.admin.page"/></a></li>
                     <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout" /></span><br></a></li>
@@ -72,20 +72,20 @@
         <tbody>
         <c:forEach var="route" items="${routes}">
             <tr>
-                <td>${route.train.number}</td>
-                <td>${route.startingStation.name}</td>
-                <td>${route.schedule.date} ${route.departureTime}</td>
-                <td>${route.finalStation.name}</td>
-                <td>${route.schedule.date} ${route.arrivalTime}</td>
-                <td>${route.travelTime}</td>
-                <td>${route.availableSeats}</td>
-                <td>${route.price}</td>
+                <td>${route.key.train.number}</td>
+                <td>${route.key.startingStation.name}</td>
+                <td>${route.key.schedule.date} ${route.key.departureTime}</td>
+                <td>${route.key.finalStation.name}</td>
+                <td>${route.key.schedule.date} ${route.key.arrivalTime}</td>
+                <td>${route.key.travelTime}</td>
+                <td>${route.key.availableSeats}</td>
+                <td>${route.key.price}</td>
                 <td> <a href=""> <fmt:message key="text.details" /> </a>
                 </td>
                 <td>
                     <form action="controller" method="post">
                         <input hidden name="command" value="book_ticket"/>
-                        <input hidden name="routeId" value="${route.id}"/>
+                        <input hidden name="routeId" value="${route.key.id}"/>
                     <button type="submit"
                             class="btn btn-outline-info" >
                         <fmt:message key="text.book" /></button></form>

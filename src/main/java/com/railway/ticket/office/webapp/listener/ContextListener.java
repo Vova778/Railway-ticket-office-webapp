@@ -1,7 +1,7 @@
 package com.railway.ticket.office.webapp.listener;
 
 import com.railway.ticket.office.webapp.command.*;
-import com.railway.ticket.office.webapp.command.logic.FindRoutesBetweenStationsCommand;
+import com.railway.ticket.office.webapp.command.route.FindRoutesBetweenStationsCommand;
 import com.railway.ticket.office.webapp.command.route.*;
 import com.railway.ticket.office.webapp.command.schedule.CreateScheduleCommand;
 import com.railway.ticket.office.webapp.command.schedule.CreateScheduleFormCommand;
@@ -199,7 +199,7 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         commandContainer.addCommand("edit_route", appCommand);
         LOGGER.info("{} EditRouteCommand created.", CONTEXT_LISTENER_MSG);
 
-        appCommand = new FindRoutesBetweenStationsCommand(stationService,scheduleService, routeService, ticketService);
+        appCommand = new FindRoutesBetweenStationsCommand(stationService, routeService);
         commandContainer.addCommand("find_routes_between_stations", appCommand);
         LOGGER.info("{} FindRoutesBetweenStationsCommand created.", CONTEXT_LISTENER_MSG);
 

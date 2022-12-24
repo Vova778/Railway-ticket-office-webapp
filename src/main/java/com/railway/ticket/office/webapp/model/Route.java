@@ -96,7 +96,7 @@ public class Route implements Serializable {
 
 
     public void setDay(int day) {
-        if(day<=0){
+        if(day<0){
             throw new IllegalArgumentException("Day cannot be < 0");
         }
         this.day = day;
@@ -252,7 +252,7 @@ public class Route implements Serializable {
 
         public Builder setDay(int day) {
             
-            if(day<=0){
+            if(day<0){
                 throw new IllegalArgumentException("Day cannot be < 0");
             }
             Route.this.day = day;

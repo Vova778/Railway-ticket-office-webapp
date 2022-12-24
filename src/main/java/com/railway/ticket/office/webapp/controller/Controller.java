@@ -15,6 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
+/**
+ * General application controller with PRG pattern implementation
+ */
 @WebServlet(name = "Controller", value = "/controller")
 public class Controller extends HttpServlet {
     private static final Logger LOGGER = LogManager.getLogger(Controller.class);
@@ -36,7 +40,8 @@ public class Controller extends HttpServlet {
         request.getRequestDispatcher(url).forward(request, response);
     }
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String url = null;
         try {
             url = getUrl(request, response);

@@ -16,7 +16,8 @@ public class Constants {
     public static final String ROUTES_GET_ALL_ROUTES = ROUTES_GET + " order by route.id";
     public static final String ROUTES_GET_ALL_ROUTES_WITH_OFFSET = ROUTES_GET_ALL_ROUTES + " LIMIT 10 OFFSET ?";
     public static final String ROUTES_GET_COUNT = "SELECT COUNT(*) FROM route";
-    public static final String ROUTES_FIND_ROUTES_BETWEEN_STATIONS = ROUTES_GET + " where r.stoppage_number >= (select stoppage_number from route where route.starting_station_id=?  and route.schedule_id=s.id) " +
+    public static final String ROUTES_FIND_ROUTES_BETWEEN_STATIONS = ROUTES_GET + " where date_add(s.date, interval r.day DAY) = ?" +
+            " AND r.stoppage_number >= (select stoppage_number from route where route.starting_station_id=?  and route.schedule_id=s.id) " +
             " AND r.stoppage_number <= (select stoppage_number from route where route.final_station_id=? and route.schedule_id=s.id) order by s.id";
     public static final String ROUTES_GET_ROUTE_BY_TICKET_ID = ROUTES_GET
             + " right join ticket_has_route on ticket_has_route.route_id=r.id where ticket_id=?";
@@ -42,12 +43,11 @@ public class Constants {
 
     public static final String TICKETS_INSERT_TICKET = "insert into ticket values (default, ?,?,?,?,?,?,?,?)";
     public static final String TICKETS_DELETE_TICKET = "delete from ticket where id=?";
-    public static final String TICKETS_UPDATE_TICKET = "update ticket set fare=?, starting_station=?, final_station=?, departure_time=?, arrival_time=?,train_number=?, user_id=?,ticket_status_id=? where id=?";
+    public static final String TICKETS_UPDATE_TICKET = "update ticket set fare=?, starting_station=?, final_station=?, departure_time=?, arrival_time=?,train_number=?,user_id=?,ticket_status_id=? where id=?";
     public static final String TICKETS_GET_TICKET_BY_ID = "select * from ticket where id=?";
     public static final String TICKETS_GET_TICKET_BY_USER_ID = "select * from ticket where user_id=?";
     public static final String TICKETS_GET_TICKET_BY_USER_ID_WITH_OFFSET = " SELECT * FROM ticket WHERE user_id = ? LIMIT 10 OFFSET ?";
     public static final String TICKETS_GET_ALL_TICKETS = "select * from ticket";
-    public static final String GET_TICKET_STATUS_ID_BY_NAME = "SELECT id FROM ticket_status WHERE name=?";
     public static final String TICKETS_GET_COUNT = "SELECT COUNT(*) FROM ticket";
 
     public static final String TRAINS_INSERT_TRAIN = "insert into train values (?,?)";

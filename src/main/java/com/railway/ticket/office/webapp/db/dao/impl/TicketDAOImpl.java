@@ -31,9 +31,12 @@ public class TicketDAOImpl implements TicketDAO {
 
     @Override
     public int insertTicket(Ticket ticket) throws DAOException {
+
         try (PreparedStatement preparedStatement =
                      con.prepareStatement(Constants.TICKETS_INSERT_TICKET,
                              Statement.RETURN_GENERATED_KEYS)) {
+            con.setAutoCommit(false);
+            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
             setTicketParameters(ticket, preparedStatement);
 
@@ -44,14 +47,29 @@ public class TicketDAOImpl implements TicketDAO {
                 key = resultSet.getInt(1);
                 log.info("Ticket : {} was inserted successfully", ticket);
             }
-
             setRoutesForTicket(ticket);
+
+
             log.info("Routes for ticket: {} were inserted successfully", ticket);
+            con.commit();
             return key;
         } catch (SQLException e) {
+
+            try {
+                con.rollback();
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
+
             log.error("Ticket : [{}] was not inserted. An exception occurs : {}",
                     ticket, e.getMessage());
             throw new DAOException("[TicketDAO] exception while creating Ticket" + e.getMessage(), e);
+        } finally {
+            try {
+                con.setAutoCommit(true);
+            } catch (SQLException exception) {
+                exception.printStackTrace();
+            }
         }
     }
 

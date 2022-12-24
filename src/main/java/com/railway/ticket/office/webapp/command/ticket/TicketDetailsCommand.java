@@ -28,7 +28,7 @@ public class TicketDetailsCommand implements Command {
     public String execute(HttpServletRequest req, HttpServletResponse resp)
             throws CommandException, FatalApplicationException {
 
-        List<Route> routes = null;
+        List<Route> routes;
         int ticketId;
 
         try {

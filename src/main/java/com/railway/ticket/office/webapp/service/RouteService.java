@@ -4,8 +4,8 @@ import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Route;
 import com.railway.ticket.office.webapp.model.Station;
-import com.railway.ticket.office.webapp.model.Ticket;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface RouteService {
@@ -14,8 +14,6 @@ public interface RouteService {
     void delete (int routeId) throws ServiceException;
 
     boolean update (int routeId, Route route) throws ServiceException;
-
-    boolean updateTicketRoutes (Ticket ticket) throws ServiceException;
 
     Route findRouteById (int routeId) throws ServiceException;
 
@@ -28,9 +26,9 @@ public interface RouteService {
 
     List<Route> findAll(int offset) throws  ServiceException;
 
-
-    List<Route> findRoutesBetweenStations(Station startStation,
-                                          Station endStation) throws ServiceException;
+    List<Route> findRoutesBetweenStations(Date date,
+                                          Station endStation,
+                                          Station startStation) throws ServiceException;
 
 
     int countRecords() throws ServiceException;

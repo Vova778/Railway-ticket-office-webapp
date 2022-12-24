@@ -6,11 +6,11 @@ import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Route;
 import com.railway.ticket.office.webapp.model.Station;
-import com.railway.ticket.office.webapp.model.Ticket;
 import com.railway.ticket.office.webapp.service.RouteService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -79,21 +79,6 @@ public class RouteServiceImpl implements RouteService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
-    @Override
-    public boolean updateTicketRoutes(Ticket ticket) throws ServiceException {
-        if ( ticket == null) {
-            log.error(NULL_ROUTE_INPUT_EXC);
-            throw new IllegalArgumentException(NULL_ROUTE_INPUT_EXC);
-        }
-        try {
-            routeDAO.updateTicketRoutes(ticket);
-            return true;
-        } catch (DAOException e) {
-            log.error("[RouteService] An exception occurs while updating Route by Ticket Id. (Ticket Id: {}). Exc: {}"
-                    , ticket.getId(), e.getMessage());
-            throw new ServiceException(e.getMessage(), e);
-        }
-    }
 
     @Override
     public Route findRouteById(int routeId) throws ServiceException {
@@ -155,11 +140,11 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public List<Route> findRoutesBetweenStations( Station startStation, Station endStation) throws ServiceException {
+    public List<Route> findRoutesBetweenStations(Date date,
+                                                 Station endStation,
+                                                 Station startStation) throws ServiceException {
         try {
-            return routeDAO.findRoutesBetweenStations(
-                    startStation,
-                    endStation);
+            return routeDAO.findRoutesBetweenStations(date, endStation, startStation);
         } catch (DAOException e) {
             log.error("[RouteService] An exception occurs while receiving Routes between stations. Exc: {}",
                     e.getMessage());

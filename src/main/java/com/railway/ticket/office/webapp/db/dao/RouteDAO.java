@@ -3,9 +3,9 @@ package com.railway.ticket.office.webapp.db.dao;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
 import com.railway.ticket.office.webapp.model.Route;
 import com.railway.ticket.office.webapp.model.Station;
-import com.railway.ticket.office.webapp.model.Ticket;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,8 +18,6 @@ public interface RouteDAO {
 
     boolean updateRoute(int routeId, Route route) throws DAOException;
 
-    boolean updateTicketRoutes (Ticket ticket) throws DAOException;
-
     Optional<Route> findRouteById(int routeId) throws DAOException;
 
     List<Route> findRoutesByScheduleId(int scheduleId) throws DAOException;
@@ -30,7 +28,9 @@ public interface RouteDAO {
 
     List<Route> findAllRoutes(int offset) throws DAOException;
 
-    List<Route> findRoutesBetweenStations(Station startStation,
-                                          Station endStation) throws DAOException;
+    List<Route> findRoutesBetweenStations(Date date,
+                                          Station endStation,
+                                          Station startStation) throws DAOException;
+
     int countRecords() throws DAOException;
 }

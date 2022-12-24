@@ -6,7 +6,6 @@ import com.railway.ticket.office.webapp.db.dao.mapper.impl.RouteMapper;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
 import com.railway.ticket.office.webapp.model.Route;
 import com.railway.ticket.office.webapp.model.Station;
-import com.railway.ticket.office.webapp.model.Ticket;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -195,7 +194,6 @@ public class RouteDAOImpl implements RouteDAO {
             throw new DAOException("[RouteDAO] exception while loading Route by Ticket ID" + e.getMessage(), e);
         }
 
-
         return routes;
     }
 
@@ -246,13 +244,16 @@ public class RouteDAOImpl implements RouteDAO {
     }
 
     @Override
-    public List<Route> findRoutesBetweenStations( Station startStation, Station endStation) throws DAOException {
+    public List<Route> findRoutesBetweenStations(Date date,
+                                                 Station endStation,
+                                                 Station startStation) throws DAOException {
         List<Route> routes = new ArrayList<>();
 
         try(PreparedStatement preparedStatement
                     = con.prepareStatement(Constants.ROUTES_FIND_ROUTES_BETWEEN_STATIONS)) {
 
             int k =1;
+            preparedStatement.setDate(k++, date);
             preparedStatement.setInt(k++, startStation.getId());
             preparedStatement.setInt(k, endStation.getId());
 
@@ -268,44 +269,6 @@ public class RouteDAOImpl implements RouteDAO {
         catch (SQLException e) {
             log.error("Routes were not found. An exception occurs : {}", e.getMessage());
             throw new DAOException("[RouteDAO] exception while reading all routes" + e.getMessage(), e);
-        }
-    }
-    @Override
-    public boolean updateTicketRoutes(Ticket ticket) throws DAOException {
-        try(PreparedStatement statement =
-                    con.prepareStatement(Constants.ROUTES_UPDATE_ROUTE)) {
-
-            con.setAutoCommit(false);
-            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-
-            for (Route route: ticket.getRoutes()) {
-                setRouteParameters(route, statement);
-                statement.setInt(11,route.getId());
-                int updatedRow = statement.executeUpdate();
-                if(updatedRow>0){
-                    log.info("Route with ID : {} was updated successfully", route.getId());
-                } else {
-                    throw new SQLException("Routes weren`t updated. ");
-                }
-            }
-            con.commit();
-
-            return true;
-        } catch (SQLException e) {
-            try {
-                con.rollback();
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
-            log.error("Routes by ticket ID : [{}] were not updated. An exception occurs : {}",
-                    ticket.getId(), e.getMessage());
-            throw new DAOException("[RouteDAO] exception while updating Routes" + e.getMessage(), e);
-        } finally {
-            try {
-                con.setAutoCommit(true);
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
         }
     }
 

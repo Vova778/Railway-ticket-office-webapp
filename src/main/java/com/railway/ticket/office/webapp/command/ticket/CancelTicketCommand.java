@@ -4,7 +4,6 @@ import com.railway.ticket.office.webapp.command.Command;
 import com.railway.ticket.office.webapp.exceptions.CommandException;
 import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
-import com.railway.ticket.office.webapp.model.Route;
 import com.railway.ticket.office.webapp.model.Ticket;
 import com.railway.ticket.office.webapp.service.RouteService;
 import com.railway.ticket.office.webapp.service.TicketService;
@@ -13,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 public class CancelTicketCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(CancelTicketCommand.class);
@@ -42,14 +40,8 @@ public class CancelTicketCommand implements Command {
                 ticket.setTicketStatus(Ticket.TicketStatus.CANCELED);
                 ticketService.update(ticketId, ticket);
 
-                List<Route> routes = routeService.findRoutesByTicketId(ticket.getId());
-                routes.forEach(r -> r.setAvailableSeats(r.getAvailableSeats() + 1));
-                ticket.setRoutes(routes);
-                routeService.updateTicketRoutes(ticket);
-
                 LOGGER.info("{} Ticket from view : {};"
                         , BOOK_TICKET_COMMAND, ticket);
-
 
                 LOGGER.info("{} Ticket was successfully cancelled : {}"
                         , BOOK_TICKET_COMMAND, ticket);
