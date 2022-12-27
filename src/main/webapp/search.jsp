@@ -51,35 +51,6 @@
 </nav>
 
 <div class="container py-4 py-xl-5">
-    <div class="dropdown">
-        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-            <button class="btn btn-outline-primary dropdown-toggle"
-                    type="button"
-                    id="dropdownMenuButtonSort"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                <fmt:message key="text.sort"/>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonSort">
-                <li><a class="dropdown-item"
-                       href="controller?command=sorted_by_price&startingStation=${param.startingStation}&finalStation=${param.finalStation}&date=${param.date}">
-                    <fmt:message key="text.by.price"/></a></li>
-                <li><a class="dropdown-item"
-                       href="controller?command=sorted_by_travel_time&startingStation=${param.startingStation}&finalStation=${param.finalStation}&date=${param.date}">
-                    <fmt:message key="text.by.travel.time"/></a></li>
-            </ul>
-        </div>
-        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-            <button class="btn btn-outline-primary"
-                    type="button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalByTrainNumberForm"
-                    aria-expanded="false">
-                <fmt:message key="text.filter.by.train.number"/>
-            </button>
-        </div>
-    </div>
-
-
     <hr class="bg-secondary border-2 border-top border-secondary">
     <table class = "table table-striped table-bordered table-hover">
         <thead>
@@ -149,50 +120,6 @@
 </div>
 <%@ include file="include/footer.jsp" %>
 <script src="js/bootstrap.min.js"></script>
-
-
-<div class="modal fade"
-     id="modalByTrainNumberForm" tabindex="-1" role="dialog" aria-labelledby="modalByTrainNumberForm"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form class="text-center" action="controller" method="get">
-            <input hidden name="command" value="filtered_by_train_number"/>
-            <input hidden name="startingStation" value="${param.startingStation}"/>
-            <input hidden name="finalStation" value="${param.finalStation}"/>
-            <input hidden name="date" value="${param.date}"/>
-
-            <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h4 class="modal-title w-100 font-weight-bold">
-                        <fmt:message key="text.filter.by.train.number"/></h4>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body mx-3">
-                    <div class="form-outline mb-4">
-                        <input class="form-control" name="trainNumber"/>
-                    </div>
-
-                </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <div class="d-grid mb-2">
-                        <button class="btn btn-primary btn-login text-uppercase fw-bold"
-                                type="submit">
-                            <fmt:message key="text.find"/>
-                        </button>
-                    </div>
-
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-
-
 </body>
-
-
-
 
 </html>
