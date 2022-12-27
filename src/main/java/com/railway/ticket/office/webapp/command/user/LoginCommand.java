@@ -30,7 +30,7 @@ public class LoginCommand implements Command {
         HttpSession session = request.getSession();
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        User user = null;
+        User user;
         try {
             user = userService.findByLogin(login);
             if (user.getLogin() == null) {

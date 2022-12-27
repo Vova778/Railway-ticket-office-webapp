@@ -12,13 +12,10 @@ public class Ticket implements Serializable {
     private int trainNumber;
     private Timestamp departureTime;
     private Timestamp arrivalTime;
-    private Timestamp travelTime;
+    //private Timestamp travelTime;
     private int userId;
     private TicketStatus ticketStatus;
     private List<Route> routes;
-
-
-
 
 
     public Ticket() {
@@ -72,7 +69,7 @@ public class Ticket implements Serializable {
     }
 
     public void setStartingStation(String startingStation) {
-        if (startingStation ==null) {
+        if (startingStation ==null||startingStation.equals("")) {
             throw new IllegalArgumentException("Starting station cannot be null");
         }
         this.startingStation = startingStation;
@@ -87,25 +84,15 @@ public class Ticket implements Serializable {
     }
 
     public void setFinalStation(String finalStation) {
-        if (finalStation ==null) {
+        if (finalStation ==null||finalStation.equals("")) {
             throw new IllegalArgumentException("Final station cannot be null");
         }
         this.finalStation = finalStation;
     }
 
-    public Timestamp getTravelTime() {
-        return travelTime;
-    }
-
-    public void setTravelTime(Timestamp travelTime) {
-        if (travelTime == null) {
-            throw new IllegalArgumentException("Travel time cannot be null");
-        }
-        this.travelTime = travelTime;
-    }
 
     public void setTrainNumber(int trainNumber) {
-        if (trainNumber <0) {
+        if (trainNumber < 0) {
             throw new IllegalArgumentException("Train number cannot be < 0");
         }
         this.trainNumber = trainNumber;
@@ -178,6 +165,43 @@ public class Ticket implements Serializable {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Ticket ticket = (Ticket) o;
 
+        if (id != ticket.id) return false;
+        if (Double.compare(ticket.fare, fare) != 0) return false;
+        if (trainNumber != ticket.trainNumber) return false;
+        if (userId != ticket.userId) return false;
+        if (startingStation != null ? !startingStation.equals(ticket.startingStation) : ticket.startingStation != null)
+            return false;
+        if (finalStation != null ? !finalStation.equals(ticket.finalStation) : ticket.finalStation != null)
+            return false;
+        if (departureTime != null ? !departureTime.equals(ticket.departureTime) : ticket.departureTime != null)
+            return false;
+        if (arrivalTime != null ? !arrivalTime.equals(ticket.arrivalTime) : ticket.arrivalTime != null) return false;
+        if (ticketStatus != ticket.ticketStatus) return false;
+        return routes != null ? routes.equals(ticket.routes) : ticket.routes == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = id;
+        temp = Double.doubleToLongBits(fare);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (startingStation != null ? startingStation.hashCode() : 0);
+        result = 31 * result + (finalStation != null ? finalStation.hashCode() : 0);
+        result = 31 * result + trainNumber;
+        result = 31 * result + (departureTime != null ? departureTime.hashCode() : 0);
+        result = 31 * result + (arrivalTime != null ? arrivalTime.hashCode() : 0);
+        result = 31 * result + userId;
+        result = 31 * result + (ticketStatus != null ? ticketStatus.hashCode() : 0);
+        result = 31 * result + (routes != null ? routes.hashCode() : 0);
+        return result;
+    }
 }

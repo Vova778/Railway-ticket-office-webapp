@@ -6,12 +6,11 @@ import com.railway.ticket.office.webapp.db.dao.mapper.ObjectMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 public class UserMapper implements ObjectMapper<User> {
     @Override
     public User extractFromResultSet(ResultSet resultSet) throws SQLException {
-        User user = User.newBuilder()
+        return User.newBuilder()
                 .setId(resultSet.getInt(Fields.USER_ID))
                 .setLogin(resultSet.getString(Fields.USER_LOGIN))
                 .setPassword(  resultSet.getString(Fields.USER_PASSWORD))
@@ -20,7 +19,6 @@ public class UserMapper implements ObjectMapper<User> {
                 .setPhone(resultSet.getString(Fields.USER_PHONE))
                 .setRole(getById(resultSet.getInt(Fields.USER_ROLE_ID)))
                 .build();
-        return user;
     }
 
     private User.Role getById(int id) {
@@ -31,8 +29,4 @@ public class UserMapper implements ObjectMapper<User> {
     }
 
 
-    @Override
-    public User toUnique(Map<String, User> cache, User object) {
-        return null;
-    }
 }

@@ -2,7 +2,6 @@ package com.railway.ticket.office.webapp.service.impl;
 
 import com.railway.ticket.office.webapp.db.dao.RouteDAO;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
-import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Route;
 import com.railway.ticket.office.webapp.model.Station;
@@ -19,9 +18,8 @@ public class RouteServiceImpl implements RouteService {
     private static final String NULL_ROUTE_DAO_EXC =
             "[RouteService] Can't create RouteService with null input RouteDAO";
     private static final String NULL_ROUTE_INPUT_EXC =
-            "[RouteService] Can't operate null input!";
-    private static final String EXISTED_ROUTE_EXC =
-            "[RouteService] Route with given ID: [{}] is already registered!";
+            "[RouteService] Can't operate null or < 1 input!";
+
     private final RouteDAO routeDAO;
 
     public RouteServiceImpl(RouteDAO routeDAO){
@@ -33,13 +31,13 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public void insert(Route route) throws ServiceException, FatalApplicationException {
+    public void insert(Route route) throws ServiceException {
         if (route == null) {
             log.error(NULL_ROUTE_INPUT_EXC);
             throw new IllegalArgumentException(NULL_ROUTE_INPUT_EXC);
         }
         try {
-            route.setId( routeDAO.insertRoute(route));
+            route.setId( routeDAO.insert(route));
             log.info("[RouteService] Route saved. (id: {})", route.getId());
         } catch (SQLException e) {
             log.error("[RouteService] SQLException while saving Route (id: {}). Exc: {}"
@@ -57,7 +55,7 @@ public class RouteServiceImpl implements RouteService {
             throw new IllegalArgumentException(NULL_ROUTE_INPUT_EXC);
         }
         try {
-            routeDAO.deleteRoute(routeId);
+            routeDAO.delete(routeId);
         } catch (DAOException e) {
             log.error("[RouteService] An exception occurs while deleting Route. (id: {}). Exc: {}"
                     , routeId, e.getMessage());
@@ -66,28 +64,28 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public boolean update(int routeId, Route route) throws ServiceException {
-        if (routeId < 1 || route == null) {
+    public boolean update(Route route) throws ServiceException {
+        if ( route == null || route.getId() < 1 ) {
             log.error(NULL_ROUTE_INPUT_EXC);
             throw new IllegalArgumentException(NULL_ROUTE_INPUT_EXC);
         }
         try {
-            return routeDAO.updateRoute(routeId, route);
+            return routeDAO.update(route);
         } catch (DAOException e) {
             log.error("[RouteService] An exception occurs while updating Route. (id: {}). Exc: {}"
-                    , routeId, e.getMessage());
+                    , route.getId(), e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public Route findRouteById(int routeId) throws ServiceException {
+    public Route findById(int routeId) throws ServiceException {
         if (routeId < 1) {
             log.error(NULL_ROUTE_INPUT_EXC);
             throw new IllegalArgumentException(NULL_ROUTE_INPUT_EXC);
         }
         try {
-            return routeDAO.findRouteById(routeId).get();
+            return routeDAO.findById(routeId);
         } catch (DAOException e) {
             log.error("[RouteService] An exception occurs while receiving Route. (id: {}). Exc: {}"
                     , routeId, e.getMessage());
@@ -97,7 +95,7 @@ public class RouteServiceImpl implements RouteService {
     @Override
     public List<Route> findAll() throws ServiceException {
         try {
-            return routeDAO.findAllRoutes();
+            return routeDAO.findAll();
         } catch (DAOException e) {
             log.error("[RouteService] An exception occurs while receiving Routes. Exc: {}",
                     e.getMessage());
@@ -107,8 +105,12 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public List<Route> findAll(int offset) throws ServiceException {
+        if (offset < 1) {
+            log.error(NULL_ROUTE_INPUT_EXC);
+            throw new IllegalArgumentException(NULL_ROUTE_INPUT_EXC);
+        }
         try {
-            return routeDAO.findAllRoutes(offset);
+            return routeDAO.findAll(offset);
         } catch (DAOException e) {
             log.error("[RouteService] An exception occurs while receiving Routes. Exc: {}",
                     e.getMessage());
@@ -119,6 +121,10 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public List<Route> findRoutesByScheduleId(int scheduleId) throws ServiceException {
+        if (scheduleId < 1) {
+            log.error(NULL_ROUTE_INPUT_EXC);
+            throw new IllegalArgumentException(NULL_ROUTE_INPUT_EXC);
+        }
         try {
             return routeDAO.findRoutesByScheduleId(scheduleId);
         } catch (DAOException e) {
@@ -130,6 +136,10 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public List<Route> findRoutesByTicketId(int ticketId) throws ServiceException {
+        if (ticketId < 1) {
+            log.error(NULL_ROUTE_INPUT_EXC);
+            throw new IllegalArgumentException(NULL_ROUTE_INPUT_EXC);
+        }
         try {
             return routeDAO.findRoutesByTicketId(ticketId);
         } catch (DAOException e) {

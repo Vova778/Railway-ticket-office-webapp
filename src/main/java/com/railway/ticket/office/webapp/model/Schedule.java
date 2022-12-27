@@ -12,19 +12,33 @@ public class Schedule implements Serializable {
     private List<Route> routes;
 
     public Schedule(int id, Date date, Train train) {
+        if (id < 0) {
+            throw new IllegalArgumentException("ID cannot be < 0");
+        }
+        if (date==null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+        if (train == null) {
+            throw new IllegalArgumentException("Train cannot be null");
+        }
         this.id = id;
         this.date = date;
         this.train = train;
     }
 
     public Schedule(int id, Date date) {
+        if (id < 0) {
+            throw new IllegalArgumentException("ID cannot be < 0");
+        }
+        if (date==null) {
+            throw new IllegalArgumentException("Data cannot be null");
+        }
+
         this.id = id;
         this.date = date;
     }
 
-    public Schedule() {
-
-    }
+    public Schedule() { }
 
     public int getId() {
         return id;

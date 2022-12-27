@@ -17,10 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class FindRoutesBetweenStationsCommand implements Command {
@@ -40,20 +37,17 @@ public class FindRoutesBetweenStationsCommand implements Command {
     @Override
     public String execute(HttpServletRequest request,
                           HttpServletResponse resp) throws CommandException, FatalApplicationException {
-        Map<Route, List<Route>> routes = new LinkedHashMap<>();
+        List<Route> routes = new LinkedList<>();
         HttpSession session = request.getSession();
         Map<Schedule,List<Route>> schedules;
         int countPages;
 
         try {
             Date date = Date.valueOf(request.getParameter("date"));
-
-            Station startingStation = stationService.findStationByName(
-                    request.getParameter("startingStation")).get();
-
-            Station finalStation = stationService.findStationByName(
-                    request.getParameter("finalStation")).get();
-
+            Station startingStation = stationService.findByName(
+                    request.getParameter("startingStation"));
+            Station finalStation = stationService.findByName(
+                    request.getParameter("finalStation"));
             schedules = routeService
                     .findRoutesBetweenStations(date, finalStation, startingStation )
                     .stream()
@@ -92,7 +86,7 @@ public class FindRoutesBetweenStationsCommand implements Command {
                         -route.getDepartureTime().getTime() - 7200000 ));
                 route.setAvailableSeats(availableSeats);
                 route.setPrice(price);
-                routes.put(route, schedule.getValue());
+                routes.add(route);
 
             }
             session.setAttribute("routes", routes);

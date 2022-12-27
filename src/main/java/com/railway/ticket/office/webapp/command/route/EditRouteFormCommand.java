@@ -31,7 +31,7 @@ public class EditRouteFormCommand implements Command {
                           HttpServletResponse resp)
             throws CommandException, FatalApplicationException {
 
-        Route route = null;
+        Route route;
         List<Route> routes;
         int id = Integer.parseInt(req.getParameter("routeId"));
 
@@ -53,7 +53,7 @@ public class EditRouteFormCommand implements Command {
 
         try {
 
-            route = routeService.findRouteById(id);
+            route = routeService.findById(id);
         } catch (ServiceException e) {
             LOGGER.error("[EditRouteFormCommand] Can't receive route by id:[{}]", id);
             throw new CommandException(e.getMessage(), e);

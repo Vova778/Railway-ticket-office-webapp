@@ -20,15 +20,6 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(int id, String login, String password, String firstName, String lastName, String phone, Role role) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phone = phone;
-        this.role = role;
-    }
 
     public int getId() {
         return id;

@@ -25,14 +25,13 @@ public class CreateStationCommand implements Command {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp)
             throws CommandException, FatalApplicationException {
-        Station station = null;
+        Station station;
         try {
             String name = req.getParameter("stationName");
-            station = new Station(name);
+            station = new Station();
+            station.setName(name);
             LOGGER.info("{} Station from view : {};",CREATE_STATION_COMMAND ,station);
-         /*   if (stationService.isStationExists(station)) {
-                return "controller?command=stations";
-            }*/
+
             stationService.insert(station);
             LOGGER.info("{} Station was successfully saved : {}",CREATE_STATION_COMMAND, station);
         } catch (ServiceException e) {

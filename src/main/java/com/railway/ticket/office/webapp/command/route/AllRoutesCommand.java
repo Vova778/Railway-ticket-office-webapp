@@ -29,7 +29,7 @@ public class AllRoutesCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws CommandException, FatalApplicationException {
         int page;
-        List<Route> routes = null;
+        List<Route> routes;
         int countPages;
         if (request.getParameter("page") == null
                 || request.getParameter("page").equals("")) {

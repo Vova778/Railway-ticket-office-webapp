@@ -6,7 +6,6 @@ import com.railway.ticket.office.webapp.model.Ticket;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 public class TicketMapper implements ObjectMapper<Ticket> {
     @Override
@@ -14,9 +13,9 @@ public class TicketMapper implements ObjectMapper<Ticket> {
 
         Ticket ticket = new Ticket();
         ticket.setId(resultSet.getInt(Fields.TICKET_ID));
-        ticket.setFare(resultSet.getInt(Fields.TICKET_FARE));
-        ticket.setStartingStation(resultSet.getString(Fields.TICKET_STARTING_STATION_ID));
-        ticket.setFinalStation(resultSet.getString(Fields.TICKET_FINAL_STATION_ID));
+        ticket.setFare(resultSet.getDouble(Fields.TICKET_FARE));
+        ticket.setStartingStation(resultSet.getString(Fields.TICKET_STARTING_STATION));
+        ticket.setFinalStation(resultSet.getString(Fields.TICKET_FINAL_STATION));
         ticket.setDepartureTime(resultSet.getTimestamp(Fields.TICKET_DEPARTURE_TIME));
         ticket.setArrivalTime(resultSet.getTimestamp(Fields.TICKET_ARRIVAL_TIME));
         ticket.setTrainNumber(resultSet.getInt(Fields.TICKET_TRAIN_NUMBER));
@@ -27,8 +26,4 @@ public class TicketMapper implements ObjectMapper<Ticket> {
         return ticket;
     }
 
-    @Override
-    public Ticket toUnique(Map<String, Ticket> cache, Ticket object) {
-        return null;
-    }
 }

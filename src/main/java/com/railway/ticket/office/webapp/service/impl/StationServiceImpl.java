@@ -2,7 +2,6 @@ package com.railway.ticket.office.webapp.service.impl;
 
 import com.railway.ticket.office.webapp.db.dao.StationDAO;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
-import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Station;
 import com.railway.ticket.office.webapp.service.StationService;
@@ -11,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Optional;
 
 public class StationServiceImpl implements StationService {
     private static final Logger log = LogManager.getLogger(StationServiceImpl.class);
@@ -31,17 +29,13 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public void insert(Station station) throws ServiceException, FatalApplicationException {
+    public void insert(Station station) throws ServiceException {
         if (station == null) {
             log.error(NULL_STATION_INPUT_EXC);
             throw new IllegalArgumentException(NULL_STATION_INPUT_EXC);
         }
         try {
-            if(stationDAO.findStationByName(station.getName()).isPresent()){
-                log.error("[StationService] Station with name [{}] already exists", station.getName());
-                throw new ServiceException("Station with name [{}] already exists");
-            }
-            station.setId(stationDAO.insertStation(station));
+            station.setId(stationDAO.insert(station));
         } catch (SQLException e) {
             log.error("[StationService] SQLException while saving Station (id: {}). Exc: {}"
                     , station.getId(), e.getMessage());
@@ -57,7 +51,7 @@ public class StationServiceImpl implements StationService {
             throw new IllegalArgumentException(NULL_STATION_INPUT_EXC);
         }
         try {
-            stationDAO.deleteStation(stationId);
+            stationDAO.delete(stationId);
         } catch (DAOException e) {
             log.error("[StationService] An exception occurs while deleting Station. (id: {}). Exc: {}"
                     , stationId, e.getMessage());
@@ -66,28 +60,28 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public boolean update(int stationId, Station station) throws ServiceException {
-        if (stationId < 1 || station == null) {
+    public boolean update(Station station) throws ServiceException {
+        if ( station == null || station.getId() < 1 ) {
             log.error(NULL_STATION_INPUT_EXC);
             throw new IllegalArgumentException(NULL_STATION_INPUT_EXC);
         }
         try {
-            return stationDAO.updateStation(stationId, station);
+            return stationDAO.update(station);
         } catch (DAOException e) {
             log.error("[StationService] An exception occurs while updating Schedule. (id: {}). Exc: {}"
-                    , stationId, e.getMessage());
+                    , station.getId() , e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public Optional<Station> findStationById(int stationId) throws ServiceException {
+    public Station findById(int stationId) throws ServiceException {
         if (stationId < 1) {
             log.error(NULL_STATION_INPUT_EXC);
             throw new IllegalArgumentException(NULL_STATION_INPUT_EXC);
         }
         try {
-            return stationDAO.findStationById(stationId);
+            return stationDAO.findById(stationId);
         } catch (DAOException e) {
             log.error("[StationService] An exception occurs while receiving Station. (id: {}). Exc: {}"
                     , stationId, e.getMessage());
@@ -98,7 +92,7 @@ public class StationServiceImpl implements StationService {
     @Override
     public List<Station> findAll(int offset) throws ServiceException {
         try {
-            return stationDAO.findAllStations(offset);
+            return stationDAO.findAll(offset);
         } catch (DAOException e) {
             log.error("[StationService] An exception occurs while receiving Stations. Exc: {}",
                     e.getMessage());
@@ -109,7 +103,7 @@ public class StationServiceImpl implements StationService {
     @Override
     public List<Station> findAll() throws ServiceException {
         try {
-            return stationDAO.findAllStations();
+            return stationDAO.findAll();
         } catch (DAOException e) {
             log.error(
                     "[StationService] An exception occurs while receiving Stations. Exc: {}",
@@ -120,13 +114,13 @@ public class StationServiceImpl implements StationService {
 
 
     @Override
-    public Optional<Station> findStationByName(String stationName) throws ServiceException {
+    public Station findByName(String stationName) throws ServiceException {
         if (stationName == null || stationName.equals("")) {
             log.error(NULL_STATION_INPUT_EXC);
             throw new IllegalArgumentException(NULL_STATION_INPUT_EXC);
         }
         try {
-            return stationDAO.findStationByName(stationName);
+            return stationDAO.findByName(stationName);
         } catch (DAOException e) {
             log.error("[StationService] An exception occurs while receiving Station by name. (name: {}). Exc: {}"
                     , stationName, e.getMessage());

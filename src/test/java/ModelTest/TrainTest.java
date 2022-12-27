@@ -1,43 +1,42 @@
 package ModelTest;
 
-import com.railway.ticket.office.webapp.model.Schedule;
 import com.railway.ticket.office.webapp.model.Train;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TrainTest {
-    private static final Logger LOGGER = LogManager.getLogger(TrainTest.class);
+    @Test
+    void getAndSetTest() {
+        Train train = new Train();
+        assertEquals(0, train.getNumber());
+        assertEquals(0,train.getSeats());
+        assertNull(train.getSchedules());
 
-    @BeforeAll
-    static void logBefore () {
-        LOGGER.info("Starting Train tests");
+        train = new Train();
+        train.setNumber(100);
+        train.setSeats(10);
+        train.setSchedules(new ArrayList<>());
+
+        assertEquals(100, train.getNumber());
+        assertEquals(10,train.getSeats());
+        assertNotNull( train.getSchedules());
     }
 
     @Test
-    void createTrain(){
+    void wrongInputTest() {
         Train train = new Train();
-        Map<Date, Schedule> scheduleHashMap = new HashMap<>();
-        // scheduleHashMap.put(new Train(101,20));
-        assertDoesNotThrow( () ->  train.setNumber(100));
-        assertDoesNotThrow( () ->  train.setSeats(18));
+        assertThrows(IllegalArgumentException.class,
+                () -> new Train(-1, -10));
+        assertThrows(IllegalArgumentException.class,
+                () -> train.setNumber(-1));
+        assertThrows(IllegalArgumentException.class,
+                () -> train.setSeats(-10));
+        assertThrows(IllegalArgumentException.class,
+                () -> train.setSchedules(null));
 
-    }
-
-    @Test
-    void createBadStation(){
-        Train train = new Train();
-        Map<Date, Schedule> scheduleHashMap = null;
-        assertThrows( IllegalArgumentException.class,  () ->  train.setNumber(-1));
-        assertThrows( IllegalArgumentException.class,() ->  train.setSeats(-5));
 
     }
 }

@@ -43,7 +43,7 @@ public class CreateRouteCommand implements Command {
 
         try {
             finalStation = stationService
-                    .findStationByName(req.getParameter("finalStation")).get();
+                    .findByName(req.getParameter("finalStation"));
         } catch (ServiceException e) {
             LOGGER.error("An exception occurs while adding route." +
                             " The station with the name {} does not exist",
@@ -57,7 +57,7 @@ public class CreateRouteCommand implements Command {
                     req.getParameter("scheduleId"));
 
             Schedule schedule = scheduleService
-                    .findScheduleById(scheduleId);
+                    .findById(scheduleId);
 
             List<Route> routeList = routeService
                     .findRoutesByScheduleId(scheduleId);
@@ -75,8 +75,7 @@ public class CreateRouteCommand implements Command {
 
                 try {
                     startingStation = stationService
-                            .findStationByName(req.getParameter("startingStation"))
-                            .get();
+                            .findByName(req.getParameter("startingStation"));
                 } catch (ServiceException e) {
                     LOGGER.error("An exception occurs while adding route." +
                                     " The station with the name {} does not exist",

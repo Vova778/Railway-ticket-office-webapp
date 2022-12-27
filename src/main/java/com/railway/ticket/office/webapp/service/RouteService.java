@@ -13,16 +13,15 @@ public interface RouteService {
 
     void delete (int routeId) throws ServiceException;
 
-    boolean update (int routeId, Route route) throws ServiceException;
+    boolean update(Route route) throws ServiceException;
 
-    Route findRouteById (int routeId) throws ServiceException;
+    Route findById(int routeId) throws ServiceException;
 
     List<Route> findAll () throws ServiceException;
 
     List<Route> findRoutesByScheduleId (int scheduleId) throws ServiceException;
 
     List<Route> findRoutesByTicketId(int ticketId) throws ServiceException;
-
 
     List<Route> findAll(int offset) throws  ServiceException;
 

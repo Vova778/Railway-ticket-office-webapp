@@ -2,7 +2,6 @@ package com.railway.ticket.office.webapp.service.impl;
 
 import com.railway.ticket.office.webapp.db.dao.ScheduleDAO;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
-import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Schedule;
 import com.railway.ticket.office.webapp.model.Train;
@@ -34,13 +33,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public void insert(Schedule schedule) throws ServiceException, FatalApplicationException {
+    public void insert(Schedule schedule) throws ServiceException {
         if (schedule == null) {
             log.error(NULL_SCHEDULE_INPUT_EXC);
             throw new IllegalArgumentException(NULL_SCHEDULE_INPUT_EXC);
         }
         try {
-            schedule.setId( scheduleDAO.insertSchedule(schedule));;
+            schedule.setId( scheduleDAO.insert(schedule));;
             log.info("[ScheduleService] Schedule saved. (id: {})", schedule.getId());
         } catch (SQLException e) {
             log.error("[ScheduleService] SQLException while saving Schedule (id: {}). Exc: {}"
@@ -57,7 +56,7 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new IllegalArgumentException(NULL_SCHEDULE_INPUT_EXC);
         }
         try {
-            scheduleDAO.deleteSchedule(scheduleId);
+            scheduleDAO.delete(scheduleId);
         } catch (DAOException e) {
             log.error("[ScheduleService] An exception occurs while deleting Schedule. (id: {}). Exc: {}"
                     , scheduleId, e.getMessage());
@@ -66,28 +65,28 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public boolean update(int scheduleId, Schedule schedule) throws ServiceException {
-        if (scheduleId < 1 || schedule == null) {
+    public boolean update(Schedule schedule) throws ServiceException {
+        if ( schedule == null || schedule.getId() < 1) {
             log.error(NULL_SCHEDULE_INPUT_EXC);
             throw new IllegalArgumentException(NULL_SCHEDULE_INPUT_EXC);
         }
         try {
-           return scheduleDAO.updateSchedule(scheduleId, schedule);
+           return scheduleDAO.update(schedule);
         } catch (DAOException e) {
             log.error("[ScheduleService] An exception occurs while updating Schedule. (id: {}). Exc: {}"
-                    , scheduleId, e.getMessage());
+                    , schedule.getId(), e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public Schedule findScheduleById(int scheduleId) throws ServiceException {
+    public Schedule findById(int scheduleId) throws ServiceException {
         if (scheduleId < 1) {
             log.error(NULL_SCHEDULE_INPUT_EXC);
             throw new IllegalArgumentException(NULL_SCHEDULE_INPUT_EXC);
         }
         try {
-            return scheduleDAO.findScheduleById(scheduleId).get();
+            return scheduleDAO.findById(scheduleId);
         } catch (DAOException e) {
             log.error("[ScheduleService] An exception occurs while receiving Schedule. (id: {}). Exc: {}"
                     , scheduleId, e.getMessage());
@@ -128,7 +127,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public List<Schedule> findAll() throws ServiceException {
         try {
-            return scheduleDAO.findAllSchedules();
+            return scheduleDAO.findAll();
         } catch (DAOException e) {
             log.error("[ScheduleService] An exception occurs while receiving Schedules. Exc: {}",
                     e.getMessage());

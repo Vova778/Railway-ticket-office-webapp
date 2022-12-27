@@ -38,9 +38,9 @@ public class UserTicketsCommand implements Command {
             page = Integer.parseInt(request.getParameter("page"));
         }
 
-        List<Ticket> tickets = null;
+        List<Ticket> tickets;
         User user = (User) session.getAttribute("user");
-        int countPages = 0;
+        int countPages;
         try {
             tickets = ticketService.findTicketsByUserId(user.getId(), page);
             LOGGER.info("{} Tickets were found.", USER_TICKETS_COMMAND);

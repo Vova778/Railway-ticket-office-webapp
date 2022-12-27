@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BookTicketCommand implements Command {
 
@@ -39,11 +39,10 @@ public class BookTicketCommand implements Command {
         try {
             int routeId = Integer.parseInt(req.getParameter("routeId"));
 
-            Map.Entry<Route, List<Route>> route
-                    =((Map<Route, List<Route>>) session.getAttribute("routes"))
-                    .entrySet()
-                    .stream()
-                    .filter(entry -> entry.getKey().getId() == routeId)
+           Route route
+                    =((List<Route>) session.getAttribute("routes"))
+                   .stream()
+                    .filter(r -> r.getId() == routeId)
                     .findFirst()
                     .get();
 
@@ -52,19 +51,24 @@ public class BookTicketCommand implements Command {
             Ticket ticket = new Ticket();
 
             Timestamp arrivalTime =
-                    Timestamp.valueOf( route.getKey().getSchedule().getDate() +" "+ route.getKey().getArrivalTime());
+                    Timestamp.valueOf( route.getSchedule().getDate() +" "+ route.getArrivalTime());
             Timestamp departureTime
-                    = Timestamp.valueOf( route.getKey().getSchedule().getDate() +" "+ route.getKey().getDepartureTime());
+                    = Timestamp.valueOf( route.getSchedule().getDate() +" "+ route.getDepartureTime());
 
             ticket.setArrivalTime(arrivalTime);
             ticket.setDepartureTime(departureTime);
-            ticket.setFare(route.getKey().getPrice());
-            ticket.setStartingStation(route.getKey().getStartingStation().getName());
-            ticket.setFinalStation(route.getKey().getFinalStation().getName());
-            ticket.setTrainNumber(route.getKey().getTrain().getNumber());
+            ticket.setFare(route.getPrice());
+            ticket.setStartingStation(route.getStartingStation().getName());
+            ticket.setFinalStation(route.getFinalStation().getName());
+            ticket.setTrainNumber(route.getTrain().getNumber());
             ticket.setUserId(user.getId());
             ticket.setTicketStatus(Ticket.TicketStatus.QUEUED);
-            ticket.setRoutes(route.getValue());
+
+            ticket.setRoutes(routeService.findRoutesBetweenStations(route.getSchedule().getDate(),
+                    route.getStartingStation(),
+                    route.getFinalStation()).stream()
+                    .filter(r -> r.getSchedule().getId() ==route.getSchedule().getId() )
+                    .collect(Collectors.toList()));
 
 
             LOGGER.info("{} Ticket from view : {};"

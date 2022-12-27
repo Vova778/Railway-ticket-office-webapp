@@ -9,6 +9,12 @@ public class Train implements Serializable {
     private List<Schedule> schedules;
 
     public Train(int number, int seats) {
+        if (number < 0) {
+            throw new IllegalArgumentException("Number cannot be < 0");
+        }
+        if (seats < 0) {
+            throw new IllegalArgumentException("Seats cannot be < 0");
+        }
         this.number = number;
         this.seats = seats;
     }

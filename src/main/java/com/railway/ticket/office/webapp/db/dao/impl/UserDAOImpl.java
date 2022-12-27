@@ -29,7 +29,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public int insertUser(User user) throws DAOException {
+    public int insert(User user) throws DAOException {
 
         try (PreparedStatement preparedStatement =
                      con.prepareStatement(Constants.USERS_INSERT_USER,
@@ -54,7 +54,7 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public void deleteUser(int userId) throws DAOException {
+    public void delete(int userId) throws DAOException {
         try (PreparedStatement preparedStatement =
                      con.prepareStatement(Constants.USERS_DELETE_USER)) {
 
@@ -74,27 +74,27 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public boolean updateUser(int userId, User user) throws DAOException {
+    public boolean update(User user) throws DAOException {
 
 
         try (PreparedStatement preparedStatement =
                      con.prepareStatement(Constants.USERS_UPDATE_USER)) {
 
             setUserParameters(user, preparedStatement);
-            preparedStatement.setInt(7, userId);
+            preparedStatement.setInt(7, user.getId());
 
             int updatedRow = preparedStatement.executeUpdate();
             if (updatedRow > 0) {
-                log.info("User with ID : {} was updated successfully", userId);
+                log.info("User with ID : {} was updated successfully", user.getId());
                 return true;
             } else {
-                log.info("User with ID : [{}] was not found for update", userId);
+                log.info("User with ID : [{}] was not found for update", user.getId());
                 return false;
             }
 
         } catch (SQLException e) {
             log.error("User with ID : [{}] was not updated. An exception occurs : {}",
-                    userId, e.getMessage());
+                    user.getId(), e.getMessage());
             throw new DAOException("[UserDAO] exception while updating User" + e.getMessage(), e);
         }
     }
@@ -112,7 +112,7 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public Optional<User> findUserById(int userId) throws DAOException {
+    public User findById(int userId) throws DAOException {
         Optional<User> user = Optional.empty();
 
         try (PreparedStatement preparedStatement
@@ -128,17 +128,17 @@ public class UserDAOImpl implements UserDAO {
                 user.ifPresent(u -> log.info("User was received : [{}], [{}]",
                         u.getId(), u.getLogin()));
             }
-
+            return user.orElse(new User());
         } catch (SQLException e) {
             log.error("User with ID : [{}] was not found. An exception occurs : {}",
                     userId, e.getMessage());
             throw new DAOException("[UserDAO] exception while loading User by ID" + e.getMessage(), e);
         }
-        return user;
+
     }
 
     @Override
-    public Optional<User> findUserByLogin(String login) throws DAOException {
+    public User findByLogin(String login) throws DAOException {
         Optional<User> user = Optional.empty();
 
         try (PreparedStatement preparedStatement
@@ -154,7 +154,7 @@ public class UserDAOImpl implements UserDAO {
                 user.ifPresent(u -> log.info("User was received : [{}], [{}]",
                         u.getId(), u.getLogin()));
             }
-            return user;
+            return user.orElse(new User());
         } catch (SQLException e) {
             log.error("User with login : [{}] was not found. An exception occurs : {}",
                     login, e.getMessage());
@@ -164,7 +164,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> findAllUsers(int offset) throws DAOException {
+    public List<User> findAll(int offset) throws DAOException {
         List<User> users = new ArrayList<>();
 
         try (PreparedStatement preparedStatement

@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException(NULL_USER_INPUT_EXC);
         }
         try {
-            user.setId( userDAO.insertUser(user));
+            user.setId( userDAO.insert(user));
             LOGGER.info("[UserService] User saved. (login: {})", user.getLogin());
 
         } catch (DAOException e) {
@@ -47,16 +47,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean update(int userId, User user) throws ServiceException {
-        if (userId < 1 || user == null) {
+    public boolean update(User user) throws ServiceException {
+        if ( user == null || user.getId() < 1) {
             LOGGER.error(NULL_USER_INPUT_EXC);
             throw new IllegalArgumentException(NULL_USER_INPUT_EXC);
         }
         try {
-           return   userDAO.updateUser(userId, user);
+           return   userDAO.update(user);
         } catch (DAOException e) {
             LOGGER.error("[UserService] An exception occurs while updating User. (id: {}). Exc: {}"
-                    , userId, e.getMessage());
+                    , user.getId(), e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException(NULL_USER_INPUT_EXC);
         }
         try {
-            userDAO.deleteUser(userId);
+            userDAO.delete(userId);
         } catch (DAOException e) {
             LOGGER.error("[UserService] An exception occurs while deleting User. (id: {}). Exc: {}"
                     , userId, e.getMessage());
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
 
     public boolean isUserExists(User user) throws ServiceException {
         try {
-            if (userDAO.findUserByLogin(user.getLogin()).isPresent()) {
+            if (userDAO.findByLogin(user.getLogin()).getId()!=0) {
                 LOGGER.info(REGISTERED_LOGIN_EXC
                         , user.getLogin());
                 return true;
@@ -96,7 +96,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll(int offset) throws ServiceException {
         try {
-            return userDAO.findAllUsers(offset);
+            return userDAO.findAll(offset);
         } catch (DAOException e) {
             LOGGER.error("[UserService] An exception occurs while receiving Users. Exc: {}", e.getMessage());
             throw new ServiceException(e.getMessage(), e);
@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException(NULL_USER_INPUT_EXC);
         }
         try {
-            return userDAO.findUserById(id).get();
+            return userDAO.findById(id);
         } catch (DAOException e) {
             LOGGER.error("[UserService] An exception occurs while receiving User. (id: {}). Exc: {}"
                     , id, e.getMessage());
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException(NULL_USER_INPUT_EXC);
         }
         try {
-            return userDAO.findUserByLogin(login).get();
+            return userDAO.findByLogin(login);
         } catch (DAOException e) {
             LOGGER.error("[UserService] An exception occurs while receiving User. (email: {}). Exc: {}"
                     , login, e.getMessage());

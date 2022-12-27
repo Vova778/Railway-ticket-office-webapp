@@ -30,7 +30,7 @@ public class TicketDAOImpl implements TicketDAO {
     }
 
     @Override
-    public int insertTicket(Ticket ticket) throws DAOException {
+    public int insert(Ticket ticket) throws DAOException {
 
         try (PreparedStatement preparedStatement =
                      con.prepareStatement(Constants.TICKETS_INSERT_TICKET,
@@ -104,7 +104,7 @@ public class TicketDAOImpl implements TicketDAO {
     }
 
     @Override
-    public void deleteTicket(int ticketId) throws DAOException {
+    public void delete(int ticketId) throws DAOException {
         try (PreparedStatement preparedStatement =
                      con.prepareStatement(Constants.TICKETS_DELETE_TICKET)) {
 
@@ -124,28 +124,27 @@ public class TicketDAOImpl implements TicketDAO {
     }
 
     @Override
-    public boolean updateTicket(int ticketId, Ticket ticket) throws DAOException {
+    public boolean update(Ticket ticket) throws DAOException {
         try (PreparedStatement preparedStatement =
                      con.prepareStatement(Constants.TICKETS_UPDATE_TICKET)) {
 
             setTicketParameters(ticket, preparedStatement);
 
-            preparedStatement.setInt(9, ticketId);
-
+            preparedStatement.setInt(9, ticket.getId());
 
             int updatedRow = preparedStatement.executeUpdate();
 
             if (updatedRow > 0) {
-                log.info("Ticket with ID : {} was updated successfully", ticketId);
+                log.info("Ticket with ID : {} was updated successfully", ticket.getId());
                 return true;
             } else {
-                log.info("Ticket with ID : [{}] was not found for update", ticketId);
+                log.info("Ticket with ID : [{}] was not found for update", ticket.getId());
                 return false;
             }
 
         } catch (SQLException e) {
             log.error("Ticket with ID : [{}] was not updated. An exception occurs : {}",
-                    ticketId, e.getMessage());
+                    ticket.getId(), e.getMessage());
             throw new DAOException("[TicketDAO] exception while updating Ticket" + e.getMessage(), e);
         }
     }
@@ -163,7 +162,7 @@ public class TicketDAOImpl implements TicketDAO {
     }
 
     @Override
-    public Optional<Ticket> findTicketById(int ticketId) throws DAOException {
+    public Ticket findById(int ticketId) throws DAOException {
         Optional<Ticket> ticket = Optional.empty();
 
         try (PreparedStatement preparedStatement
@@ -179,7 +178,7 @@ public class TicketDAOImpl implements TicketDAO {
             }
             ticket.ifPresent(t -> log.info("Ticket was received: [{}]", t));
 
-            return ticket;
+            return ticket.orElse(new Ticket());
         } catch (SQLException e) {
             log.error("Ticket with ID : [{}] was not found. An exception occurs : {}",
                     ticketId, e.getMessage());
@@ -225,7 +224,7 @@ public class TicketDAOImpl implements TicketDAO {
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, offset);
 
-            try (ResultSet resultSet = preparedStatement.executeQuery();) {
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
                     tickets.add(ticketMapper
                             .extractFromResultSet(resultSet));
@@ -243,7 +242,7 @@ public class TicketDAOImpl implements TicketDAO {
     }
 
     @Override
-    public List<Ticket> findAllTickets() throws DAOException {
+    public List<Ticket> findAll() throws DAOException {
         List<Ticket> tickets = new ArrayList<>();
 
 
@@ -262,7 +261,6 @@ public class TicketDAOImpl implements TicketDAO {
 
         return tickets;
     }
-
 
 
     @Override

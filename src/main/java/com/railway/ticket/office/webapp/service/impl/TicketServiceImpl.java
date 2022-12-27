@@ -2,7 +2,6 @@ package com.railway.ticket.office.webapp.service.impl;
 
 import com.railway.ticket.office.webapp.db.dao.TicketDAO;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
-import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Ticket;
 import com.railway.ticket.office.webapp.service.TicketService;
@@ -32,13 +31,13 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public void insert(Ticket ticket) throws ServiceException, FatalApplicationException {
+    public void insert(Ticket ticket) throws ServiceException {
         if (ticket == null) {
             LOGGER.error(NULL_TICKET_INPUT_EXC);
             throw new IllegalArgumentException(NULL_TICKET_INPUT_EXC);
         }
         try {
-            ticket.setId( ticketDAO.insertTicket(ticket));
+            ticket.setId( ticketDAO.insert(ticket));
         } catch (SQLException e) {
             LOGGER.error("[TicketService] SQLException while saving Schedule (id: {}). Exc: {}"
                     , ticket.getId(), e.getMessage());
@@ -55,7 +54,7 @@ public class TicketServiceImpl implements TicketService {
             throw new IllegalArgumentException(NULL_TICKET_INPUT_EXC);
         }
         try {
-            ticketDAO.deleteTicket(scheduleId);
+            ticketDAO.delete(scheduleId);
         } catch (DAOException e) {
             LOGGER.error("[TicketService] An exception occurs while deleting Ticket. (id: {}). Exc: {}"
                     , scheduleId, e.getMessage());
@@ -64,28 +63,28 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
-    public boolean update(int ticketId, Ticket ticket) throws ServiceException {
-        if (ticketId < 1 || ticket == null) {
+    public boolean update(Ticket ticket) throws ServiceException {
+        if (ticket == null || ticket.getId() < 1 ) {
             LOGGER.error(NULL_TICKET_INPUT_EXC);
             throw new IllegalArgumentException(NULL_TICKET_INPUT_EXC);
         }
         try {
-           return   ticketDAO.updateTicket(ticketId, ticket);
+           return   ticketDAO.update(ticket);
         } catch (DAOException e) {
             LOGGER.error("[TicketService] An exception occurs while updating Ticket. (id: {}). Exc: {}"
-                    , ticketId, e.getMessage());
+                    , ticket.getId(), e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public Ticket findTicketById(int ticketId) throws ServiceException {
+    public Ticket findById(int ticketId) throws ServiceException {
         if (ticketId < 1) {
             LOGGER.error(NULL_TICKET_INPUT_EXC);
             throw new IllegalArgumentException(NULL_TICKET_INPUT_EXC);
         }
         try {
-            return ticketDAO.findTicketById(ticketId).get();
+            return ticketDAO.findById(ticketId);
         } catch (DAOException e) {
             LOGGER.error("[TicketService] An exception occurs while receiving Ticket. (id: {}). Exc: {}"
                     , ticketId, e.getMessage());
@@ -95,7 +94,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public List<Ticket> findAll() throws ServiceException {
         try {
-            return ticketDAO.findAllTickets();
+            return ticketDAO.findAll();
         } catch (DAOException e) {
             LOGGER.error("[TicketService] An exception occurs while receiving Tickets. Exc: {}",
                     e.getMessage());

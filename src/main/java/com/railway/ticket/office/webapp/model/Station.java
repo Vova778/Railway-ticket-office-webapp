@@ -8,13 +8,20 @@ public class Station implements Serializable {
     //private List<Station> connectingStations;
 
     public Station(int id, String name) {
+        if (id < 0) {
+            throw new IllegalArgumentException("ID cannot be < 0");
+        }
+        if (name == null || name.equals("")) {
+            throw new IllegalArgumentException("Name cannot be null");
+        }
+        if (name.length()<=2) {
+            throw new IllegalArgumentException("Name length cannot be less than 3");
+        }
+
         this.id = id;
         this.name = name;
     }
 
-    public Station(String name) {
-        this.name = name;
-    }
 
     public Station() {
 

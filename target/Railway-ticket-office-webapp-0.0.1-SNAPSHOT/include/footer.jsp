@@ -36,7 +36,7 @@
             <p class="mb-0">Copyright © 2022 Train Express<br><br></p>
         </div>
     </footer>
-    <script src="js/bootstrap.min.js"></script>
+
 </body>
 
 </html>

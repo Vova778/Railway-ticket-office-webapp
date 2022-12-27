@@ -1,45 +1,43 @@
 package ModelTest;
 
 import com.railway.ticket.office.webapp.model.Station;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StationTest {
-    private static final Logger LOGGER = LogManager.getLogger(StationTest.class);
+    @Test
+    void getAndSetTest() {
+        Station station = new Station();
+        assertEquals(0, station.getId());
+        assertNull(station.getName());
 
-    @BeforeAll
-    static void logBefore () {
-        LOGGER.info("Starting Station tests");
+        station = new Station();
+        station.setId(1);
+        station.setName("TestTrain");
+
+        assertEquals(1, station.getId());
+        assertNotNull( station.getName());
     }
 
-    @Test
-    void createStation(){
-        Station station = new Station();
-        List<Station> stationList = new ArrayList<>();
-        stationList.add(new Station(101, "Тест Станція 2"));
-        assertDoesNotThrow( () ->  station.setId(100));
-        assertDoesNotThrow( () ->  station.setName("Тест Станція"));
-
-    }
 
     @Test
-    void createBadStation(){
+    void wrongInputTest() {
         Station station = new Station();
-        List<Station> stationList = null;
-        assertThrows(IllegalArgumentException.class, () ->  station.setId(-1));
-
         assertThrows(IllegalArgumentException.class,
-                () ->  station.setName(null));
-
+                () -> new Station(-1, ""));
         assertThrows(IllegalArgumentException.class,
-                () ->  station.setName("Т"));
+                () -> new Station(1, ""));
+        assertThrows(IllegalArgumentException.class,
+                () -> new Station(1, "Te"));
+        assertThrows(IllegalArgumentException.class,
+                () -> station.setId(-1));
+        assertThrows(IllegalArgumentException.class,
+                () -> station.setName(""));
+        assertThrows(IllegalArgumentException.class,
+                () -> station.setName(null));
+        assertThrows(IllegalArgumentException.class,
+                () -> station.setName("Te"));
 
     }
 

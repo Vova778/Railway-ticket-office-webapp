@@ -203,6 +203,16 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         commandContainer.addCommand("find_routes_between_stations", appCommand);
         LOGGER.info("{} FindRoutesBetweenStationsCommand created.", CONTEXT_LISTENER_MSG);
 
+        appCommand = new FindRoutesBetweenStationsSortedByFareCommand(stationService, routeService);
+        commandContainer.addCommand("sorted_by_price", appCommand);
+        LOGGER.info("{} FindRoutesBetweenStationsSortedByFareCommand created.", CONTEXT_LISTENER_MSG);
+
+        appCommand = new FindRoutesBetweenStationsFilteredByTrainCommand(stationService, routeService);
+        commandContainer.addCommand("filtered_by_train_number", appCommand);
+        LOGGER.info("{} FindRoutesBetweenStationsSortedByFareCommand created.", CONTEXT_LISTENER_MSG);
+
+
+
         appCommand = new BookTicketCommand(ticketService, routeService);
         commandContainer.addCommand("book_ticket", appCommand);
         LOGGER.info("{} BookTicketCommand created.", CONTEXT_LISTENER_MSG);
@@ -211,7 +221,7 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         commandContainer.addCommand("basket", appCommand);
         LOGGER.info("{} UserTicketsCommand created.", CONTEXT_LISTENER_MSG);
 
-        appCommand = new CancelTicketCommand(ticketService, routeService);
+        appCommand = new CancelTicketCommand(ticketService);
         commandContainer.addCommand("cancel_ticket", appCommand);
         LOGGER.info("{} CancelTicketCommand created.", CONTEXT_LISTENER_MSG);
 

@@ -31,7 +31,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     }
 
     @Override
-    public int insertSchedule(Schedule schedule) throws DAOException {
+    public int insert(Schedule schedule) throws DAOException {
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.SCHEDULE_INSERT_SCHEDULE,
                             Statement.RETURN_GENERATED_KEYS)) {
@@ -61,7 +61,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     }
 
     @Override
-    public void deleteSchedule(int scheduleId) throws DAOException {
+    public void delete(int scheduleId) throws DAOException {
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.SCHEDULE_DELETE_SCHEDULE)) {
 
@@ -81,7 +81,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     }
 
     @Override
-    public boolean updateSchedule(int scheduleId, Schedule schedule) throws DAOException {
+    public boolean update(Schedule schedule) throws DAOException {
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.SCHEDULE_UPDATE_SCHEDULE)) {
 
@@ -89,26 +89,26 @@ public class ScheduleDAOImpl implements ScheduleDAO {
 
             preparedStatement.setDate(k++,schedule.getDate());
             preparedStatement.setInt(k++,schedule.getTrain().getNumber());
-            preparedStatement.setInt(k,scheduleId);
+            preparedStatement.setInt(k,schedule.getId());
 
             int updatedRow = preparedStatement.executeUpdate();
             if(updatedRow>0){
-                log.info("Schedule with ID : {} was updated successfully", scheduleId);
+                log.info("Schedule with ID : {} was updated successfully", schedule.getId());
                 return true;
             } else {
-                log.info("Schedule with ID : [{}] was not found for update", scheduleId);
+                log.info("Schedule with ID : [{}] was not found for update", schedule.getId());
                 return false;
             }
 
         } catch (SQLException e) {
             log.error("Schedule with ID : [{}] was not updated. An exception occurs : {}",
-                    scheduleId, e.getMessage());
+                    schedule.getId(), e.getMessage());
             throw new DAOException("[ScheduleDAO] exception while updating Schedule" + e.getMessage(), e);
         }
     }
 
     @Override
-    public Optional<Schedule> findScheduleById(int scheduleId) throws DAOException {
+    public Schedule findById(int scheduleId) throws DAOException {
         Optional<Schedule> schedule = Optional.empty();
 
         try(PreparedStatement preparedStatement
@@ -123,7 +123,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
                 }
             }
             schedule.ifPresent(s -> log.info("Schedule was received: [{}]", s));
-            return schedule;
+            return schedule.orElse(new Schedule());
 
         }
         catch (SQLException e) {
@@ -183,7 +183,7 @@ public class ScheduleDAOImpl implements ScheduleDAO {
     }
 
     @Override
-    public List<Schedule> findAllSchedules() throws DAOException {
+    public List<Schedule> findAll() throws DAOException {
         List<Schedule> schedules = new ArrayList<>();
 
 

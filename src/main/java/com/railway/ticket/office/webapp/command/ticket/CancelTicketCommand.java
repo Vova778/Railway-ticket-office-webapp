@@ -5,7 +5,6 @@ import com.railway.ticket.office.webapp.exceptions.CommandException;
 import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Ticket;
-import com.railway.ticket.office.webapp.service.RouteService;
 import com.railway.ticket.office.webapp.service.TicketService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,12 +17,10 @@ public class CancelTicketCommand implements Command {
     private static final String BOOK_TICKET_COMMAND = "[BookTicketCommand]";
 
     private final TicketService ticketService;
-    private final RouteService routeService;
 
 
-    public CancelTicketCommand(TicketService ticketService, RouteService routeService) {
+    public CancelTicketCommand(TicketService ticketService) {
         this.ticketService = ticketService;
-        this.routeService = routeService;
     }
 
 
@@ -33,12 +30,12 @@ public class CancelTicketCommand implements Command {
             throws CommandException, FatalApplicationException {
         try {
             int ticketId = Integer.parseInt(req.getParameter("ticketId"));
-            Ticket ticket = ticketService.findTicketById(ticketId);
+            Ticket ticket = ticketService.findById(ticketId);
 
             if (ticket.getTicketStatus().getId() == 1) {
 
                 ticket.setTicketStatus(Ticket.TicketStatus.CANCELED);
-                ticketService.update(ticketId, ticket);
+                ticketService.update(ticket);
 
                 LOGGER.info("{} Ticket from view : {};"
                         , BOOK_TICKET_COMMAND, ticket);

@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Time;
-import java.util.Optional;
 
 public class EditRouteCommand implements Command {
 
@@ -35,25 +34,25 @@ public class EditRouteCommand implements Command {
         try {
             scheduleId = Integer.parseInt(req.getParameter("scheduleId"));
 
-            Optional<Station> startingStation
-                    = stationService.findStationByName(req.getParameter("startingStation"));
+            Station startingStation
+                    = stationService.findByName(req.getParameter("startingStation"));
 
-            Optional<Station> finalStation
-                    = stationService.findStationByName(req.getParameter("finalStation"));
+            Station finalStation
+                    = stationService.findByName(req.getParameter("finalStation"));
             Route updated = routeService
-                    .findRouteById(
+                    .findById(
                             Integer.parseInt(req.getParameter("routeId")));
 
             Time arrivalTime = Time.valueOf(req.getParameter("arrivalTime"));
             Time departureTime = Time.valueOf(req.getParameter("departureTime"));
 
-            startingStation.ifPresent(updated::setStartingStation);
-            finalStation.ifPresent(updated::setFinalStation);
+            updated.setStartingStation(startingStation);
+            updated.setFinalStation(finalStation);
             updated.setArrivalTime(arrivalTime);
             updated.setDepartureTime(departureTime);
             updated.setPrice(Double.parseDouble(req.getParameter("price")));
 
-            routeService.update(updated.getId(), updated);
+            routeService.update(updated);
             return "controller?command=schedule&scheduleId="+scheduleId;
         } catch (ServiceException e) {
             LOGGER.error("[EditStationCommand] Can't update station");

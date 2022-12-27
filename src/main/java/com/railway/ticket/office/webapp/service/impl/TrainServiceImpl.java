@@ -2,7 +2,6 @@ package com.railway.ticket.office.webapp.service.impl;
 
 import com.railway.ticket.office.webapp.db.dao.TrainDAO;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
-import com.railway.ticket.office.webapp.exceptions.FatalApplicationException;
 import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Train;
 import com.railway.ticket.office.webapp.service.TrainService;
@@ -32,33 +31,15 @@ public class TrainServiceImpl implements TrainService {
     }
 
     @Override
-    public void insert(Train train) throws ServiceException, FatalApplicationException {
+    public void insert(Train train) throws ServiceException {
         if (train == null) {
             LOGGER.error(NULL_TRAIN_INPUT_EXC);
             throw new IllegalArgumentException(NULL_TRAIN_INPUT_EXC);
         }
         try {
-            checkAndSave(train);
+            train.setNumber(trainDAO.insert(train)); ;
         } catch (SQLException e) {
             LOGGER.error("[TrainService] SQLException while saving Train (number: {}). Exc: {}"
-                    , train.getNumber(), e.getMessage());
-            throw new ServiceException(e.getMessage(), e);
-        }
-    }
-
-    private void checkAndSave(Train train) throws ServiceException, SQLException {
-
-        try {
-            if (trainDAO.findTrainByNumber(train.getNumber()).isPresent()) {
-               LOGGER.error(EXISTED_TRAIN_EXC
-                        , train.getNumber());
-                throw new ServiceException(EXISTED_TRAIN_EXC);
-            }
-            trainDAO.insertTrain(train);
-
-            LOGGER.info("[TrainService] Train saved. (number: {})", train.getNumber());
-        } catch (DAOException e) {
-            LOGGER.error("[TrainService] Train already exist. (number: {}). Exc: {}"
                     , train.getNumber(), e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
@@ -71,7 +52,7 @@ public class TrainServiceImpl implements TrainService {
             throw new IllegalArgumentException(NULL_TRAIN_INPUT_EXC);
         }
         try {
-            trainDAO.deleteTrain(trainId);
+            trainDAO.delete(trainId);
         } catch (DAOException e) {
             LOGGER.error("[TrainService] An exception occurs while deleting Train. (number: {}). Exc: {}"
                     , trainId, e.getMessage());
@@ -80,28 +61,28 @@ public class TrainServiceImpl implements TrainService {
     }
 
     @Override
-    public boolean update(int trainId, Train train) throws ServiceException {
-        if (trainId < 1 || train == null) {
+    public boolean update(Train train) throws ServiceException {
+        if ( train == null || train.getNumber() < 1) {
             LOGGER.error(NULL_TRAIN_INPUT_EXC);
             throw new IllegalArgumentException(NULL_TRAIN_INPUT_EXC);
         }
         try {
-            return trainDAO.updateTrain(trainId, train);
+            return trainDAO.update(train);
         } catch (DAOException e) {
             LOGGER.error("[TrainService] An exception occurs while updating Train. (number: {}). Exc: {}"
-                    , trainId, e.getMessage());
+                    , train.getNumber(), e.getMessage());
             throw new ServiceException(e.getMessage(), e);
         }
     }
 
     @Override
-    public Train findTrainById(int trainId) throws ServiceException {
+    public Train findById(int trainId) throws ServiceException {
         if (trainId < 1) {
             LOGGER.error(NULL_TRAIN_INPUT_EXC);
             throw new IllegalArgumentException(NULL_TRAIN_INPUT_EXC);
         }
         try {
-            return trainDAO.findTrainByNumber(trainId).get();
+            return trainDAO.findByNumber(trainId);
         } catch (DAOException e) {
             LOGGER.error("[TrainService] An exception occurs while receiving train. (number: {}). Exc: {}"
                     , trainId, e.getMessage());
@@ -112,7 +93,7 @@ public class TrainServiceImpl implements TrainService {
     @Override
     public List<Train> findAll(int offset) throws ServiceException {
         try {
-            return trainDAO.findAllTrains(offset);
+            return trainDAO.findAll(offset);
         } catch (DAOException e) {
             LOGGER.error("[TrainService] An exception occurs while receiving Trains. Exc: {}",
                     e.getMessage());

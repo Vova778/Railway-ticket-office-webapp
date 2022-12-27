@@ -10,7 +10,7 @@ public class Fields {
     public static final String ROUTE_AVAILABLE_SEATS = "available_seats";
     public static final String ROUTE_DAY = "day";
     public static final String ROUTE_SCHEDULE_ID = "schedule_id";
-    public static final String ROUTE_SCHEDULE_DATE = "schedule_date";
+    public static final String ROUTE_SCHEDULE_DATE = "date";
     public static final String ROUTE_TRAIN_ID = "train_id";
     public static final String ROUTE_PRICE = "price";
     public static final String ROUTE_STARTING_STATION_NAME = "starting_station_name";
@@ -19,7 +19,9 @@ public class Fields {
 
     public static final String SCHEDULE_ID="id";
     public static final String SCHEDULE_DATE="date";
-    public static final String SCHEDULE_TRAIN_ID="train_id";
+    public static final String SCHEDULE_TRAIN_NUMBER = "number";
+    public static final String SCHEDULE_TRAIN_SEATS = "seats";
+
 
     public static final String STATION_ID = "id";
     public static final String STATION_NAME = "name";
@@ -28,8 +30,8 @@ public class Fields {
     public static final String TICKET_FARE = "fare";
     public static final String TICKET_USER_ID = "user_id";
     public static final String TICKET_TRAIN_NUMBER = "train_number";
-    public static final String TICKET_STARTING_STATION_ID = "starting_station";
-    public static final String TICKET_FINAL_STATION_ID = "final_station";
+    public static final String TICKET_STARTING_STATION = "starting_station";
+    public static final String TICKET_FINAL_STATION = "final_station";
     public static final String TICKET_DEPARTURE_TIME = "departure_time";
     public static final String TICKET_ARRIVAL_TIME = "arrival_time";
     public static final String TICKET_STATUS_ID ="ticket_status_id";

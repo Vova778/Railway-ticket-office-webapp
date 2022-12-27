@@ -28,7 +28,7 @@ public class AllUsersCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws CommandException, FatalApplicationException {
         int page;
-        List<User> users = null;
+        List<User> users;
         int countPages;
         if (request.getParameter("page") == null
                 || request.getParameter("page").equals("")) {

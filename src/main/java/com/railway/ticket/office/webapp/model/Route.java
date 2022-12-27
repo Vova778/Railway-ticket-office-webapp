@@ -260,7 +260,7 @@ public class Route implements Serializable {
         }
 
         public Builder setStoppageNumber(int stoppageNumber) {
-            if (stoppageNumber <= 0) {
+            if (stoppageNumber < 0) {
                 throw new IllegalArgumentException("Stoppage number cannot be <= 0");
             }
             Route.this.stoppageNumber = stoppageNumber;
@@ -302,6 +302,15 @@ public class Route implements Serializable {
             Route.this.startingStation = startingStation;
             return this;
         }
+
+        public Builder setTravelTime(Time travelTime) {
+            if (travelTime == null) {
+                throw new IllegalArgumentException("Travel time cannot be null");
+            }
+            Route.this.travelTime = travelTime;
+            return this;
+        }
+
 
         public Builder setDepartureTime(Time departureTime) {
             if (departureTime == null) {

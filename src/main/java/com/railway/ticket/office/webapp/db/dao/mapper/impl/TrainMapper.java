@@ -21,8 +21,4 @@ public class TrainMapper implements ObjectMapper<Train> {
         return train;
     }
 
-    @Override
-    public Train toUnique(Map<String, Train> cache, Train object) {
-        return null;
-    }
 }

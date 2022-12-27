@@ -30,7 +30,7 @@ public class RouteDAOImpl implements RouteDAO {
     }
 
     @Override
-    public int insertRoute(Route route) throws DAOException {
+    public int insert(Route route) throws DAOException {
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.ROUTES_INSERT_ROUTE,
                             Statement.RETURN_GENERATED_KEYS)) {
@@ -60,7 +60,7 @@ public class RouteDAOImpl implements RouteDAO {
 
 
     @Override
-    public void deleteRoute(int routeId) throws DAOException {
+    public void delete(int routeId) throws DAOException {
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.ROUTES_DELETE_ROUTE)) {
             preparedStatement.setInt(1,routeId);
@@ -78,27 +78,27 @@ public class RouteDAOImpl implements RouteDAO {
     }
 
     @Override
-    public boolean updateRoute(int routeId, Route route) throws DAOException {
+    public boolean update(Route route) throws DAOException {
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.ROUTES_UPDATE_ROUTE)) {
 
 
             setRouteParameters(route, preparedStatement);
 
-            preparedStatement.setInt(11,routeId);
+            preparedStatement.setInt(11,route.getId());
 
             int updatedRow = preparedStatement.executeUpdate();
             if(updatedRow>0){
-                log.info("Route with ID : {} was updated successfully", routeId);
+                log.info("Route with ID : {} was updated successfully", route.getId());
                 return true;
             } else {
-                log.info("Route with ID : [{}] was not found for update", routeId);
+                log.info("Route with ID : [{}] was not found for update", route.getId());
                 return false;
             }
 
         } catch (SQLException e) {
             log.error("Route with ID : [{}] was not updated. An exception occurs : {}",
-                    routeId, e.getMessage());
+                    route.getId(), e.getMessage());
             throw new DAOException("[RouteDAO] exception while updating Route" + e.getMessage(), e);
         }
     }
@@ -120,7 +120,8 @@ public class RouteDAOImpl implements RouteDAO {
     }
 
     @Override
-    public Optional<Route> findRouteById(int routeId) throws DAOException {
+    public Route findById(int routeId) throws DAOException {
+
         Optional<Route> route = Optional.empty();
 
         try(PreparedStatement preparedStatement
@@ -137,7 +138,7 @@ public class RouteDAOImpl implements RouteDAO {
             route.ifPresent(r -> log.info("Route was received : [{}]",
                     r.getId()));
 
-            return route;
+            return route.orElse(new Route());
 
         }
         catch (SQLException e) {
@@ -199,12 +200,12 @@ public class RouteDAOImpl implements RouteDAO {
 
 
     @Override
-    public List<Route> findAllRoutes() throws DAOException {
+    public List<Route> findAll() throws DAOException {
         List<Route> routes = new ArrayList<>();
 
-
         try(Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery(Constants.ROUTES_GET_ALL_ROUTES)
+            ResultSet resultSet =
+                    statement.executeQuery(Constants.ROUTES_GET_ALL_ROUTES)
         ) {
 
             RouteMapper routeMapper = new RouteMapper();
@@ -221,7 +222,7 @@ public class RouteDAOImpl implements RouteDAO {
     }
 
     @Override
-    public List<Route> findAllRoutes(int offset) throws DAOException {
+    public List<Route> findAll(int offset) throws DAOException {
         List<Route> routes = new ArrayList<>();
 
         try(PreparedStatement preparedStatement

@@ -28,7 +28,7 @@ public class AllStationsCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response)
             throws CommandException, FatalApplicationException {
         int page;
-        List<Station> stations = null;
+        List<Station> stations;
         int countPages;
         if (request.getParameter("page") == null
                 || request.getParameter("page").equals("")) {

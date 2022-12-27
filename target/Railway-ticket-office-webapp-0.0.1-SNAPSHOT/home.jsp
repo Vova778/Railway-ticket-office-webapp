@@ -98,6 +98,7 @@
         </div>
     </div>
 </nav>
+
 <hr style="color: var(--bs-blue);height: 3px;background: var(--bs-blue);margin-top: 0px;">
 <div class="row d-flex justify-content-center" style="background: var(--bs-gray);">
     <div class="col-md-6">

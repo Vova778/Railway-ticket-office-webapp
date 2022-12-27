@@ -10,13 +10,13 @@ public interface TicketService {
 
     void insert(Ticket ticket) throws ServiceException, FatalApplicationException;
 
-    boolean update(int ticketId, Ticket ticket) throws ServiceException;
+    boolean update(Ticket ticket) throws ServiceException;
 
     void delete(int ticketId) throws ServiceException;
 
     List<Ticket> findAll() throws ServiceException;
 
-    Ticket findTicketById(int ticketId) throws ServiceException;
+    Ticket findById(int ticketId) throws ServiceException;
 
     List<Ticket> findTicketsByUserId (int userId) throws ServiceException;
 

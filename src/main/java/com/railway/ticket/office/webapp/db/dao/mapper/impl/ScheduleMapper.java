@@ -7,7 +7,6 @@ import com.railway.ticket.office.webapp.model.Train;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 
 public class ScheduleMapper implements ObjectMapper<Schedule> {
     @Override
@@ -23,8 +22,4 @@ public class ScheduleMapper implements ObjectMapper<Schedule> {
         return schedule;
     }
 
-    @Override
-    public Schedule toUnique(Map<String, Schedule> cache, Schedule schedule) {
-        return null;
-    }
 }

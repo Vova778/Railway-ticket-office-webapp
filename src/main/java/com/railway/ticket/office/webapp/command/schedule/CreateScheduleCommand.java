@@ -35,7 +35,7 @@ public class CreateScheduleCommand implements Command {
         try {
             Date date = Date.valueOf(req.getParameter("date"));
 
-            Train train = trainService.findTrainById(
+            Train train = trainService.findById(
                     Integer.parseInt(req.getParameter("trainNumber")));
 
             schedule = new Schedule();

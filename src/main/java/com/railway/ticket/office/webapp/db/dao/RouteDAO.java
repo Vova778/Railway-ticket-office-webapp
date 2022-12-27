@@ -7,26 +7,25 @@ import com.railway.ticket.office.webapp.model.Station;
 import java.sql.Connection;
 import java.sql.Date;
 import java.util.List;
-import java.util.Optional;
 
 public interface RouteDAO {
     Connection getConnection();
 
-    int insertRoute(Route route) throws DAOException;
+    int insert(Route route) throws DAOException;
 
-    void deleteRoute(int routeId) throws DAOException;
+    void delete(int routeId) throws DAOException;
 
-    boolean updateRoute(int routeId, Route route) throws DAOException;
+    boolean update(Route route) throws DAOException;
 
-    Optional<Route> findRouteById(int routeId) throws DAOException;
+    Route findById(int routeId) throws DAOException;
 
     List<Route> findRoutesByScheduleId(int scheduleId) throws DAOException;
 
     List<Route> findRoutesByTicketId(int ticketId) throws DAOException;
 
-    List<Route> findAllRoutes() throws DAOException;
+    List<Route> findAll() throws DAOException;
 
-    List<Route> findAllRoutes(int offset) throws DAOException;
+    List<Route> findAll(int offset) throws DAOException;
 
     List<Route> findRoutesBetweenStations(Date date,
                                           Station endStation,

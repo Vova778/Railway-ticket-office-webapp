@@ -28,7 +28,7 @@ public class StationDAOImpl implements StationDAO {
         return con;
     }
     @Override
-    public int insertStation(Station station) throws DAOException {
+    public int insert(Station station) throws DAOException {
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.STATIONS_INSERT_STATION,
                             Statement.RETURN_GENERATED_KEYS)) {
@@ -54,7 +54,7 @@ public class StationDAOImpl implements StationDAO {
     }
 
     @Override
-    public void deleteStation(int stationId) throws DAOException {
+    public void delete(int stationId) throws DAOException {
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.STATIONS_DELETE_STATION)) {
 
@@ -74,31 +74,31 @@ public class StationDAOImpl implements StationDAO {
     }
 
     @Override
-    public boolean updateStation(int stationId, Station station) throws DAOException {
+    public boolean update(Station station) throws DAOException {
         try(PreparedStatement preparedStatement =
                     con.prepareStatement(Constants.STATIONS_UPDATE_STATION)) {
 
             int k = 1;
             preparedStatement.setString(k++,station.getName());
-            preparedStatement.setInt(k,stationId);
+            preparedStatement.setInt(k,station.getId());
             int updatedRow = preparedStatement.executeUpdate();
             if(updatedRow>0){
-                log.info("Station with ID : {} was updated successfully", stationId);
+                log.info("Station with ID : {} was updated successfully", station.getId());
                 return true;
             } else {
-                log.info("Station with ID : [{}] was not found for update", stationId);
+                log.info("Station with ID : [{}] was not found for update", station.getId());
                 return false;
             }
 
         } catch (SQLException e) {
             log.error("Station with ID : [{}] was not updated. An exception occurs : {}",
-                    stationId, e.getMessage());
+                    station.getId(), e.getMessage());
             throw new DAOException("[StationDAO] exception while updating Station" + e.getMessage(), e);
         }
     }
 
     @Override
-    public Optional<Station> findStationById(int stationId) throws DAOException {
+    public Station findById(int stationId) throws DAOException {
         Optional<Station> station = Optional.empty();
 
         try(PreparedStatement preparedStatement
@@ -114,7 +114,7 @@ public class StationDAOImpl implements StationDAO {
             }
             station.ifPresent(s -> log.info("Station was received: [{}]", s));
 
-            return station;
+            return station.orElse(new Station());
 
         }
         catch (SQLException e) {
@@ -125,7 +125,7 @@ public class StationDAOImpl implements StationDAO {
     }
 
     @Override
-    public Optional<Station> findStationByName(String stationName) throws DAOException {
+    public Station findByName(String stationName) throws DAOException {
         Optional<Station>  station = Optional.empty();
 
         try(PreparedStatement preparedStatement
@@ -141,7 +141,7 @@ public class StationDAOImpl implements StationDAO {
             }
             station.ifPresent(s -> log.info("Station was received: [{}]", s));
 
-            return station;
+            return station.orElse(new Station());
         }
         catch (SQLException e) {
             log.error("Station with name : [{}] was not found. An exception occurs : {}",
@@ -152,7 +152,7 @@ public class StationDAOImpl implements StationDAO {
     }
 
     @Override
-    public List<Station> findAllStations(int offset) throws DAOException {
+    public List<Station> findAll(int offset) throws DAOException {
         List<Station> stations = new ArrayList<>();
 
         try(PreparedStatement preparedStatement
@@ -175,7 +175,7 @@ public class StationDAOImpl implements StationDAO {
     }
 
     @Override
-    public List<Station> findAllStations() throws DAOException {
+    public List<Station> findAll() throws DAOException {
         List<Station> stations = new ArrayList<>();
 
         try(Statement statement
