@@ -1,11 +1,11 @@
 package com.railway.ticket.office.webapp.db.dao.impl;
 
 import com.railway.ticket.office.webapp.db.Constants;
+import com.railway.ticket.office.webapp.db.dao.ScheduleDAO;
 import com.railway.ticket.office.webapp.db.dao.mapper.impl.ScheduleMapper;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
 import com.railway.ticket.office.webapp.model.Schedule;
 import com.railway.ticket.office.webapp.model.Train;
-import com.railway.ticket.office.webapp.db.dao.ScheduleDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,6 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * Class implements functionality of manipulations with
+ * {@link Schedule} entity using MySQL database.
+ * Constructor param :
+ * @see java.sql.Connection
+ */
 public class ScheduleDAOImpl implements ScheduleDAO {
 
     private final Connection con;

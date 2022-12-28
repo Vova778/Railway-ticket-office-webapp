@@ -14,6 +14,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * Class implements functionality of manipulations with
+ * {@link Route} entity using MySQL database.
+ * Constructor param :
+ * @see java.sql.Connection
+ */
+
 public class RouteDAOImpl implements RouteDAO {
 
     private final Connection con;
@@ -273,6 +281,9 @@ public class RouteDAOImpl implements RouteDAO {
         }
     }
 
+    /**
+     * @return all {@link Route} records in database
+     */
     @Override
     public int countRecords() {
         int recordsCount = 0;

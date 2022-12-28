@@ -1,10 +1,10 @@
 package com.railway.ticket.office.webapp.db.dao.impl;
 
 import com.railway.ticket.office.webapp.db.Constants;
+import com.railway.ticket.office.webapp.db.dao.StationDAO;
 import com.railway.ticket.office.webapp.db.dao.mapper.impl.StationMapper;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
 import com.railway.ticket.office.webapp.model.Station;
-import com.railway.ticket.office.webapp.db.dao.StationDAO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,6 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class implements functionality of manipulations with
+ * {@link Station} entity using MySQL database.
+ * Constructor param :
+ * @see java.sql.Connection
+ */
 public class StationDAOImpl implements StationDAO {
 
     private final Connection con;

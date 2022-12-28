@@ -75,14 +75,15 @@
 
 
                                         <div style="margin-bottom: 16px;">
-                                            <input class="form-control" type="time"
+                                            <input required class="form-control"
+                                                   type="time"
                                                    placeholder="Departure Time"
                                                    name="departureTime"
                                             />
                                         </div>
 
                                         <label>
-                                            <select name="finalStation" style="margin-bottom: 10px">
+                                            <select required name="finalStation" style="margin-bottom: 10px">
                                                 <%--@elvariable id="stations" type="java.util.List"--%>
                                                 <c:forEach var="station" items="${stations}">
                                                     <option value="${station.name}">${station.name}</option>
@@ -90,11 +91,11 @@
                                             </select>
                                         </label>
 
-                                        <div style="margin-bottom: 16px;"><input class="form-control" type="time"
+                                        <div style="margin-bottom: 16px;"><input required class="form-control" type="time"
                                                                                  placeholder="Arrival Time"
                                                                                  name="arrivalTime"/></div>
 
-                                        <div style="margin-bottom: 16px;"><input class="form-control"
+                                        <div style="margin-bottom: 16px;"><input required class="form-control"
                                                                                  type="text"
                                                                                  placeholder="Price"
                                                                                  name="price"/></div>

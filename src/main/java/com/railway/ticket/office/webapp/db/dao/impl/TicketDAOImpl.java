@@ -6,6 +6,7 @@ import com.railway.ticket.office.webapp.db.dao.mapper.impl.TicketMapper;
 import com.railway.ticket.office.webapp.exceptions.DAOException;
 import com.railway.ticket.office.webapp.model.Route;
 import com.railway.ticket.office.webapp.model.Ticket;
+import com.railway.ticket.office.webapp.utils.db.DBUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,6 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class implements functionality of manipulations with
+ * {@link Ticket} entity using MySQL database.
+ * Constructor param :
+ * @see java.sql.Connection
+ */
 public class TicketDAOImpl implements TicketDAO {
 
     private final Connection con;
@@ -36,7 +43,6 @@ public class TicketDAOImpl implements TicketDAO {
                      con.prepareStatement(Constants.TICKETS_INSERT_TICKET,
                              Statement.RETURN_GENERATED_KEYS)) {
             con.setAutoCommit(false);
-            con.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
 
             setTicketParameters(ticket, preparedStatement);
 
@@ -45,22 +51,16 @@ public class TicketDAOImpl implements TicketDAO {
             int key = 0;
             if (resultSet.next()) {
                 key = resultSet.getInt(1);
+                ticket.setId(key);
                 log.info("Ticket : {} was inserted successfully", ticket);
             }
             setRoutesForTicket(ticket);
-
 
             log.info("Routes for ticket: {} were inserted successfully", ticket);
             con.commit();
             return key;
         } catch (SQLException e) {
-
-            try {
-                con.rollback();
-            } catch (SQLException exception) {
-                exception.printStackTrace();
-            }
-
+            DBUtils.rollback(con);
             log.error("Ticket : [{}] was not inserted. An exception occurs : {}",
                     ticket, e.getMessage());
             throw new DAOException("[TicketDAO] exception while creating Ticket" + e.getMessage(), e);

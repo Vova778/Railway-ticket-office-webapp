@@ -12,7 +12,7 @@ import java.io.IOException;
 @WebFilter(urlPatterns = {"/*"},
         initParams = {@WebInitParam(name = "encoding", value = "UTF-8")})
 public class EncodingFilter implements Filter {
-    private static final Logger LOGGER = LogManager.getLogger(EncodingFilter.class);
+    private static final Logger log = LogManager.getLogger(EncodingFilter.class);
     private String encoding;
 
     @Override
@@ -24,12 +24,15 @@ public class EncodingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest,
                          ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        LOGGER.info("[EncodingFilter] Filter started {},  {}",
+
+        log.info("[EncodingFilter] Filter started {},  {}",
                 servletRequest.getParameterMap(), servletResponse);
+
         if (servletRequest.getCharacterEncoding() == null) {
             servletRequest.setCharacterEncoding(encoding);
-            LOGGER.info("[EncodingFilter] encoding: {}", encoding);
+            log.info("[EncodingFilter] encoding: {}", encoding);
         }
+
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

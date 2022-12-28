@@ -45,14 +45,14 @@
                                         <input hidden name="command" value="create_schedule"/>
                                         <input hidden name="trainNumber" value=${param.trainNumber}>
 
-                                        <div style="margin-bottom: 16px;"><input class="form-control" type="date"
+                                        <div style="margin-bottom: 16px;"><input required class="form-control" type="date"
                                                                                  placeholder="Date"
                                                                                  name="date"/></div>
 
 
 
                                         <div class="mb-3">
-                                            <button class="btn btn-success d-block w-100" type="submit"
+                                            <button  class="btn btn-success d-block w-100" type="submit"
                                                     value=""> <fmt:message key="text.create.schedule"/>
                                             </button>
                                         </div>

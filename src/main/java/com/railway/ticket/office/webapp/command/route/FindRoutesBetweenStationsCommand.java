@@ -17,7 +17,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class FindRoutesBetweenStationsCommand implements Command {
@@ -37,61 +39,34 @@ public class FindRoutesBetweenStationsCommand implements Command {
     @Override
     public String execute(HttpServletRequest request,
                           HttpServletResponse resp) throws CommandException, FatalApplicationException {
-        List<Route> routes = new LinkedList<>();
+        Map<Route, List<Route>> routes;
         HttpSession session = request.getSession();
-        Map<Schedule,List<Route>> schedules;
         int countPages;
 
         try {
             Date date = Date.valueOf(request.getParameter("date"));
+
             Station startingStation = stationService.findByName(
                     request.getParameter("startingStation"));
+
             Station finalStation = stationService.findByName(
                     request.getParameter("finalStation"));
-            schedules = routeService
-                    .findRoutesBetweenStations(date, finalStation, startingStation )
+
+            routes = routeService
+                    .findRoutesBetweenStations(date, finalStation, startingStation)
                     .stream()
-                    .collect(Collectors.groupingBy(Route::getSchedule));
-
-            int id =0;
-
-            for ( Map.Entry<Schedule, List<Route>> schedule :
-                    schedules.entrySet()) {
-
-                Route route = new Route();
-                route.setStartingStation(startingStation);
-                route.setFinalStation(finalStation);
-
-                route.setDepartureTime(schedule.getValue().get(0).getDepartureTime());
-                route.setTrain(schedule.getValue().get(0).getTrain());
-                route.setSchedule(schedule.getValue().get(0).getSchedule());
-                route.setArrivalTime(
-                        schedule.getValue()
-                                .get(schedule.getValue().size()-1)
-                                .getArrivalTime());
+                    .collect(Collectors.groupingBy(Route::getSchedule))
+                    .entrySet()
+                    .stream()
+                    .collect(
+                            Collectors.toMap(
+                                    e -> toGeneralRoute(startingStation, finalStation, e)
+                                    , Map.Entry::getValue));
 
 
-                double price = schedule.getValue()
-                        .stream()
-                        .mapToDouble(Route::getPrice)
-                        .sum();
-                int availableSeats = schedule.getValue()
-                        .stream()
-                        .mapToInt(Route::getAvailableSeats)
-                        .min()
-                        .getAsInt();
-
-                route.setId(id++);
-                route.setTravelTime(new Time(route.getArrivalTime().getTime()
-                        -route.getDepartureTime().getTime() - 7200000 ));
-                route.setAvailableSeats(availableSeats);
-                route.setPrice(price);
-                routes.add(route);
-
-            }
             session.setAttribute("routes", routes);
             log.info("{} Routes between stations were found.", FIND_ROUTE_COMMAND);
-            countPages = schedules.size() / 10 + 1;
+            countPages = routes.size() / 10 + 1;
         } catch (ServiceException e) {
             log.error("{} Can't receive routes! " +
                     "An exception occurs: [{}]", FIND_ROUTE_COMMAND, e.getMessage());
@@ -100,8 +75,46 @@ public class FindRoutesBetweenStationsCommand implements Command {
         request.setAttribute("routes", routes);
 
         List<Integer> pages = new ArrayList<>();
-        for (int i = 1; i <= countPages; i++)  pages.add(i);
+        for (int i = 1; i <= countPages; i++) pages.add(i);
         request.setAttribute("pages", pages);
         return "search.jsp";
+    }
+
+
+
+    /**
+     * Generalizes routes to a common object
+     */
+    private Route toGeneralRoute(Station startingStation,
+                                 Station finalStation,
+                                 Map.Entry<Schedule, List<Route>> e) {
+        Route route = new Route();
+        route.setStartingStation(startingStation);
+        route.setFinalStation(finalStation);
+
+        route.setDepartureTime(e.getValue().get(0).getDepartureTime());
+        route.setTrain(e.getValue().get(0).getTrain());
+        route.setSchedule(e.getValue().get(0).getSchedule());
+        route.setArrivalTime(
+                e.getValue()
+                        .get(e.getValue().size() - 1)
+                        .getArrivalTime());
+
+
+        double price = e.getValue()
+                .stream()
+                .mapToDouble(Route::getPrice)
+                .sum();
+        int availableSeats = e.getValue()
+                .stream()
+                .mapToInt(Route::getAvailableSeats)
+                .min()
+                .getAsInt();
+
+        route.setTravelTime(new Time(route.getArrivalTime().getTime()
+                - route.getDepartureTime().getTime() - 7200000));
+        route.setAvailableSeats(availableSeats);
+        route.setPrice(price);
+        return route;
     }
 }

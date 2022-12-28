@@ -13,6 +13,9 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * This class implements business logic for {@link Route}
+ */
 public class RouteServiceImpl implements RouteService {
     private static final Logger log = LogManager.getLogger(RouteServiceImpl.class);
     private static final String NULL_ROUTE_DAO_EXC =
@@ -105,7 +108,7 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public List<Route> findAll(int offset) throws ServiceException {
-        if (offset < 1) {
+        if (offset < 0) {
             log.error(NULL_ROUTE_INPUT_EXC);
             throw new IllegalArgumentException(NULL_ROUTE_INPUT_EXC);
         }
@@ -162,6 +165,10 @@ public class RouteServiceImpl implements RouteService {
         }
     }
 
+
+    /**
+     * @return all {@link Route} records in database
+     */
     @Override
     public int countRecords() throws ServiceException {
         try {

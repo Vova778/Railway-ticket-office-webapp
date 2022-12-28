@@ -17,8 +17,9 @@
 
 <nav class="navbar navbar-light navbar-expand-md bg-info py-3" style="height: 130px;">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="#">
-            <img style="margin: 0px;width: 110px;height: 110px;" src="img/est.2012%20(1).png"></a>
+        <a class="navbar-brand d-flex align-items-center" >
+            <img style="margin: 0;width: 110px;height: 110px;" src="img/est.2012%20(1).png" width="500"
+                 height="500"></a>
         <span class="fs-3"><fmt:message key="text.brand"/></span>
         <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span
                 class="visually-hidden">Toggle navigation</span>
@@ -44,29 +45,26 @@
             <a class="btn btn-primary ms-md-2" role="button" href="controller?command=basket">
                 <fmt:message key="text.basket"/>
             </a>
-
         </div>
     </div>
 </nav>
-
 <div class="container py-4 py-xl-5">
-    <div class="col-md-8 col-xl-6 text-center mx-auto" style="margin-top: 50px">
-        <h2><fmt:message key="text.schedule"/></h2>
+    <div class="col-md-8 col-xl-6 text-center mx-auto">
+        <h2><fmt:message key="text.schedule"/> ID: ${param.scheduleId}</h2>
     </div>
     <hr class="bg-secondary border-2 border-top border-secondary">
     <div class="container justify-content-center">
-           <%-- <button type="button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#modalAddRouteForm"
-                    class="btn btn-outline-secondary">
-                <fmt:message key="text.add.route"/>
-            </button> --%>
-               <button type="button"
-                       onclick="window.location='controller?command=add_route_form'"
-                       class="btn btn-outline-secondary">
-                   <fmt:message key="text.add.route"/>
-               </button>
+        <button type="button"
+                onclick="window.location='controller?command=add_route_form'"
+                class="btn btn-outline-secondary">
+            <fmt:message key="text.add.route"/>
+        </button>
 
+        <button type="button"
+                onclick="window.location='controller?command=remove_schedule&scheduleId=${param.scheduleId}'"
+                class="btn btn-outline-danger">
+            <fmt:message key="text.remove.schedule"/>
+        </button>
     </div>
     <hr class="bg-secondary border-2 border-top border-secondary">
     <table class="table table-striped table-bordered table-hover">
@@ -94,26 +92,13 @@
                 <td>${route.arrivalTime}</td>
                 <td>${route.availableSeats}</td>
                 <td>${route.day}</td>
-                <td><custom:NumberFormatter number="${route.price}" format="${sessionScope.lang}" /></td>
+                <td><custom:NumberFormatter number="${route.price}" format="${sessionScope.lang}"/></td>
                 <td>
                     <button type="button"
                             class="btn btn-outline-info"
                             onclick="window.location='controller?command=edit_route_form&routeId=${route.id}&scheduleId=${param.scheduleId}'">
                         <fmt:message key="text.edit.route"/>
                     </button>
-                   <%-- <button type="button" data-bs-toggle="modal"
-                            data-bs-target="#modalEditRouteForm"
-                            id="editBtn"
-                            class="btn btn-outline-secondary"
-                            data-bs-id="${route.id}"
-                            data-bs-departureTime="${route.departureTime}"
-                            data-bs-arrivalTime="${route.departureTime}"
-                            data-bs-startingStation="${route.startingStation.name}"
-                            data-bs-finalStation="${route.finalStation.name}"
-                            data-bs-price="${route.price}">
-                        <fmt:message key="text.edit.route"/>
-                    </button> --%>
-
                 </td>
                 <td>
                     <button type="button"
@@ -265,7 +250,7 @@
                     </label>
 
                     <div style="margin-bottom: 16px;">
-                        <label >
+                        <label>
                             <input class="form-control" type="time"
                                    placeholder="Arrival Time"
                                    name="arrivalTime"/>

@@ -22,11 +22,6 @@ public class Route implements Serializable {
     }
 
 
-    public Route() {
-    }
-
-
-
     public int getId() {
         return id;
     }
@@ -38,8 +33,6 @@ public class Route implements Serializable {
         this.id = id;
     }
 
-
-
     public Station getStartingStation() {
         return startingStation;
     }
@@ -47,7 +40,6 @@ public class Route implements Serializable {
     public Station getFinalStation() {
         return finalStation;
     }
-
 
     public Time getArrivalTime() {
         return arrivalTime;

@@ -12,7 +12,6 @@ public class Ticket implements Serializable {
     private int trainNumber;
     private Timestamp departureTime;
     private Timestamp arrivalTime;
-    //private Timestamp travelTime;
     private int userId;
     private TicketStatus ticketStatus;
     private List<Route> routes;

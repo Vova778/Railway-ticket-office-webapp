@@ -17,7 +17,7 @@
 <nav class="navbar navbar-light navbar-expand-md bg-info py-3" style="height: 130px;">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="#">
-            <img style="margin: 0px;margin-right: 0px;width: 110px;height: 110px;" src="img/est.2012%20(1).png" width="120" height="120"></a>
+            <img style="margin: 0px;width: 110px;height: 110px;" src="img/est.2012%20(1).png" ></a>
         <span class="fs-3"><fmt:message key="text.brand"/></span>
         <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-2"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navcol-2">

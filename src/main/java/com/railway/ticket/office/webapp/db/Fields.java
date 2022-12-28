@@ -1,5 +1,8 @@
 package com.railway.ticket.office.webapp.db;
 
+/**
+ * Fields for MySQL
+ */
 public class Fields {
     public static final String ROUTE_ID = "id";
     public static final String ROUTE_STOPPAGE_NUMBER = "stoppage_number";
@@ -46,6 +49,5 @@ public class Fields {
     public static final String USER_LAST_NAME = "last_name";
     public static final String USER_PHONE = "phone";
     public static final String USER_ROLE_ID = "role_id";
-
 
 }

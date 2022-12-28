@@ -10,6 +10,9 @@ import com.railway.ticket.office.webapp.model.Train;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class implements functionality of {@link Route} mapping.
+ */
 public class RouteMapper implements ObjectMapper<Route> {
 
     @Override

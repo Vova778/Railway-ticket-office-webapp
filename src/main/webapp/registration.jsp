@@ -49,22 +49,22 @@
                                                                                  placeholder="First Name"
                                                                                  name="firstName"
                                                                                  pattern="^\p{L}{2,45}$"
-                                                                                 minlength="1" required=""
+                                                                                 minlength="1" required
                                                                                  maxlength="44"/></div>
                                         <div class="form-outline mb-4"><input class="form-control form-control-lg" type="text"
                                                                                  placeholder="Last name"
                                                                                  name="lastName" minlength="1"
                                                                                  pattern="^\p{L}{2,45}$"
-                                                                                 required="" maxlength="44"/></div>
+                                                                                 required maxlength="44"/></div>
                                         <div class="form-outline mb-4"><input class="form-control form-control-lg" type="text"
                                                                                  name="phone"
                                                                                  placeholder="Phone number"
-                                                                                 maxlength="10" required=""
+                                                                                 maxlength="10" required
                                                                                  minlength="10"
                                                                                  pattern="^(?=.{3,45}$)[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$"/>
                                         </div>
                                         <div class="form-outline mb-4"><input class="form-control form-control-lg" type="password" name="password"
-                                                                 placeholder="Password" required="" minlength="6"
+                                                                 placeholder="Password" required minlength="6"
                                                                  pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,65}$"/>
                                         </div>
                                         <div class="mb-3">

@@ -13,6 +13,9 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * This class implements business logic for {@link Schedule}
+ */
 public class ScheduleServiceImpl implements ScheduleService {
 
     private static final Logger log = LogManager.getLogger(ScheduleServiceImpl.class);

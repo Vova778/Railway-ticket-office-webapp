@@ -44,19 +44,19 @@
 
                                         <input hidden name="command" value="create_train"/>
 
-                                        <div style="margin-bottom: 16px;"><input class="form-control" type="text"
+                                        <div style="margin-bottom: 16px;"><input required class="form-control" type="text"
                                                                                  placeholder="Number"
                                                                                  name="number"
 
                                                                                  minlength="3"
                                                                                  maxlength="8"/></div>
 
-                                        <div style="margin-bottom: 16px;"><input class="form-control" type="text"
+                                        <div style="margin-bottom: 16px;"><input required class="form-control" type="text"
                                                                                  placeholder="Seats"
                                                                                  name="seats"
 
                                                                                  minlength="1"
-                                                                                 maxlength="5"/></div>
+                                                                                 maxlength="4"/></div>
 
                                         <div class="mb-3">
                                             <button class="btn btn-success d-block w-100" type="submit"

@@ -13,6 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class implements functionality of manipulations with
+ * {@link User} entity using MySQL database.
+ * Constructor param :
+ * @see java.sql.Connection
+ */
 public class UserDAOImpl implements UserDAO {
 
     private final Connection con;

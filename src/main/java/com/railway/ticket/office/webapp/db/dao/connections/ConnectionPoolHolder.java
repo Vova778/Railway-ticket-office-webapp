@@ -12,11 +12,23 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
+
+/**
+ * Utility class for creating connections to database
+ */
+
 public class ConnectionPoolHolder {
-    private static final Logger LOGGER = LogManager.getLogger(ConnectionPoolHolder.class);
+    private static final Logger log = LogManager.getLogger(ConnectionPoolHolder.class);
     private static volatile DataSource dataSource;
-    private ConnectionPoolHolder() {
-    }
+
+    private ConnectionPoolHolder() { }
+
+    /**
+     * Method for receive Datasource object using configuration properties file
+     * @param path is a properties file path value
+     * @return {@link DataSource}
+     * @throws DAOException if something goes wrong
+     */
 
     public static DataSource getDataSource(String path) throws DAOException {
         if (dataSource == null) {
@@ -38,7 +50,7 @@ public class ConnectionPoolHolder {
                         basicDataSource.setMaxWaitMillis(10000);
                         dataSource = basicDataSource;
                     } catch (IOException ex) {
-                        LOGGER.error("Error while ");
+                        log.error("Error while ");
                         throw new DAOException(ex.getMessage(), ex);
                     }
                 }

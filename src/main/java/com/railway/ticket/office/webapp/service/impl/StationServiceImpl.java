@@ -11,6 +11,9 @@ import org.apache.logging.log4j.Logger;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ * This class implements business logic for {@link Station}
+ */
 public class StationServiceImpl implements StationService {
     private static final Logger log = LogManager.getLogger(StationServiceImpl.class);
     private static final String NULL_STATION_DAO_EXC =
@@ -128,6 +131,10 @@ public class StationServiceImpl implements StationService {
         }
     }
 
+
+    /**
+     * @return all {@link Station} records in database
+     */
     @Override
     public int countRecords() throws ServiceException {
         try {

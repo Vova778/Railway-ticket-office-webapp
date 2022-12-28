@@ -7,6 +7,9 @@ import com.railway.ticket.office.webapp.model.Ticket;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class implements functionality of {@link Ticket} mapping.
+ */
 public class TicketMapper implements ObjectMapper<Ticket> {
     @Override
     public Ticket extractFromResultSet(ResultSet resultSet) throws SQLException {

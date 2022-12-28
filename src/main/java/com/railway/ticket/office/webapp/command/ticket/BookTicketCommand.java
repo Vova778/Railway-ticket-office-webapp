@@ -7,7 +7,6 @@ import com.railway.ticket.office.webapp.exceptions.ServiceException;
 import com.railway.ticket.office.webapp.model.Route;
 import com.railway.ticket.office.webapp.model.Ticket;
 import com.railway.ticket.office.webapp.model.User;
-import com.railway.ticket.office.webapp.service.RouteService;
 import com.railway.ticket.office.webapp.service.TicketService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 public class BookTicketCommand implements Command {
 
@@ -25,11 +24,9 @@ public class BookTicketCommand implements Command {
     private static final String BOOK_TICKET_COMMAND = "[BookTicketCommand]";
 
     private final TicketService ticketService;
-    private final RouteService routeService;
 
-    public BookTicketCommand(TicketService ticketService, RouteService routeService) {
+    public BookTicketCommand(TicketService ticketService) {
         this.ticketService = ticketService;
-        this.routeService = routeService;
     }
 
     @Override
@@ -37,12 +34,13 @@ public class BookTicketCommand implements Command {
             throws CommandException, FatalApplicationException {
         HttpSession session = req.getSession();
         try {
-            int routeId = Integer.parseInt(req.getParameter("routeId"));
+            int trainNumber = Integer.parseInt(req.getParameter("trainNumber"));
 
-           Route route
-                    =((List<Route>) session.getAttribute("routes"))
-                   .stream()
-                    .filter(r -> r.getId() == routeId)
+            Map.Entry<Route, List<Route>> route
+                    =((Map<Route, List<Route>>) session.getAttribute("routes"))
+                    .entrySet()
+                    .stream()
+                    .filter(entry -> entry.getKey().getTrain().getNumber() == trainNumber)
                     .findFirst()
                     .get();
 
@@ -51,25 +49,21 @@ public class BookTicketCommand implements Command {
             Ticket ticket = new Ticket();
 
             Timestamp arrivalTime =
-                    Timestamp.valueOf( route.getSchedule().getDate() +" "+ route.getArrivalTime());
+                    Timestamp.valueOf( route.getKey().getSchedule().getDate()
+                            +" "+ route.getKey().getArrivalTime());
             Timestamp departureTime
-                    = Timestamp.valueOf( route.getSchedule().getDate() +" "+ route.getDepartureTime());
+                    = Timestamp.valueOf( route.getKey().getSchedule().getDate()
+                    +" "+ route.getKey().getDepartureTime());
 
             ticket.setArrivalTime(arrivalTime);
             ticket.setDepartureTime(departureTime);
-            ticket.setFare(route.getPrice());
-            ticket.setStartingStation(route.getStartingStation().getName());
-            ticket.setFinalStation(route.getFinalStation().getName());
-            ticket.setTrainNumber(route.getTrain().getNumber());
+            ticket.setFare(route.getKey().getPrice());
+            ticket.setStartingStation(route.getKey().getStartingStation().getName());
+            ticket.setFinalStation(route.getKey().getFinalStation().getName());
+            ticket.setTrainNumber(route.getKey().getTrain().getNumber());
             ticket.setUserId(user.getId());
             ticket.setTicketStatus(Ticket.TicketStatus.QUEUED);
-
-            ticket.setRoutes(routeService.findRoutesBetweenStations(route.getSchedule().getDate(),
-                    route.getStartingStation(),
-                    route.getFinalStation()).stream()
-                    .filter(r -> r.getSchedule().getId() ==route.getSchedule().getId() )
-                    .collect(Collectors.toList()));
-
+            ticket.setRoutes(route.getValue());
 
             LOGGER.info("{} Ticket from view : {};"
                     , BOOK_TICKET_COMMAND, ticket);

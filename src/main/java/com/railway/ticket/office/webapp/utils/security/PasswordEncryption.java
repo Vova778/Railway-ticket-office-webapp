@@ -8,6 +8,10 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * This class implements functionality of passwords encryption
+ * using SHA-256
+ */
 public class PasswordEncryption {
     private static final Logger LOGGER = LogManager.getLogger(PasswordEncryption.class);
     private PasswordEncryption() {

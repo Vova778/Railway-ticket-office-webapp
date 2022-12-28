@@ -24,8 +24,8 @@
             <c:if test="${sessionScope.user.role.id == 1}">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item text-end">
-                        <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22" height="22"></a>
-                            <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22" height="22" style="width: 26px;height: 26px;"></a></div>
+                        <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;"></a>
+                            <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" style="width: 26px;height: 26px;"></a></div>
                     </li>
 
                     <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout" /></span><br></a></li>
@@ -71,20 +71,20 @@
         <tbody>
         <c:forEach var="route" items="${routes}">
             <tr>
-                <td>${route.train.number}</td>
-                <td>${route.startingStation.name}</td>
-                <td>${route.schedule.date} ${route.departureTime}</td>
-                <td>${route.finalStation.name}</td>
-                <td>${route.schedule.date} ${route.arrivalTime}</td>
-                <td>${route.travelTime}</td>
-                <td>${route.availableSeats}</td>
-                <td>${route.price}</td>
+                <td>${route.key.train.number}</td>
+                <td>${route.key.startingStation.name}</td>
+                <td>${route.key.schedule.date} ${route.key.departureTime}</td>
+                <td>${route.key.finalStation.name}</td>
+                <td>${route.key.schedule.date} ${route.key.arrivalTime}</td>
+                <td>${route.key.travelTime}</td>
+                <td>${route.key.availableSeats}</td>
+                <td>${route.key.price}</td>
                 <td> <a href=""> <fmt:message key="text.details" /> </a>
                 </td>
                 <td>
                     <form action="controller" method="post">
                         <input hidden name="command" value="book_ticket"/>
-                        <input hidden name="routeId" value="${route.id}"/>
+                        <input hidden name="trainNumber" value="${route.key.train.number}"/>
                     <button type="submit"
                             class="btn btn-outline-info" >
                         <fmt:message key="text.book" /></button></form>

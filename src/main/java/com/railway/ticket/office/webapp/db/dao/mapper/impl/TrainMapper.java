@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class implements functionality of {@link Train} mapping.
+ */
 public class TrainMapper implements ObjectMapper<Train> {
     @Override
     public Train extractFromResultSet(ResultSet resultSet) throws SQLException {

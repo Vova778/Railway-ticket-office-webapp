@@ -46,7 +46,7 @@
 
 
 
-                                        <div style="margin-bottom: 16px;"><input class="form-control" type="text"
+                                        <div style="margin-bottom: 16px;"><input required class="form-control" type="text"
                                                                                  placeholder="Name"
                                                                                  name="stationName"
                                                                                  pattern="^(?=.{3,45}$)\w+( \w+)*$"

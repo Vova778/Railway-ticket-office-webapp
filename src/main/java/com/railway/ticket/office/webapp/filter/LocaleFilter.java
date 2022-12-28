@@ -10,25 +10,21 @@ import java.io.IOException;
 
 @WebFilter(filterName = "LocaleFilter", urlPatterns = {"/*"})
 public class LocaleFilter implements Filter {
-    private static final Logger LOGGER = LogManager.getLogger(LocaleFilter.class);
-
-    @Override
-    public void init(FilterConfig filterConfig) {
-        //
-    }
+    private static final Logger log = LogManager.getLogger(LocaleFilter.class);
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
 
-        LOGGER.info("[LocaleFilter] Filter started {},  {}",
+        log.info("[LocaleFilter] Filter started {},  {}",
                 request.getParameterMap(), response);
 
         if (req.getParameter("locale") != null) {
             req.getSession().setAttribute("lang",
                     req.getParameter("locale"));
         }
+
         chain.doFilter(request, response);
     }
 }

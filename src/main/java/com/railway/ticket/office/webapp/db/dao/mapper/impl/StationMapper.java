@@ -7,6 +7,9 @@ import com.railway.ticket.office.webapp.model.Station;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class implements functionality of {@link Station} mapping.
+ */
 public class StationMapper implements ObjectMapper<Station> {
     
     @Override

@@ -14,6 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class implements functionality of manipulations with
+ * {@link Train} entity using MySQL database.
+ * Constructor param :
+ * @see java.sql.Connection
+ */
 public class TrainDAOImpl implements TrainDAO {
 
 

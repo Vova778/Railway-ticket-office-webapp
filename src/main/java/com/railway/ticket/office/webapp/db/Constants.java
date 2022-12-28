@@ -1,5 +1,10 @@
 package com.railway.ticket.office.webapp.db;
 
+
+
+/**
+ * Constants for MySQL
+ */
 public class Constants {
 
     private static final String ROUTES_GET = "select  r.* , s.date, starting_s.name starting_station_name, " +
@@ -11,9 +16,9 @@ public class Constants {
     public static final String ROUTES_INSERT_ROUTE = "insert into route values (default,?,?,?,?,?,?,?,?,?,?)";
     public static final String ROUTES_DELETE_ROUTE = "delete from route where id=?";
     public static final String ROUTES_UPDATE_ROUTE = "update route set stoppage_number=?, starting_station_id=?, final_station_id=?, departure_time=?, arrival_time=?, available_seats=?, day=?, schedule_id=?, train_id=?, price=? where id=?";
-    public static final String ROUTES_GET_ROUTE_BY_ID = ROUTES_GET + " where route.id=?";
+    public static final String ROUTES_GET_ROUTE_BY_ID = ROUTES_GET + " where r.id=?";
     public static final String ROUTES_GET_ROUTE_BY_SCHEDULE_ID = ROUTES_GET + " where schedule_id=? order by stoppage_number;";
-    public static final String ROUTES_GET_ALL_ROUTES = ROUTES_GET + " order by route.id";
+    public static final String ROUTES_GET_ALL_ROUTES = ROUTES_GET + " order by r.id";
     public static final String ROUTES_GET_ALL_ROUTES_WITH_OFFSET = ROUTES_GET_ALL_ROUTES + " LIMIT 10 OFFSET ?";
     public static final String ROUTES_GET_COUNT = "SELECT COUNT(*) FROM route";
     public static final String ROUTES_FIND_ROUTES_BETWEEN_STATIONS = ROUTES_GET + " where date_add(s.date, interval r.day DAY) = ?" +
