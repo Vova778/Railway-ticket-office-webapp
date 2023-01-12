@@ -112,17 +112,32 @@
                         <input hidden name="command" value="find_routes_between_stations"/>
                     </c:if>
 
-                    <div class="mb-3"><input required class="form-control"
-                                             type="text" name="startingStation" placeholder="From">
+                    <div class="mb-3">
+                        <p><input list="fromStation" required class="form-control"
+                                  type="text" name="startingStation" placeholder="From">
+                            <datalist id="fromStation">
+                                <c:forEach var="station" items="${sessionScope.stations}">
+                                    <option value="${station.name}"></option>
+                                </c:forEach>
+                            </datalist>
+                        </p>
                     </div>
-                    <div class="mb-3"><input required class="form-control"
-                                             type="text" name="finalStation" placeholder="To">
+                    <div class="mb-3">
+                        <p><input list="toStation" required class="form-control"
+                                  type="text" name="finalStation" placeholder="To">
+                            <datalist id="toStation">
+                                <c:forEach var="station" items="${sessionScope.stations}">
+                                    <option value="${station.name}"></option>
+                                </c:forEach>
+                            </datalist>
+                        </p>
                     </div>
+
                     <div class="mb-3"><input required class="form-control"
-                                             type="date" min="20.10.2022" name="date"></div>
+                                             type="date" min="" name="date"></div>
                     <div class="mb-3">
                         <button class="btn btn-primary btn btn-secondary d-block w-100"
-                                type="submit">Button</button>
+                                type="submit"><fmt:message key="text.search"/></button>
                     </div>
                 </form>
             </div>
@@ -145,7 +160,8 @@
                     </button>
                 </div>
                 <div class="modal-body mx-3">
-                    <div class="form-outline mb-4"><input class="form-control form-control-lg" type="text" name="login"
+                    <div class="form-outline mb-4">
+                        <input class="form-control form-control-lg" type="text" name="login"
                                                           placeholder="Login" minlength="4" maxlength="16"
                                                           pattern=".{4,16}" required>
                     </div>

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class RegistrationCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(RegistrationCommand.class);
+    private static final Logger log = LogManager.getLogger(RegistrationCommand.class);
     private final UserService userService;
 
     public RegistrationCommand(UserService userService) {
@@ -33,14 +33,14 @@ public class RegistrationCommand implements Command {
                     .setPassword(PasswordEncryption.getEncrypted(req.getParameter("password")))
                     .setRole(User.Role.USER)
                     .build();
-            LOGGER.info("[RegistrationCommand] User from view : {} + fN: {}", user, req.getParameter("firstName"));
+            log.info("[RegistrationCommand] User from view : {} + fN: {}", user, req.getParameter("firstName"));
             if (userService.isUserExists(user)) {
                 return "controller?command=login_form";
             }
             userService.insert(user);
-            LOGGER.info("[RegistrationCommand] User saved : {}", user);
+            log.info("[RegistrationCommand] User saved : {}", user);
         } catch (ServiceException e) {
-            LOGGER.error("An exception occurs while saving User");
+            log.error("An exception occurs while saving User");
             throw new CommandException(e.getMessage(), e);
         }
         return "login.jsp";

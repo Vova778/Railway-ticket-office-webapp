@@ -1,0 +1,46 @@
+2022-12-27 19:35:12 INFO Train with ID : 100 was updated successfully
+2022-12-27 19:35:12 INFO Train with ID : 100 was updated successfully
+2022-12-27 19:35:12 INFO Train was received: [Train{number=1, seats=10, schedules=null}]
+2022-12-27 19:35:12 INFO Train with ID : [100] was not found for update
+2022-12-27 19:35:12 INFO Train with ID : [100] was not found for update
+2022-12-27 19:35:12 INFO Train : Train{number=100, seats=10, schedules=null} was inserted successfully
+2022-12-27 19:35:12 INFO Train with ID : 1 was removed successfully
+2022-12-27 19:35:12 INFO Schedule with ID : 1 was updated successfully
+2022-12-27 19:35:12 INFO Schedule with ID : 1 was updated successfully
+2022-12-27 19:35:12 INFO Schedule was received: [com.railway.ticket.office.webapp.model.Schedule@277e3e]
+2022-12-27 19:35:12 INFO Schedule with ID : 1 was removed successfully
+2022-12-27 19:35:12 INFO Schedule with ID : [1] was not found for update
+2022-12-27 19:35:12 INFO Schedule with ID : [1] was not found for update
+2022-12-27 19:35:12 INFO Schedule : com.railway.ticket.office.webapp.model.Schedule@277e3e was inserted successfully
+2022-12-27 19:35:12 INFO Station was received: [Station{id=1, name='Test'}]
+2022-12-27 19:35:12 INFO Station with ID : 1 was updated successfully
+2022-12-27 19:35:12 INFO Station with ID : 1 was updated successfully
+2022-12-27 19:35:12 INFO Station was received: [Station{id=1, name='Test'}]
+2022-12-27 19:35:12 INFO Station with ID : [1] was not found for update
+2022-12-27 19:35:12 INFO Station with ID : [1] was not found for update
+2022-12-27 19:35:12 INFO Station : Station{id=1, name='Test'} was inserted successfully
+2022-12-27 19:35:12 INFO Station with ID : 1 was removed successfully
+2022-12-27 19:35:12 INFO [ScheduleService] Schedule saved. (id: 1)
+2022-12-27 19:35:12 INFO [RouteService] Route saved. (id: 1)
+2022-12-27 19:35:12 INFO Route with ID : 1 was updated successfully
+2022-12-27 19:35:12 INFO Route with ID : 1 was updated successfully
+2022-12-27 19:35:12 INFO Route was received : [1]
+2022-12-27 19:35:12 INFO Route with ID : [1] was not found for update
+2022-12-27 19:35:12 INFO Route with ID : [1] was not found for update
+2022-12-27 19:35:12 INFO Route with ID : 1 was removed successfully
+2022-12-27 19:35:12 INFO Route : Route{id=1, startStation=Station{id=1, name='StartingStation'}, finalStation=Station{id=2, name='FinalStation'}, departureTime=02:00:00, arrivalTime=02:00:00, train=Train{number=101, seats=10, schedules=null}} was inserted successfully
+2022-12-27 19:35:12 INFO [UserService] User saved. (login: Test)
+2022-12-27 19:35:13 INFO User was received : [1], [Test]
+2022-12-27 19:35:13 INFO User with ID : 1 was updated successfully
+2022-12-27 19:35:13 INFO User with ID : 1 was updated successfully
+2022-12-27 19:35:13 INFO User with ID : 1 was removed successfully
+2022-12-27 19:35:13 INFO User was received : [1], [Test]
+2022-12-27 19:35:13 INFO User with ID : [1] was not found for update
+2022-12-27 19:35:13 INFO User with ID : [1] was not found for update
+2022-12-27 19:35:13 INFO User : User{id=1, login='Test', firstName='FirstName', lastName='LastName', phone=3802211111} was inserted successfully
+2022-12-27 19:35:13 INFO Ticket with ID : 1 was updated successfully
+2022-12-27 19:35:13 INFO Ticket with ID : 1 was updated successfully
+2022-12-27 19:35:13 INFO Ticket was received: [com.railway.ticket.office.webapp.model.Ticket@396d7d7c]
+2022-12-27 19:35:13 INFO Ticket with ID : [1] was not found for update
+2022-12-27 19:35:13 INFO Ticket with ID : [1] was not found for update
+2022-12-27 19:35:13 INFO Ticket with ID : 1 was removed successfully

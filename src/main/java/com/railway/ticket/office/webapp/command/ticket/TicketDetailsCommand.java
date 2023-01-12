@@ -15,7 +15,7 @@ import java.util.List;
 
 public class TicketDetailsCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(TicketDetailsCommand.class);
+    private static final Logger log = LogManager.getLogger(TicketDetailsCommand.class);
     private static final String TICKET_DETAILS_COMMAND = "[TicketDetailsCommand]";
     private final RouteService routeService;
 
@@ -34,10 +34,10 @@ public class TicketDetailsCommand implements Command {
         try {
             ticketId = Integer.parseInt(req.getParameter("ticketId"));
             routes = routeService.findRoutesByTicketId(ticketId);
-            LOGGER.info("{} Routes by ticket id were found.", TICKET_DETAILS_COMMAND);
+            log.info("{} Routes by ticket id were found.", TICKET_DETAILS_COMMAND);
 
         } catch (ServiceException e) {
-            LOGGER.error("{} Can't receive routes by ticket id were found! " +
+            log.error("{} Can't receive routes by ticket id were found! " +
                     "An exception occurs: [{}]", TICKET_DETAILS_COMMAND, e.getMessage());
             throw new CommandException(e.getMessage(), e);
         }

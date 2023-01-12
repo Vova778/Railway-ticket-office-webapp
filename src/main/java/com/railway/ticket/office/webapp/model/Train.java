@@ -19,9 +19,7 @@ public class Train implements Serializable {
         this.seats = seats;
     }
 
-    public Train() {
-
-    }
+    public Train() { }
 
     public int getNumber() {
         return number;
@@ -44,9 +42,6 @@ public class Train implements Serializable {
         }
         this.seats = seats;
     }
-
-
-
 
     public List<Schedule> getSchedules() {
         return schedules;

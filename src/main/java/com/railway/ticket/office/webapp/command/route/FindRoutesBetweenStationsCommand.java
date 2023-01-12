@@ -81,9 +81,9 @@ public class FindRoutesBetweenStationsCommand implements Command {
     }
 
 
-
     /**
      * Generalizes routes to a common object
+     *
      */
     private Route toGeneralRoute(Station startingStation,
                                  Station finalStation,

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AllUsersCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(AllUsersCommand.class);
+    private static final Logger log = LogManager.getLogger(AllUsersCommand.class);
     private static final String ALL_USERS_COMMAND = "[AllUsersCommand]";
     private final UserService userService;
 
@@ -38,10 +38,10 @@ public class AllUsersCommand implements Command {
         }
         try {
             users = userService.findAll((page-1)*10);
-            LOGGER.info("{} User found.", ALL_USERS_COMMAND);
+            log.info("{} User found.", ALL_USERS_COMMAND);
             countPages = userService.countRecords() / 10 + 1;
         } catch (ServiceException e) {
-            LOGGER.error("{} Can't receive users! " +
+            log.error("{} Can't receive users! " +
                     "An exception occurs: [{}]", ALL_USERS_COMMAND, e.getMessage());
             throw new CommandException(e.getMessage(), e);
         }

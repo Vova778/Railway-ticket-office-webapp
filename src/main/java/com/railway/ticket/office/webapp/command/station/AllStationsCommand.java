@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AllStationsCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(AllStationsCommand.class);
+    private static final Logger log = LogManager.getLogger(AllStationsCommand.class);
     private static final String ALL_STATIONS_COMMAND = "[AllStationsCommand]";
     private final StationService stationService;
 
@@ -38,10 +38,10 @@ public class AllStationsCommand implements Command {
         }
         try {
             stations = stationService.findAll((page-1)*10);
-            LOGGER.info("{} Stations found.", ALL_STATIONS_COMMAND);
+            log.info("{} Stations found.", ALL_STATIONS_COMMAND);
             countPages = stationService.countRecords() / 10 + 1;
         } catch (ServiceException e) {
-            LOGGER.error("{} Can't receive stations! " +
+            log.error("{} Can't receive stations! " +
                     "An exception occurs: [{}]", ALL_STATIONS_COMMAND, e.getMessage());
             throw new CommandException(e.getMessage(), e);
         }

@@ -117,11 +117,11 @@ public class User implements Serializable {
         }
 
         public Builder setPhone(String phone) {
-            if (phone.length() > 10) {
+            if (phone.length() > 16) {
                 throw new IllegalArgumentException("invalid phone number!");
             }
             if (phone.matches("[0-9]")) {
-                throw new IllegalArgumentException("invalid phone number 22!");
+                throw new IllegalArgumentException("invalid phone number !");
             }
             User.this.phone = phone;
             return this;
@@ -163,7 +163,6 @@ public class User implements Serializable {
             return this;
         }
 
-
         public Builder setLogin(String login) {
             if (login == null) {
                 throw new IllegalArgumentException("login can't be null!");
@@ -175,7 +174,6 @@ public class User implements Serializable {
             return this;
         }
 
-
         public Builder setId(int id) {
             if (id < 0) {
                 throw new IllegalArgumentException("ID cannot be < 0");
@@ -184,13 +182,9 @@ public class User implements Serializable {
             return this;
         }
 
-
         public User build() {
             return User.this;
         }
-
     }
-
-
 }
 

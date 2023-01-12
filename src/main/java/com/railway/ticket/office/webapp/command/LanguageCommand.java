@@ -9,14 +9,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class LanguageCommand implements Command  {
-    private static final Logger LOGGER =
+    private static final Logger log =
             LogManager.getLogger(LanguageCommand.class);
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws CommandException {
         HttpSession session = request.getSession();
         session.setAttribute("locale", request.getParameter("locale"));
-        LOGGER.info("[LanguageCommand] Page to process = {}",
+        log.info("[LanguageCommand] Page to process = {}",
                 request.getParameter("pageToProcess"));
 
         return "controller?command=" + request.getParameter("pageToProcess");

@@ -16,7 +16,7 @@ import java.util.List;
 
 public class AllRoutesCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(AllRoutesCommand.class);
+    private static final Logger log = LogManager.getLogger(AllRoutesCommand.class);
     private static final String ALL_ROUTES_COMMAND = "[AllRoutesCommand]";
     private final RouteService routeService;
 
@@ -39,10 +39,10 @@ public class AllRoutesCommand implements Command {
         }
         try {
             routes = routeService.findAll((page-1)*10);
-            LOGGER.info("{} Routes found.", ALL_ROUTES_COMMAND);
+            log.info("{} Routes found.", ALL_ROUTES_COMMAND);
             countPages = routeService.countRecords() / 10 + 1;
         } catch (ServiceException e) {
-            LOGGER.error("{} Can't receive routes! " +
+            log.error("{} Can't receive routes! " +
                     "An exception occurs: [{}]", ALL_ROUTES_COMMAND, e.getMessage());
             throw new CommandException(e.getMessage(), e);
         }

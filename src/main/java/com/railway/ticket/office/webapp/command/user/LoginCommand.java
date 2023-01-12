@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class LoginCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(LoginCommand.class);
+    private static final Logger log = LogManager.getLogger(LoginCommand.class);
     private static final String LOGIN_COMMAND = "[LoginCommand]";
     private final UserService userService;
 
@@ -34,13 +34,13 @@ public class LoginCommand implements Command {
         try {
             user = userService.findByLogin(login);
             if (user.getLogin() == null) {
-                LOGGER.info("Cannot Login");
+                log.info("Cannot Login");
                 page = "controller?command=registration_form";
                 return page;
             }
             if (PasswordEncryption.validate(PasswordEncryption.getEncrypted(password)
                     , String.valueOf(user.getPassword()))) {
-                LOGGER.info("{} User received from db: {}",
+                log.info("{} User received from db: {}",
                         LOGIN_COMMAND, user.getLogin());
                 session.setAttribute("user", user);
                 if (user.getRole().getId() == User.Role.ADMIN.getId()) {
@@ -52,7 +52,7 @@ public class LoginCommand implements Command {
             }
             return page;
         } catch (ServiceException e) {
-            LOGGER.error("{} An exception occurs : {}", LOGIN_COMMAND, e.getMessage());
+            log.error("{} An exception occurs : {}", LOGIN_COMMAND, e.getMessage());
             throw new FatalApplicationException(e.getMessage(), e);
         }
     }

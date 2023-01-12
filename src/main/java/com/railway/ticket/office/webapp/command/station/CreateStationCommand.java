@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class CreateStationCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(CreateStationCommand.class);
+    private static final Logger log = LogManager.getLogger(CreateStationCommand.class);
     private static final String CREATE_STATION_COMMAND = "[CreateStationCommand]";
 
     private final StationService stationService;
@@ -30,12 +30,12 @@ public class CreateStationCommand implements Command {
             String name = req.getParameter("stationName");
             station = new Station();
             station.setName(name);
-            LOGGER.info("{} Station from view : {};",CREATE_STATION_COMMAND ,station);
+            log.info("{} Station from view : {};",CREATE_STATION_COMMAND ,station);
 
             stationService.insert(station);
-            LOGGER.info("{} Station was successfully saved : {}",CREATE_STATION_COMMAND, station);
+            log.info("{} Station was successfully saved : {}",CREATE_STATION_COMMAND, station);
         } catch (ServiceException e) {
-            LOGGER.error("An exception occurs while saving station");
+            log.error("An exception occurs while saving station");
             throw new CommandException(e.getMessage(), e);
         }
         return "controller?command=stations";

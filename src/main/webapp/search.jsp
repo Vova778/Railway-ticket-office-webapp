@@ -79,7 +79,7 @@
                 <td>${route.key.travelTime}</td>
                 <td>${route.key.availableSeats}</td>
                 <td>${route.key.price}</td>
-                <td> <a href=""> <fmt:message key="text.details" /> </a>
+                <td> <a href="controller?command=route_details&trainNumber=${route.key.train.number}"> <fmt:message key="text.details" /> </a>
                 </td>
                 <td>
                     <form action="controller" method="post">
@@ -97,27 +97,30 @@
         <ul class="pagination justify-content-center">
             <c:if test="${param.page-1 >= 1}">
                 <li class="page-item"><a class="page-link"
-                                         href="controller?command=${param.command}&page=${param.page-1}">Previous</a>
+                                         href="controller?command=${param.command}&page=${param.page-1}">
+                    <fmt:message key="text.previous"/></a>
                 </li>
             </c:if>
 
-            <c:forEach var="page" items="${pages}">
-
+            <c:forEach var="page" items="${requestScope.pages}">
                 <li class="page-item"><a class="page-link"
                                          href="controller?command=${param.command}&page=${page}">${page}</a>
                 </li>
-
             </c:forEach>
             <c:set var="size" scope="page" value="${requestScope.pages}"/>
 
             <c:if test="${param.page+1 <= size.size()}">
                 <li class="page-item"><a class="page-link"
-                                         href="controller?command=${param.command}&page=${param.page+1}">Next</a>
+                                         href="controller?command=${param.command}&page=${param.page+1}">
+                    <fmt:message key="text.next"/>
+                </a>
                 </li>
             </c:if>
         </ul>
     </nav>
 </div>
+
+
 <%@ include file="include/footer.jsp" %>
 <script src="js/bootstrap.min.js"></script>
 </body>

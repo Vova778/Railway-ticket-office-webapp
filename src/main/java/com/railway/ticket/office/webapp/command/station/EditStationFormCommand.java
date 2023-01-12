@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class EditStationFormCommand implements Command {
-    private static final Logger LOGGER
+    private static final Logger log
             = LogManager.getLogger(EditStationFormCommand.class);
     private final StationService stationService;
 
@@ -30,7 +30,7 @@ public class EditStationFormCommand implements Command {
         try {
             station = stationService.findById(id);
         } catch (ServiceException e) {
-            LOGGER.error("[EditStationFormCommand] Can't receive station by id:[{}]", id);
+            log.error("[EditStationFormCommand] Can't receive station by id:[{}]", id);
             throw new CommandException(e.getMessage(), e);
         }
         req.setAttribute("station", station);

@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 
 public class CreateScheduleCommand implements Command {
-    private static final Logger LOGGER
+    private static final Logger log
             = LogManager.getLogger(CreateScheduleCommand.class);
     private static final String CREATE_SCHEDULE_COMMAND = "[CreateScheduleCommand]";
 
@@ -43,14 +43,14 @@ public class CreateScheduleCommand implements Command {
             schedule.setDate(date);
             schedule.setTrain(train);
 
-            LOGGER.info("{} Schedule from view : {};",
+            log.info("{} Schedule from view : {};",
                     CREATE_SCHEDULE_COMMAND,schedule);
 
             scheduleService.insert(schedule);
-            LOGGER.info("{} Schedule was successfully saved : {}",
+            log.info("{} Schedule was successfully saved : {}",
                     CREATE_SCHEDULE_COMMAND, schedule);
         } catch (ServiceException e) {
-            LOGGER.error("An exception occurs while saving schedule");
+            log.error("An exception occurs while saving schedule");
             throw new CommandException(e.getMessage(), e);
         }
         return "controller?command=schedule&scheduleId="+schedule.getId();

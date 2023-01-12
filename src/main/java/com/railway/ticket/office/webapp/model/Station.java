@@ -5,7 +5,6 @@ import java.io.Serializable;
 public class Station implements Serializable {
     private int id;
     private String name;
-    //private List<Station> connectingStations;
 
     public Station(int id, String name) {
         if (id < 0) {
@@ -52,16 +51,6 @@ public class Station implements Serializable {
         this.id = id;
     }
 
- /*   public List<Station> getConnectingStations() {
-        return connectingStations;
-    }
-
-    public void setConnectingStations(List<Station> connectingStations) {
-        if (connectingStations == null) {
-            throw new IllegalArgumentException("Connecting stations cannot be null");
-        }
-        this.connectingStations = connectingStations;
-    }*/
 
     @Override
     public String toString() {

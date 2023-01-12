@@ -17,7 +17,7 @@ import java.sql.Time;
 
 public class EditRouteCommand implements Command {
 
-    private static final Logger LOGGER
+    private static final Logger log
             = LogManager.getLogger(EditRouteCommand.class);
     private final RouteService routeService;
     private final StationService stationService;
@@ -39,6 +39,7 @@ public class EditRouteCommand implements Command {
 
             Station finalStation
                     = stationService.findByName(req.getParameter("finalStation"));
+
             Route updated = routeService
                     .findById(
                             Integer.parseInt(req.getParameter("routeId")));
@@ -55,7 +56,7 @@ public class EditRouteCommand implements Command {
             routeService.update(updated);
             return "controller?command=schedule&scheduleId="+scheduleId;
         } catch (ServiceException e) {
-            LOGGER.error("[EditStationCommand] Can't update station");
+            log.error("[EditStationCommand] Can't update station");
             throw new CommandException(e.getMessage(), e);
         }
     }

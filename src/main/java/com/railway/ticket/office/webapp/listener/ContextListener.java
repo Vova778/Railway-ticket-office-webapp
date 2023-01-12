@@ -97,7 +97,7 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         CommandContainer commandContainer = new CommandContainer();
         log.info("{} CommandContainer created.", CONTEXT_LISTENER_MSG);
 
-        Command appCommand = new HomeCommand();
+        Command appCommand = new HomeCommand(stationService);
         commandContainer.addCommand("home", appCommand);
         commandContainer.addCommand("", appCommand);
         commandContainer.addCommand(null, appCommand);
@@ -226,6 +226,9 @@ public class ContextListener implements HttpSessionListener, ServletContextListe
         commandContainer.addCommand("create_schedule_form", appCommand);
         log.info("{} CreateScheduleFormCommand created.", CONTEXT_LISTENER_MSG);
 
+        appCommand = new RouteDetailsCommand();
+        commandContainer.addCommand("route_details", appCommand);
+        log.info("{} RouteDetailsCommand created.", CONTEXT_LISTENER_MSG);
 
         context.setAttribute("commandContainer", commandContainer);
 

@@ -1,0 +1,5 @@
+2022-08-28 21:08:39 INFO User : User{id=0, login='Vova778', firstName='Vova', lastName='Kor', phone=1111111111, admin=false} was inserted successfully
+2022-08-28 21:10:05 INFO User : User{id=0, login='Vova778', firstName='Vova', lastName='Kor', phone=1111111111, admin=false} was inserted successfully
+2022-09-07 18:16:04 INFO Station : Station{id=100, name='G_Station_Test'} was inserted successfully
+2022-09-07 18:16:41 INFO Station : Station{id=100, name='G_Station_Test'} was inserted successfully
+2022-09-08 12:03:55 INFO Station : Station{id=100, name='Станція'} was inserted successfully

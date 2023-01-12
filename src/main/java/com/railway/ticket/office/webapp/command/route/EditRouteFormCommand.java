@@ -13,10 +13,11 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class EditRouteFormCommand implements Command {
-    private static final Logger LOGGER
+    private static final Logger log
             = LogManager.getLogger(EditRouteFormCommand.class);
     private final RouteService routeService;
     private final StationService stationService;
@@ -31,15 +32,16 @@ public class EditRouteFormCommand implements Command {
                           HttpServletResponse resp)
             throws CommandException, FatalApplicationException {
 
+        int id=0;
         Route route;
         List<Route> routes;
-        int id = Integer.parseInt(req.getParameter("routeId"));
-
+        HttpSession session = req.getSession();
         List<Station> stations;
+
         try {
             stations = stationService.findAll();
         } catch (ServiceException e) {
-            LOGGER.error("[EditRouteFormCommand] Can't receive stations! " +
+            log.error("[EditRouteFormCommand] Can't receive stations! " +
                     "An exception occurs: [{}]", e.getMessage());
             throw new CommandException(e.getMessage(), e);
         }
@@ -47,18 +49,18 @@ public class EditRouteFormCommand implements Command {
         try {
             routes = routeService.findAll();
         } catch (ServiceException e) {
-            LOGGER.error("[EditRouteFormCommand] Can't receive routes");
+            log.error("[EditRouteFormCommand] Can't receive routes");
             throw new CommandException(e.getMessage(), e);
         }
 
         try {
-
+            id = Integer.parseInt(req.getParameter("routeId"));
             route = routeService.findById(id);
         } catch (ServiceException e) {
-            LOGGER.error("[EditRouteFormCommand] Can't receive route by id:[{}]", id);
+            log.error("[EditRouteFormCommand] Can't receive route by id:[{}]", id);
             throw new CommandException(e.getMessage(), e);
         }
-        req.setAttribute("stations", stations);
+        session.setAttribute("stations", stations);
         req.setAttribute("routes", routes);
         req.setAttribute("route", route);
         return "edit_route.jsp";

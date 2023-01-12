@@ -21,7 +21,7 @@ import java.io.IOException;
  */
 @WebServlet(name = "Controller", value = "/controller")
 public class Controller extends HttpServlet {
-    private static final Logger LOGGER = LogManager.getLogger(Controller.class);
+    private static final Logger log = LogManager.getLogger(Controller.class);
 
     @Override
     public void init(ServletConfig config){}
@@ -41,9 +41,9 @@ public class Controller extends HttpServlet {
         String url = null;
         try {
             url = getUrl(request, response);
-            LOGGER.info("[Controller-doGet] URL processed");
+            log.info("[Controller-doGet] URL processed");
         } catch (CommandException | FatalApplicationException e) {
-            LOGGER.error("An exception occurs: {}, req encoding: {}", e.getMessage(), request.getCharacterEncoding());
+            log.error("An exception occurs: {}, req encoding: {}", e.getMessage(), request.getCharacterEncoding());
             response.sendError(500, "Can't process command");
         }
         request.getRequestDispatcher(url).forward(request, response);
@@ -64,10 +64,10 @@ public class Controller extends HttpServlet {
         String url = null;
         try {
             url = getUrl(request, response);
-            LOGGER.info("[Controller-doPost] URL processed [{}], resp encoding: {}", url,
+            log.info("[Controller-doPost] URL processed [{}], resp encoding: {}", url,
                     response.getCharacterEncoding());
         } catch (CommandException | FatalApplicationException e) {
-            LOGGER.error("An exception occurs: {}", e.getMessage());
+            log.error("An exception occurs: {}", e.getMessage());
             response.sendError(500, "Can't process the command");
         }
         response.sendRedirect(url);

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class CancelTicketCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(CancelTicketCommand.class);
+    private static final Logger log = LogManager.getLogger(CancelTicketCommand.class);
     private static final String BOOK_TICKET_COMMAND = "[BookTicketCommand]";
 
     private final TicketService ticketService;
@@ -37,15 +37,15 @@ public class CancelTicketCommand implements Command {
                 ticket.setTicketStatus(Ticket.TicketStatus.CANCELED);
                 ticketService.update(ticket);
 
-                LOGGER.info("{} Ticket from view : {};"
+                log.info("{} Ticket from view : {};"
                         , BOOK_TICKET_COMMAND, ticket);
 
-                LOGGER.info("{} Ticket was successfully cancelled : {}"
+                log.info("{} Ticket was successfully cancelled : {}"
                         , BOOK_TICKET_COMMAND, ticket);
             }
 
         } catch (ServiceException e) {
-            LOGGER.error("An exception occurs while adding Ticket");
+            log.error("An exception occurs while adding Ticket");
             throw new CommandException(e.getMessage(), e);
         }
         return "controller?command=basket";

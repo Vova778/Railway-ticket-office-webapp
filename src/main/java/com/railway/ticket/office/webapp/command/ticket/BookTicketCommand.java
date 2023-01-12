@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class BookTicketCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(BookTicketCommand.class);
+    private static final Logger log = LogManager.getLogger(BookTicketCommand.class);
     private static final String BOOK_TICKET_COMMAND = "[BookTicketCommand]";
 
     private final TicketService ticketService;
@@ -65,16 +65,16 @@ public class BookTicketCommand implements Command {
             ticket.setTicketStatus(Ticket.TicketStatus.QUEUED);
             ticket.setRoutes(route.getValue());
 
-            LOGGER.info("{} Ticket from view : {};"
+            log.info("{} Ticket from view : {};"
                     , BOOK_TICKET_COMMAND, ticket);
 
             ticketService.insert(ticket);
 
-            LOGGER.info("{} Ticket was successfully added : {}"
+            log.info("{} Ticket was successfully added : {}"
                     , BOOK_TICKET_COMMAND, ticket);
 
         } catch (ServiceException e) {
-            LOGGER.error("An exception occurs while adding Ticket");
+            log.error("An exception occurs while adding Ticket");
             throw new CommandException(e.getMessage(), e);
         }
         return "controller?command=basket";

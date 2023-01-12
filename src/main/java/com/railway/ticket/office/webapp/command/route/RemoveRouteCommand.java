@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class RemoveRouteCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(RemoveRouteCommand.class);
+    private static final Logger log = LogManager.getLogger(RemoveRouteCommand.class);
     private static final String REMOVE_ROUTE_COMMAND = "[RemoveRouteCommand]";
     private final RouteService routeService;
 
@@ -27,7 +27,7 @@ public class RemoveRouteCommand implements Command {
 
             return "controller?command=schedule&scheduleId=" + request.getParameter("scheduleId");
         } catch (ServiceException e) {
-            LOGGER.error("{} Route wasn't removed. An exception occurs: [{}]",
+            log.error("{} Route wasn't removed. An exception occurs: [{}]",
                     REMOVE_ROUTE_COMMAND , e.getMessage());
             throw new CommandException(e.getMessage(), e);
         }

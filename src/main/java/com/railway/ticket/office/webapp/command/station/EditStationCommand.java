@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class EditStationCommand implements Command {
-    private static final Logger LOGGER =
+    private static final Logger log =
             LogManager.getLogger(EditStationCommand.class);
     private final StationService stationService;
 
@@ -38,7 +38,7 @@ public class EditStationCommand implements Command {
 
             return "controller?command=stations";
         } catch (ServiceException e) {
-            LOGGER.error("[EditStationCommand] Can't update station");
+            log.error("[EditStationCommand] Can't update station");
             throw new CommandException(e.getMessage(), e);
         }
     }

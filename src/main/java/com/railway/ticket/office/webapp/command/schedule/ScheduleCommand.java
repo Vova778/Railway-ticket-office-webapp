@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ScheduleCommand implements Command {
 
-    private static final Logger LOGGER = LogManager.getLogger(ScheduleCommand.class);
+    private static final Logger log = LogManager.getLogger(ScheduleCommand.class);
     private static final String SCHEDULE_COMMAND = "[ScheduleCommand]";
     private final RouteService routeService;
     private final StationService stationService;
@@ -37,9 +37,9 @@ public class ScheduleCommand implements Command {
             int scheduleId = Integer.parseInt(req.getParameter("scheduleId"));
 
             routes = routeService.findRoutesByScheduleId(scheduleId);
-            LOGGER.info("{} Routes by schedule id were found.", SCHEDULE_COMMAND);
+            log.info("{} Routes by schedule id were found.", SCHEDULE_COMMAND);
         } catch (ServiceException e) {
-            LOGGER.error("{} Can't receive routes! " +
+            log.error("{} Can't receive routes! " +
                     "An exception occurs: [{}]", SCHEDULE_COMMAND, e.getMessage());
             throw new CommandException(e.getMessage(), e);
         }
@@ -48,7 +48,7 @@ public class ScheduleCommand implements Command {
         try {
             stations = stationService.findAll();
         } catch (ServiceException e) {
-            LOGGER.error("{} Can't receive stations! " +
+            log.error("{} Can't receive stations! " +
                     "An exception occurs: [{}]", SCHEDULE_COMMAND, e.getMessage());
             throw new CommandException(e.getMessage(), e);
         }

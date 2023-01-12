@@ -262,6 +262,7 @@ public class RouteDAOImpl implements RouteDAO {
                     = con.prepareStatement(Constants.ROUTES_FIND_ROUTES_BETWEEN_STATIONS)) {
 
             int k =1;
+            preparedStatement.setInt(k++, startStation.getId());
             preparedStatement.setDate(k++, date);
             preparedStatement.setInt(k++, startStation.getId());
             preparedStatement.setInt(k, endStation.getId());

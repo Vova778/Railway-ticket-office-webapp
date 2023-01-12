@@ -13,10 +13,11 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class AddRouteFormCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(AddRouteFormCommand.class);
+    private static final Logger log = LogManager.getLogger(AddRouteFormCommand.class);
     private static final String ROUTE_FORM_COMMAND = "[RouteFormCommand]";
     private final StationService stationService;
     private final RouteService routeService;
@@ -27,21 +28,30 @@ public class AddRouteFormCommand implements Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request,
-                          HttpServletResponse response)
+    public String execute(HttpServletRequest req,
+                          HttpServletResponse resp)
             throws CommandException, FatalApplicationException {
         List<Route> routes;
         List<Station> stations;
+        HttpSession session = req.getSession();
+
         try {
-            routes = routeService.findAll();
+            routes = routeService.findRoutesByScheduleId(Integer.parseInt(req.getParameter("scheduleId")));
+        } catch (ServiceException e) {
+            log.error("[EditRouteFormCommand] Can't receive routes");
+            throw new CommandException(e.getMessage(), e);
+        }
+
+        try {
             stations = stationService.findAll();
         } catch (ServiceException e) {
-            LOGGER.error("{} Can't receive stations! " +
+            log.error("{} Can't receive stations! " +
                     "An exception occurs: [{}]", ROUTE_FORM_COMMAND, e.getMessage());
             throw new CommandException(e.getMessage(), e);
         }
-        request.setAttribute("stations", stations);
-        request.setAttribute("routes", routes);
+        session.setAttribute("stations", stations);
+        req.setAttribute("scheduleId", req.getAttribute("scheduleId"));
+        req.setAttribute("routes", routes);
         return "create_route.jsp";
     }
 }

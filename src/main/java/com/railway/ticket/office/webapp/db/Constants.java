@@ -1,7 +1,5 @@
 package com.railway.ticket.office.webapp.db;
 
-
-
 /**
  * Constants for MySQL
  */
@@ -21,7 +19,7 @@ public class Constants {
     public static final String ROUTES_GET_ALL_ROUTES = ROUTES_GET + " order by r.id";
     public static final String ROUTES_GET_ALL_ROUTES_WITH_OFFSET = ROUTES_GET_ALL_ROUTES + " LIMIT 10 OFFSET ?";
     public static final String ROUTES_GET_COUNT = "SELECT COUNT(*) FROM route";
-    public static final String ROUTES_FIND_ROUTES_BETWEEN_STATIONS = ROUTES_GET + " where date_add(s.date, interval r.day DAY) = ?" +
+    public static final String ROUTES_FIND_ROUTES_BETWEEN_STATIONS = ROUTES_GET + " where date_add(s.date, interval (select route.day from route where route.starting_station_id=?  and route.schedule_id=s.id) DAY) = ? " +
             " AND r.stoppage_number >= (select stoppage_number from route where route.starting_station_id=?  and route.schedule_id=s.id) " +
             " AND r.stoppage_number <= (select stoppage_number from route where route.final_station_id=? and route.schedule_id=s.id) order by s.id";
     public static final String ROUTES_GET_ROUTE_BY_TICKET_ID = ROUTES_GET

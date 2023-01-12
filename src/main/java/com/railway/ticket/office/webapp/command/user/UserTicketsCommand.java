@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserTicketsCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(UserTicketsCommand.class);
+    private static final Logger log = LogManager.getLogger(UserTicketsCommand.class);
     private final TicketService ticketService;
     private static final String USER_TICKETS_COMMAND = "[UserTicketsCommand]";
 
@@ -43,7 +43,7 @@ public class UserTicketsCommand implements Command {
         int countPages;
         try {
             tickets = ticketService.findTicketsByUserId(user.getId(), page);
-            LOGGER.info("{} Tickets were found.", USER_TICKETS_COMMAND);
+            log.info("{} Tickets were found.", USER_TICKETS_COMMAND);
 
             countPages = ticketService.countRecords() / 10 + 1;
 

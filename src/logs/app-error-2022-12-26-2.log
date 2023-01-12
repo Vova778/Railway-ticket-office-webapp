@@ -1,0 +1,70 @@
+2022-12-26 15:52:51 ERROR Route : [Route{id=1, startStation=Station{id=1, name='1'}, finalStation=Station{id=2, name='2'}, departureTime=02:00:00, arrivalTime=02:00:00, train=Train{number=101, seats=10, schedules=null}}] was not inserted. An exception occurs : null
+2022-12-26 15:52:51 ERROR Route with ID : [1] was not removed. An exception occurs : null
+2022-12-26 15:52:51 ERROR Route with ID : [100] was not found. An exception occurs : null
+2022-12-26 15:52:51 ERROR Route with ID : [1] was not updated. An exception occurs : null
+2022-12-26 15:52:51 ERROR [TicketService] Can't operate null input!
+2022-12-26 15:52:51 ERROR [TicketService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [TicketService] An exception occurs while receiving Ticket. (id: 1). Exc: null
+2022-12-26 15:52:52 ERROR [TicketService] SQLException while saving Schedule (id: 1). Exc: null
+2022-12-26 15:52:52 ERROR [TicketService] Can't create TicketService with null input TicketDAO
+2022-12-26 15:52:52 ERROR [TicketService] An exception occurs while deleting Ticket. (id: 1). Exc: null
+2022-12-26 15:52:52 ERROR [TicketService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [TicketService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [TicketService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [TicketService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [TicketService] An exception occurs while updating Ticket. (id: 1). Exc: null
+2022-12-26 15:52:52 ERROR [UserService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [UserService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [UserService] An exception occurs while receiving User. (id: 1). Exc: null
+2022-12-26 15:52:52 ERROR [UserService] SQLException while saving User (login: Test). Exc: null
+2022-12-26 15:52:52 ERROR [RouteService] Can't create RouteService with null input RouteDAO
+2022-12-26 15:52:52 ERROR [UserService] An exception occurs while deleting User. (id: 1). Exc: null
+2022-12-26 15:52:52 ERROR [UserService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [UserService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [UserService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [UserService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [UserService] An exception occurs while updating User. (id: 1). Exc: null
+2022-12-26 15:52:52 ERROR [StationService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [StationService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [StationService] An exception occurs while receiving Station. (id: 1). Exc: null
+2022-12-26 15:52:52 ERROR [StationService] SQLException while saving Station (id: 1). Exc: null
+2022-12-26 15:52:52 ERROR [RouteService] Can't create RouteService with null input RouteDAO
+2022-12-26 15:52:52 ERROR [StationService] An exception occurs while deleting Station. (id: 1). Exc: null
+2022-12-26 15:52:52 ERROR [StationService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [StationService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [StationService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [StationService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [StationService] An exception occurs while updating Schedule. (id: 1). Exc: null
+2022-12-26 15:52:52 ERROR [TrainService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [TrainService] An exception occurs while receiving train. (number: 1). Exc: null
+2022-12-26 15:52:52 ERROR [TrainService] Train already exist. (number: 100). Exc: null
+2022-12-26 15:52:52 ERROR [TrainService] Can't create TrainService with null input TrainDAO
+2022-12-26 15:52:52 ERROR [TrainService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [TrainService] An exception occurs while deleting Train. (number: 1). Exc: null
+2022-12-26 15:52:52 ERROR [TrainService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [TrainService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [TrainService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [TrainService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [TrainService] An exception occurs while updating Train. (number: 1). Exc: null
+2022-12-26 15:52:52 ERROR [ScheduleService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [ScheduleService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [ScheduleService] An exception occurs while receiving Schedule. (id: 1). Exc: null
+2022-12-26 15:52:52 ERROR [ScheduleService] SQLException while saving Schedule (id: 1). Exc: null
+2022-12-26 15:52:52 ERROR [RouteService] Can't create RouteService with null input RouteDAO
+2022-12-26 15:52:52 ERROR [ScheduleService] An exception occurs while deleting Schedule. (id: 1). Exc: null
+2022-12-26 15:52:52 ERROR [ScheduleService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [ScheduleService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [ScheduleService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [ScheduleService] Can't operate null input!
+2022-12-26 15:52:52 ERROR [ScheduleService] An exception occurs while updating Schedule. (id: 1). Exc: null
+2022-12-26 15:53:07 ERROR [RouteService] Can't operate null input!
+2022-12-26 15:53:07 ERROR [RouteService] Can't operate null input!
+2022-12-26 15:53:07 ERROR [RouteService] An exception occurs while receiving Route. (id: 1). Exc: null
+2022-12-26 15:53:07 ERROR [RouteService] SQLException while saving Route (id: 1). Exc: null
+2022-12-26 15:53:07 ERROR [RouteService] Can't create RouteService with null input RouteDAO
+2022-12-26 15:53:07 ERROR [RouteService] An exception occurs while deleting Route. (id: 1). Exc: null
+2022-12-26 15:53:07 ERROR [RouteService] Can't operate null input!
+2022-12-26 15:53:07 ERROR [RouteService] Can't operate null input!
+2022-12-26 15:53:07 ERROR [RouteService] Can't operate null input!
+2022-12-26 15:53:07 ERROR [RouteService] Can't operate null input!
+2022-12-26 15:53:07 ERROR [RouteService] An exception occurs while updating Route. (id: 1). Exc: null

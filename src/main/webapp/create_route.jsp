@@ -30,14 +30,15 @@
                         <a class="active"
                            href="controller?command=setLang&locale&pageToProcess=${param.command}">
                             <img
-                                class="d-md-flex justify-content-md-end"
-                                src="img/icons8-usa-16.png"
-                                style="width: 26px;height: 26px;"></a></div>
+                                    class="d-md-flex justify-content-md-end"
+                                    src="img/icons8-usa-16.png"
+                                    style="width: 26px;height: 26px;"></a></div>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
 <div class="container">
     <div class="col-md-8 col-xl-6 text-center mx-auto">
         <h2><fmt:message key="text.add.route"/></h2>
@@ -45,61 +46,97 @@
     <div class="row">
         <div class="col">
             <section class="position-relative py-4 py-xl-5">
-                <div class="container">
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-md-6 col-xl-4">
-                            <div class="card mb-5">
-                                <div class="card-body d-flex flex-column align-items-center">
-                                    <form class="text-center" action="controller" method="post">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card mb-5">
+                            <div class="card-body d-flex flex-column align-items-center">
+                                <form action="controller" method="post">
+
+                                    <input hidden name="command" value="add_route"/>
+                                    <input hidden name="scheduleId" value="${param.scheduleId}"/>
 
 
-                                        <input hidden name="command" value="add_route"/>
-                                        <input hidden name="scheduleId" value="${param.scheduleId}"/>
+                                    <div class="form-group">
+                                        <div class="mb-3 row">
+                                            <c:if test="${routes.size() == 0 || route.stoppageNumber == 1}">
 
-                                        <%--@elvariable id="routes" type="java.util.List"--%>
-                                        <c:if test="${routes.size() == 0}">
-                                            <label>
-                                                <select name="startingStation" style="margin-bottom: 10px">
-                                                        <%--@elvariable id="stations" type="java.util.List"--%>
-                                                    <c:forEach var="station" items="${stations}">
-                                                        <option value="${station.name}">${station.name}</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </label>
-                                        </c:if>
+                                                <label for="startingStation"
+                                                       class="form-label"><fmt:message
+                                                        key="text.starting.station"/> </label>
+                                                <div class="col-sm-10">
+                                                    <input list="stationList1" required class="form-control"
+                                                           id="startingStation"
+                                                           name="startingStation">
+                                                    <datalist id="stationList1">
+                                                        <c:forEach var="station" items="${sessionScope.stations}">
+                                                            <option value="${station.name}"></option>
+                                                        </c:forEach>
+                                                    </datalist>
+                                                </div>
+                                            </c:if>
 
-                                        <c:if test="${routes.size() != 0}">
-                                            <input readonly name="startingStation"
-                                                   value="${routes.get(routes.size()-1).finalStation.name}"/>
-                                        </c:if>
-
-
-                                        <div style="margin-bottom: 16px;">
-                                            <input required class="form-control"
-                                                   type="time"
-                                                   placeholder="Departure Time"
-                                                   name="departureTime"
-                                            />
+                                            <c:if test="${routes.size() != 0 && route.stoppageNumber != 1}">
+                                                <label class="form-label " for="staticStartingStation"><fmt:message
+                                                        key="text.starting.station"/> </label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" disabled name="startingStation"
+                                                           id="staticStartingStation"
+                                                           value="${routes.get(routes.size()-1).finalStation.name}"/></div>
+                                            </c:if>
                                         </div>
 
-                                        <label>
-                                            <select required name="finalStation" style="margin-bottom: 10px">
-                                                <%--@elvariable id="stations" type="java.util.List"--%>
-                                                <c:forEach var="station" items="${stations}">
-                                                    <option value="${station.name}">${station.name}</option>
-                                                </c:forEach>
-                                            </select>
-                                        </label>
+                                        <div class="mb-3"><label class="form-label" for="departureTime"><fmt:message
+                                                key="text.departure.time"/></label>
+                                            <div class="col-sm-10">
+                                                <input required class="form-control"
+                                                       type="time"
+                                                       placeholder="Departure Time"
+                                                       name="departureTime"
+                                                       value="${route.departureTime}"
+                                                       id="departureTime"
+                                                /></div>
+                                        </div>
 
-                                        <div style="margin-bottom: 16px;"><input required class="form-control" type="time"
-                                                                                 placeholder="Arrival Time"
-                                                                                 name="arrivalTime"/></div>
+                                        <div class="mb-3">
+                                            <label for="finalStation"
+                                                   class="form-label"><fmt:message key="text.final.station"/> </label>
+                                            <div class="col-sm-10">
+                                                <input required list="stationList2" class="form-control"
+                                                       id="finalStation"
+                                                       name="finalStation" >
+                                                <datalist id="stationList2">
+                                                    <c:forEach var="station" items="${sessionScope.stations}">
+                                                        <option value="${station.name}"></option>
+                                                    </c:forEach>
+                                                </datalist>
+                                            </div>
+                                        </div>
 
-                                        <div style="margin-bottom: 16px;"><input required class="form-control"
-                                                                                 type="text"
-                                                                                 placeholder="Price"
-                                                                                 name="price"/></div>
 
+                                        <div class="mb-3"><label class="form-label" for="departureTime"><fmt:message
+                                                key="text.arrival.time"/></label>
+                                            <div class="col-sm-10">
+                                                <input required class="form-control"
+                                                       type="time"
+                                                       placeholder="Arrival Time"
+                                                       name="arrivalTime"
+                                                       value="${route.arrivalTime}"
+                                                       id="arrivalTime"
+                                                /></div>
+                                        </div>
+
+
+                                        <div class="mb-3"><label class="form-label" for="price"><fmt:message
+                                                key="text.price"/></label>
+                                            <div class="col-sm-10">
+                                                <input required class="form-control"
+                                                       type="text"
+                                                       placeholder="Price"
+                                                       name="price"
+                                                       value="${route.price}"
+                                                       id="price"/>
+                                            </div>
+                                        </div>
 
 
                                         <div class="mb-3">
@@ -107,8 +144,10 @@
                                                     value=""><fmt:message key="text.add.route"/>
                                             </button>
                                         </div>
-                                    </form>
-                                </div>
+
+
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -117,6 +156,7 @@
         </div>
     </div>
 </div>
+
 <%@ include file="include/footer.jsp" %>
 <script src="js/bootstrap.min.js"></script>
 </body>

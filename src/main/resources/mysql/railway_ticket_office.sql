@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `railway_ticket_office`.`user` (
   `password` VARCHAR(66) NOT NULL,
   `first_name` VARCHAR(45) NOT NULL,
   `last_name` VARCHAR(45) NOT NULL,
-  `phone` VARCHAR(10) NOT NULL,
+  `phone` VARCHAR(16) NOT NULL,
   `role_id` INT NOT NULL,
   PRIMARY KEY (`id`, `role_id`),
   UNIQUE INDEX `login_UNIQUE` (`login` ASC) VISIBLE,
@@ -211,9 +211,9 @@ values (default, 'USER'),
        (default, 'ADMIN');
 
 INSERT INTO user
-values (default, 'Vova123', 'e6dac66f9c7513b27ff95899ad70807b5657b2407e8f6938b63c90dea01976bd', 'Vova1', 'Muradin1', '1111111111', 2),
-       (default, 'Ivan234', '1223c7b48a508cb5cedead8e9b28a4f10fa713c2586f7a99259edd256938ae3e', 'Іван', 'Іванович', '1111111111', 2),
-       (default, 'Petrov', 'aa784d98ec7b230f843ed6b21fddb3bf9e3f837f3b0e163df6d040824d6882ff', 'Петро', 'Петрович', '1111111111', 1);
+values (default, 'Vova123', 'e6dac66f9c7513b27ff95899ad70807b5657b2407e8f6938b63c90dea01976bd', 'Vova1', 'Muradin1', '380123456789', 2),
+       (default, 'Ivan234', '1223c7b48a508cb5cedead8e9b28a4f10fa713c2586f7a99259edd256938ae3e', 'Іван', 'Іванович', '380123456789', 2),
+       (default, 'Petrov', 'aa784d98ec7b230f843ed6b21fddb3bf9e3f837f3b0e163df6d040824d6882ff', 'Петро', 'Петрович', '380123456789', 1);
 
 
 
@@ -282,8 +282,4 @@ values (default, 1, 2),
        (default, 1, 3),
        (default, 1, 4);
 
-
-insert into ticket
- values (default, 100.2, 'Vesele', 'Veres', current_timestamp, current_timestamp + 1, 201, 1, 1),
-       (default, 150.2, 'Veres', 'Vesele', current_timestamp - 2, current_timestamp - 1, 204, 2, 2);
 

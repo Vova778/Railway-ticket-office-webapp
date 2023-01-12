@@ -19,7 +19,7 @@ import java.sql.Time;
 import java.util.List;
 
 public class CreateRouteCommand implements Command {
-    private static final Logger LOGGER = LogManager.getLogger(CreateRouteCommand.class);
+    private static final Logger log = LogManager.getLogger(CreateRouteCommand.class);
     private static final String ADD_ROUTE_COMMAND = "[AddRouteCommand]";
 
     private final StationService stationService;
@@ -45,7 +45,7 @@ public class CreateRouteCommand implements Command {
             finalStation = stationService
                     .findByName(req.getParameter("finalStation"));
         } catch (ServiceException e) {
-            LOGGER.error("An exception occurs while adding route." +
+            log.error("An exception occurs while adding route." +
                             " The station with the name {} does not exist",
                     req.getParameter("finalStation"));
             throw new CommandException(e.getMessage(), e);
@@ -64,20 +64,19 @@ public class CreateRouteCommand implements Command {
 
             int stoppageNumber = routeList.size() + 1;
             Time arrivalTime = Time.valueOf(
-                    req.getParameter("arrivalTime") + ":00");
-            Time departureTime;
+                    req.getParameter("arrivalTime") );
+            Time departureTime = Time.valueOf(
+                    req.getParameter("departureTime"));;
             int day;
 
             if(routeList.size()==0){
-                day = 1;
-                departureTime = Time.valueOf(
-                        req.getParameter("departureTime") + ":00");
+                day = 0;
 
                 try {
                     startingStation = stationService
                             .findByName(req.getParameter("startingStation"));
                 } catch (ServiceException e) {
-                    LOGGER.error("An exception occurs while adding route." +
+                    log.error("An exception occurs while adding route." +
                                     " The station with the name {} does not exist",
                             req.getParameter("startingStation"));
                     throw new CommandException(e.getMessage(), e);
@@ -86,7 +85,6 @@ public class CreateRouteCommand implements Command {
             } else {
                 Route previousRoute = routeList.get(routeList.size() - 1);
                 day = previousRoute.getDay();
-                departureTime = Time.valueOf(req.getParameter("departureTime") + ":00");
 
                 departureTime
                         .setTime(departureTime.getTime()
@@ -111,13 +109,13 @@ public class CreateRouteCommand implements Command {
                     .setSchedule(schedule)
                     .build();
 
-            LOGGER.info("{} Route from view : {};", ADD_ROUTE_COMMAND, route);
+            log.info("{} Route from view : {};", ADD_ROUTE_COMMAND, route);
 
             routeService.insert(route);
 
-            LOGGER.info("{} Route was successfully added : {}", ADD_ROUTE_COMMAND, route);
+            log.info("{} Route was successfully added : {}", ADD_ROUTE_COMMAND, route);
         } catch (ServiceException e) {
-            LOGGER.error("An exception occurs while adding route");
+            log.error("An exception occurs while adding route");
             throw new CommandException(e.getMessage(), e);
         }
         return "controller?command=schedule&scheduleId=" + scheduleId;

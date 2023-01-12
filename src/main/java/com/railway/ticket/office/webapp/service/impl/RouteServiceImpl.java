@@ -49,8 +49,6 @@ public class RouteServiceImpl implements RouteService {
         }
     }
 
-
-
     @Override
     public void delete(int routeId) throws ServiceException {
         if (routeId < 1) {
@@ -121,7 +119,6 @@ public class RouteServiceImpl implements RouteService {
         }
     }
 
-
     @Override
     public List<Route> findRoutesByScheduleId(int scheduleId) throws ServiceException {
         if (scheduleId < 1) {
@@ -164,7 +161,6 @@ public class RouteServiceImpl implements RouteService {
             throw new ServiceException(e.getMessage(), e);
         }
     }
-
 
     /**
      * @return all {@link Route} records in database

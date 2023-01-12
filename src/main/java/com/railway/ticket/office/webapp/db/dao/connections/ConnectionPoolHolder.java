@@ -58,6 +58,4 @@ public class ConnectionPoolHolder {
         }
         return dataSource;
     }
-
-
 }

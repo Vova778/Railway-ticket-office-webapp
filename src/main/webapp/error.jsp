@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col" style="text-align: center;">
                 <img class="img-fluid"
-                     src="${pageContext.request.contextPath}/images/error.png"
+                     src="${pageContext.request.contextPath}/img/error.png" width="150px" height="150px"
                      alt="error image"/></div>
         </div>
         <div class="row">
