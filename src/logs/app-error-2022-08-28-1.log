@@ -1,2 +1,0 @@
-2022-09-08 22:12:00 ERROR Route with ID : [1] was not found. An exception occurs : You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'where id=1' at line 1
-2022-09-08 22:12:01 ERROR Ticket with ID : [1] was not found. An exception occurs : Column 'starting_station_id' not found.
