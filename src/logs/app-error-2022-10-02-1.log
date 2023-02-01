@@ -1,4 +1,0 @@
-2022-12-25 17:18:32 ERROR Route : [Route{id=1, startStation=Station{id=1, name='1'}, finalStation=Station{id=2, name='2'}, departureTime=02:00:00, arrivalTime=02:00:00, train=Train{number=101, seats=10, schedules=null}}] was not inserted. An exception occurs : null
-2022-12-25 17:18:32 ERROR Route with ID : [1] was not removed. An exception occurs : null
-2022-12-25 17:18:32 ERROR Route with ID : [100] was not found. An exception occurs : null
-2022-12-25 17:18:32 ERROR Route with ID : [1] was not updated. An exception occurs : null

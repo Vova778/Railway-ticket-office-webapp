@@ -1,9 +1,0 @@
-2022-12-26 15:53:20 INFO Route with ID : 1 was updated successfully
-2022-12-26 15:53:20 INFO Route with ID : 1 was updated successfully
-2022-12-26 15:53:20 INFO Route with ID : 1 was removed successfully
-2022-12-26 15:53:20 INFO Route with ID : [1] was not found for update
-2022-12-26 15:53:20 INFO Route with ID : [1] was not found for update
-2022-12-26 15:53:20 INFO Route : Route{id=1, startStation=Station{id=1, name='1'}, finalStation=Station{id=2, name='2'}, departureTime=02:00:00, arrivalTime=02:00:00, train=Train{number=101, seats=10, schedules=null}} was inserted successfully
-2022-12-26 15:53:20 INFO [UserService] User saved. (login: Test)
-2022-12-26 15:53:20 INFO [TrainService] Train saved. (number: 100)
-2022-12-26 15:53:20 INFO [ScheduleService] Schedule saved. (id: 1)
