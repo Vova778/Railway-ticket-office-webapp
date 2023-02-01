@@ -60,7 +60,7 @@
 
                                         <div class="mb-3">
                                             <button class="btn btn-success d-block w-100" type="submit"
-                                                    value="">Update
+                                                    value=""><fmt:message key="text.edit.route"/>
                                             </button>
                                         </div>
                                     </form>

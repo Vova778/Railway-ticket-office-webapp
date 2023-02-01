@@ -14,6 +14,8 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Time;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class EditRouteCommand implements Command {
 
@@ -44,8 +46,11 @@ public class EditRouteCommand implements Command {
                     .findById(
                             Integer.parseInt(req.getParameter("routeId")));
 
-            Time arrivalTime = Time.valueOf(req.getParameter("arrivalTime"));
-            Time departureTime = Time.valueOf(req.getParameter("departureTime"));
+            Time arrivalTime = Time.valueOf(LocalTime.parse(req.getParameter("arrivalTime"),
+                    DateTimeFormatter.ofPattern("HH:mm"))
+            );
+            Time departureTime = Time.valueOf(LocalTime.parse(req.getParameter("departureTime"),
+                    DateTimeFormatter.ofPattern("HH:mm")));
 
             updated.setStartingStation(startingStation);
             updated.setFinalStation(finalStation);

@@ -31,7 +31,7 @@
                     <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout" /></span><br></a></li>
                     <li class="nav-item"><a class="nav-link active" href="home.jsp"><fmt:message key="text.home"/></a></li>
                 </ul>
-                <a class="btn btn-primary ms-md-2" role="button" href="basket.jsp"><fmt:message key="text.basket"/> </a>
+                <a class="btn btn-primary ms-md-2" role="button" href="controller?command=basket"><fmt:message key="text.basket"/> </a>
             </c:if>
 
             <c:if test="${sessionScope.user.role.id == 2}">
@@ -40,7 +40,7 @@
                         <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" ></a>
                             <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" style="width: 26px;height: 26px;"></a></div>
                     </li>
-                    <li class="nav-item"><a class="nav-link active" href="controller?command=routes"><fmt:message key="text.admin.page"/></a></li>
+                    <li class="nav-item"><a class="nav-link active" href="controller?command=trains"><fmt:message key="text.admin.page"/></a></li>
                     <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout" /></span><br></a></li>
                     <li class="nav-item"><a class="nav-link active" href="home.jsp"><fmt:message key="text.home"/></a></li>
                 </ul>
@@ -97,21 +97,21 @@
         <ul class="pagination justify-content-center">
             <c:if test="${param.page-1 >= 1}">
                 <li class="page-item"><a class="page-link"
-                                         href="controller?command=${param.command}&page=${param.page-1}">
+                                         href="controller?command=${param.command}&startingStation=${param.startingStation}&finalStation=${param.finalStation}&date=${param.date}&page=${param.page-1}">
                     <fmt:message key="text.previous"/></a>
                 </li>
             </c:if>
 
             <c:forEach var="page" items="${requestScope.pages}">
                 <li class="page-item"><a class="page-link"
-                                         href="controller?command=${param.command}&page=${page}">${page}</a>
+                                         href="controller?command=${param.command}&startingStation=${param.startingStation}&finalStation=${param.finalStation}&date=${param.date}&page=${param.page}">${page}</a>
                 </li>
             </c:forEach>
             <c:set var="size" scope="page" value="${requestScope.pages}"/>
 
             <c:if test="${param.page+1 <= size.size()}">
                 <li class="page-item"><a class="page-link"
-                                         href="controller?command=${param.command}&page=${param.page+1}">
+                                         href="controller?command=${param.command}&startingStation=${param.startingStation}&finalStation=${param.finalStation}&date=${param.date}&page=${param.page+1}">
                     <fmt:message key="text.next"/>
                 </a>
                 </li>

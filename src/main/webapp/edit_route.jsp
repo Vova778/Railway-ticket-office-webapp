@@ -101,7 +101,7 @@
                                             <div class="col-sm-10">
                                                 <input required list="stationList2" class="form-control"
                                                        id="finalStation"
-                                                       name="finalStation" placeholder="From">
+                                                       name="finalStation" placeholder="To">
                                                 <datalist id="stationList2">
                                                     <c:forEach var="station" items="${sessionScope.stations}">
                                                         <option value="${station.name}"></option>
@@ -132,7 +132,8 @@
                                                        placeholder="Price"
                                                        name="price"
                                                        value="${route.price}"
-                                                       id="price"/>
+                                                       id="price"
+                                                       pattern="^\d+(.\d{1,2})?$"/>
                                             </div>
                                         </div>
 

@@ -35,7 +35,7 @@ public class RegistrationCommand implements Command {
                     .build();
             log.info("[RegistrationCommand] User from view : {} + fN: {}", user, req.getParameter("firstName"));
             if (userService.isUserExists(user)) {
-                return "controller?command=login_form";
+                return "controller?command=loginForm";
             }
             userService.insert(user);
             log.info("[RegistrationCommand] User saved : {}", user);

@@ -33,7 +33,7 @@
                                 class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22"
                                 height="22" style="width: 26px;height: 26px;"></a></div>
                 </li>
-                <li class="nav-item"><a class="nav-link active" href="controller?command=routes"><fmt:message
+                <li class="nav-item"><a class="nav-link active" href="controller?command=trains"><fmt:message
                         key="text.admin.page"/></a></li>
                 <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span
                         style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout"/></span><br></a>
@@ -50,9 +50,6 @@
 <div class="container py-4 py-xl-5">
     <ul class="nav nav-pills nav-justified">
         <li class="nav-item">
-            <a class="nav-link" href="controller?command=routes">Routes</a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" href="controller?command=trains">Trains</a>
         </li>
         <li class="nav-item">
@@ -64,8 +61,8 @@
     </ul>
     <hr class="bg-secondary border-2 border-top border-secondary">
     <div class="container justify-content-center">
-        <a style="text-decoration:none;">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCreateStation">
+        <a href="controller?command=station_form" style="text-decoration:none;">
+            <button type="button" class="btn btn-primary">
                 <fmt:message key="text.create.station"/></button>
         </a>
     </div>
@@ -90,14 +87,12 @@
                 <td>
                     <button type="button"
                             class="btn btn-info"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modalEditStation">
-                        <fmt:message key="text.edit"/>
-                    </button>
+                            onclick="window.location='controller?command=edit_station_form&stationId=${station.id}'">
+                        <fmt:message key="text.edit"/> </button>
                 </td>
                 <td>
                     <button type="button"
-                            class="btn btn-outline-danger"
+                            class="btn btn-danger"
                             onclick="window.location='controller?command=remove_station&stationId=${station.id}'">
                         <fmt:message key="text.remove"/></button>
                 </td>

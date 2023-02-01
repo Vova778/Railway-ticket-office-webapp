@@ -187,17 +187,18 @@ CREATE TRIGGER decrementSeats AFTER INSERT ON ticket_has_route
     end;
 
 DELIMITER //
-CREATE TRIGGER incrementSeats AFTER UPDATE ON ticket
-    FOR EACH ROW
+CREATE TRIGGER incrementSeats after update
+              on ticket
+              for each row
 BEGIN
     IF ( (OLD.ticket_status_id = 1) AND (NEW.ticket_status_id = 3 or NEW.ticket_status_id = 4))
-        THEN
-    update route r
-    set r.available_seats = r.available_seats+1
-    where r.id = OLD.id;
-    end IF;
-end;//
-DELIMITER ;
+       THEN
+update route r, ticket_has_route ticketRoutes
+set r.available_seats = r.available_seats+1
+where ticketRoutes.ticket_id=OLD.id AND ticketRoutes.route_id=r.id;
+end IF;
+end;
+
 
 
 

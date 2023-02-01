@@ -16,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Time;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class CreateRouteCommand implements Command {
@@ -63,10 +65,11 @@ public class CreateRouteCommand implements Command {
                     .findRoutesByScheduleId(scheduleId);
 
             int stoppageNumber = routeList.size() + 1;
-            Time arrivalTime = Time.valueOf(
-                    req.getParameter("arrivalTime") );
-            Time departureTime = Time.valueOf(
-                    req.getParameter("departureTime"));;
+            Time arrivalTime = Time.valueOf(LocalTime.parse(req.getParameter("arrivalTime"),
+                    DateTimeFormatter.ofPattern("HH:mm"))
+                     );
+            Time departureTime = Time.valueOf(LocalTime.parse(req.getParameter("departureTime"),
+                    DateTimeFormatter.ofPattern("HH:mm")));
             int day;
 
             if(routeList.size()==0){

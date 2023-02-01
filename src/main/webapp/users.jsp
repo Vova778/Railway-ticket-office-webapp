@@ -26,7 +26,7 @@
                     <div class="container"><a class="active" href="controller?command=setLang&locale=ua&pageToProcess=${param.command}"><img src="img/icons8-ukraine-16.png" style="width: 26px;height: 26px;" width="22" height="22"></a>
                         <a class="active" href="controller?command=setLang&locale&pageToProcess=${param.command}"><img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png" width="22" height="22" style="width: 26px;height: 26px;"></a></div>
                 </li>
-                <li class="nav-item"><a class="nav-link active" href="controller?command=routes"><fmt:message key="text.admin.page"/></a></li>
+                <li class="nav-item"><a class="nav-link active" href="controller?command=trains"><fmt:message key="text.admin.page"/></a></li>
                 <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout" /></span><br></a></li>
                 <li class="nav-item"><a class="nav-link active" href="home.jsp"><fmt:message key="text.home"/></a></li>
             </ul>
@@ -38,9 +38,6 @@
 
 <div class="container py-4 py-xl-5">
     <ul class="nav nav-pills nav-justified">
-        <li class="nav-item">
-            <a class="nav-link" href="controller?command=routes">Routes</a>
-        </li>
         <li class="nav-item">
             <a class="nav-link" href="controller?command=trains">Trains</a>
         </li>

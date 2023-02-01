@@ -35,7 +35,7 @@
                             <img class="d-md-flex justify-content-md-end" src="img/icons8-usa-16.png"
                                  style="width: 26px;height: 26px;"></a></div>
                 </li>
-                <li class="nav-item"><a class="nav-link active" href="controller?command=routes"><fmt:message
+                <li class="nav-item"><a class="nav-link active" href="controller?command=trains"><fmt:message
                         key="text.admin.page"/></a></li>
                 <li class="nav-item"><a class="nav-link" href="controller?command=logout"><span
                         style="color: var(--bs-navbar-active-color);"><fmt:message key="text.logout"/></span><br></a>
@@ -56,13 +56,13 @@
     <div class="container justify-content-center">
         <button type="button"
                 onclick="window.location='controller?command=add_route_form&scheduleId=${param.scheduleId}'"
-                class="btn btn-outline-secondary">
+                class="btn btn-info">
             <fmt:message key="text.add.route"/>
         </button>
 
         <button type="button"
                 onclick="window.location='controller?command=remove_schedule&scheduleId=${param.scheduleId}'"
-                class="btn btn-outline-danger">
+                class="btn btn-danger">
             <fmt:message key="text.remove.schedule"/>
         </button>
     </div>
@@ -95,14 +95,14 @@
                 <td><custom:NumberFormatter number="${route.price}" format="${sessionScope.lang}"/></td>
                 <td>
                     <button type="button"
-                            class="btn btn-outline-info"
+                            class="btn btn-info"
                             onclick="window.location='controller?command=edit_route_form&routeId=${route.id}&scheduleId=${param.scheduleId}'">
                         <fmt:message key="text.edit.route"/>
                     </button>
                 </td>
                 <td>
                     <button type="button"
-                            class="btn btn-outline-danger"
+                            class="btn btn-danger"
                             onclick="window.location='controller?command=remove_route&routeId=${route.id}&scheduleId=${param.scheduleId}'">
                         <fmt:message key="text.remove"/></button>
                 </td>

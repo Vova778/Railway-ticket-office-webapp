@@ -42,6 +42,14 @@ public class FindRoutesBetweenStationsCommand implements Command {
         Map<Route, List<Route>> routes;
         HttpSession session = request.getSession();
         int countPages;
+        int page;
+
+        if (request.getParameter("page") == null
+                || request.getParameter("page").equals("")) {
+            page = 1;
+        } else {
+            page = Integer.parseInt(request.getParameter("page"));
+        }
 
         try {
             Date date = Date.valueOf(request.getParameter("date"));
@@ -58,6 +66,7 @@ public class FindRoutesBetweenStationsCommand implements Command {
                     .collect(Collectors.groupingBy(Route::getSchedule))
                     .entrySet()
                     .stream()
+                    .skip((page-1)*10)
                     .collect(
                             Collectors.toMap(
                                     e -> toGeneralRoute(startingStation, finalStation, e)

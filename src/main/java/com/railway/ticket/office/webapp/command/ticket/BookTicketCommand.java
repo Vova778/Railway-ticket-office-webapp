@@ -43,36 +43,36 @@ public class BookTicketCommand implements Command {
                     .filter(entry -> entry.getKey().getTrain().getNumber() == trainNumber)
                     .findFirst()
                     .get();
+            if(route.getKey().getAvailableSeats()>0) {
+                User user = (User) session.getAttribute("user");
 
-            User user = (User) session.getAttribute("user");
+                Ticket ticket = new Ticket();
 
-            Ticket ticket = new Ticket();
+                Timestamp arrivalTime =
+                        Timestamp.valueOf(route.getKey().getSchedule().getDate()
+                                + " " + route.getKey().getArrivalTime());
+                Timestamp departureTime
+                        = Timestamp.valueOf(route.getKey().getSchedule().getDate()
+                        + " " + route.getKey().getDepartureTime());
 
-            Timestamp arrivalTime =
-                    Timestamp.valueOf( route.getKey().getSchedule().getDate()
-                            +" "+ route.getKey().getArrivalTime());
-            Timestamp departureTime
-                    = Timestamp.valueOf( route.getKey().getSchedule().getDate()
-                    +" "+ route.getKey().getDepartureTime());
+                ticket.setArrivalTime(arrivalTime);
+                ticket.setDepartureTime(departureTime);
+                ticket.setFare(route.getKey().getPrice());
+                ticket.setStartingStation(route.getKey().getStartingStation().getName());
+                ticket.setFinalStation(route.getKey().getFinalStation().getName());
+                ticket.setTrainNumber(route.getKey().getTrain().getNumber());
+                ticket.setUserId(user.getId());
+                ticket.setTicketStatus(Ticket.TicketStatus.QUEUED);
+                ticket.setRoutes(route.getValue());
 
-            ticket.setArrivalTime(arrivalTime);
-            ticket.setDepartureTime(departureTime);
-            ticket.setFare(route.getKey().getPrice());
-            ticket.setStartingStation(route.getKey().getStartingStation().getName());
-            ticket.setFinalStation(route.getKey().getFinalStation().getName());
-            ticket.setTrainNumber(route.getKey().getTrain().getNumber());
-            ticket.setUserId(user.getId());
-            ticket.setTicketStatus(Ticket.TicketStatus.QUEUED);
-            ticket.setRoutes(route.getValue());
+                log.info("{} Ticket from view : {};"
+                        , BOOK_TICKET_COMMAND, ticket);
 
-            log.info("{} Ticket from view : {};"
-                    , BOOK_TICKET_COMMAND, ticket);
+                ticketService.insert(ticket);
 
-            ticketService.insert(ticket);
-
-            log.info("{} Ticket was successfully added : {}"
-                    , BOOK_TICKET_COMMAND, ticket);
-
+                log.info("{} Ticket was successfully added : {}"
+                        , BOOK_TICKET_COMMAND, ticket);
+            }
         } catch (ServiceException e) {
             log.error("An exception occurs while adding Ticket");
             throw new CommandException(e.getMessage(), e);

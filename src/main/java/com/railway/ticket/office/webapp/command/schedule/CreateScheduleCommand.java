@@ -38,6 +38,10 @@ public class CreateScheduleCommand implements Command {
             Train train = trainService.findById(
                     Integer.parseInt(req.getParameter("trainNumber")));
 
+            if (scheduleService.findSchedulesByTrain(train)
+                    .stream()
+                    .noneMatch(schedule1 -> schedule1.getDate().equals(date))){
+
             schedule = new Schedule();
 
             schedule.setDate(date);
@@ -49,6 +53,8 @@ public class CreateScheduleCommand implements Command {
             scheduleService.insert(schedule);
             log.info("{} Schedule was successfully saved : {}",
                     CREATE_SCHEDULE_COMMAND, schedule);
+            } else
+                return "controller?command=trains";
         } catch (ServiceException e) {
             log.error("An exception occurs while saving schedule");
             throw new CommandException(e.getMessage(), e);

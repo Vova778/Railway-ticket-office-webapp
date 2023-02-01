@@ -47,14 +47,14 @@
                                         <div style="margin-bottom: 16px;"><input required class="form-control" type="text"
                                                                                  placeholder="Number"
                                                                                  name="number"
-
+                                                                                 pattern="^\d+$"
                                                                                  minlength="3"
                                                                                  maxlength="8"/></div>
 
                                         <div style="margin-bottom: 16px;"><input required class="form-control" type="text"
                                                                                  placeholder="Seats"
                                                                                  name="seats"
-
+                                                                                 pattern="^\d+$"
                                                                                  minlength="1"
                                                                                  maxlength="4"/></div>
 

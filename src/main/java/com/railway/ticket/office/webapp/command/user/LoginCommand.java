@@ -35,7 +35,7 @@ public class LoginCommand implements Command {
             user = userService.findByLogin(login);
             if (user.getLogin() == null) {
                 log.info("Cannot Login");
-                page = "controller?command=registration_form";
+                page = "controller?command=registrationForm";
                 return page;
             }
             if (PasswordEncryption.validate(PasswordEncryption.getEncrypted(password)

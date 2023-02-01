@@ -17,8 +17,7 @@ public class LocaleFilter implements Filter {
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
 
-        log.info("[LocaleFilter] Filter started {},  {}",
-                request.getParameterMap(), response);
+        log.info("[LocaleFilter] Filter started {}", response);
 
         if (req.getParameter("locale") != null) {
             req.getSession().setAttribute("lang",

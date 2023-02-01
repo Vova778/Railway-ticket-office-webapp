@@ -132,6 +132,7 @@
                                                 <input required class="form-control"
                                                        type="text"
                                                        placeholder="Price"
+                                                       pattern="^\d+(.\d{1,2})?$"
                                                        name="price"
                                                        value="${route.price}"
                                                        id="price"/>
